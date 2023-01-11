@@ -1,6 +1,6 @@
 ;***************************************************************
 ;* TMS320C2000 G3 C/C++ Codegen                               PC v20.2.5.LTS *
-;* Date/Time created: Wed Jan 11 13:24:29 2023                 *
+;* Date/Time created: Wed Jan 11 17:05:06 2023                 *
 ;***************************************************************
 	.compiler_opts --abi=coffabi --cla_support=cla0 --float_support=fpu32 --hll_source=on --mem_model:code=flat --mem_model:data=large --object_format=coff --quiet --silicon_errata_fpu1_workaround=off --silicon_version=28 --symdebug:dwarf --symdebug:dwarf_version=3 --tmu_support=tmu0 --vcu_support=vcu2 
 	.asg	XAR2, FP
@@ -40,8 +40,8 @@ $C$DW$6	.dwtag  DW_TAG_formal_parameter
 
 	.dwendtag $C$DW$4
 
-;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\opt2000.exe C:\\Users\\jason\\AppData\\Local\\Temp\\{27E8DE48-7483-49D2-96D0-CECCCFC47E30} C:\\Users\\jason\\AppData\\Local\\Temp\\{DCE4A228-A009-41B6-865C-122DF82654D4} 
-;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\ac2000.exe -@C:\\Users\\jason\\AppData\\Local\\Temp\\{0D107B60-CC27-4A46-AD34-6027D04FD78E} 
+;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\opt2000.exe C:\\Users\\jason\\AppData\\Local\\Temp\\{F62E4784-286F-4D0B-AF86-DCAC3D1372FA} C:\\Users\\jason\\AppData\\Local\\Temp\\{24362EB0-F81D-48D1-A405-3E912F490A33} 
+;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\ac2000.exe -@C:\\Users\\jason\\AppData\\Local\\Temp\\{D961C47C-464E-4808-95F9-0A2ED925FE4F} 
 	.sect	".text"
 	.clink
 	.global	_InitDRV8301Regs
@@ -1143,8 +1143,8 @@ $C$DW$111	.dwtag  DW_TAG_member
 
 $C$DW$112	.dwtag  DW_TAG_member
 	.dwattr $C$DW$112, DW_AT_type(*$C$DW$T$16)
-	.dwattr $C$DW$112, DW_AT_name("torqueCmd")
-	.dwattr $C$DW$112, DW_AT_TI_symbol_name("_torqueCmd")
+	.dwattr $C$DW$112, DW_AT_name("TorqueCmd")
+	.dwattr $C$DW$112, DW_AT_TI_symbol_name("_TorqueCmd")
 	.dwattr $C$DW$112, DW_AT_data_member_location[DW_OP_plus_uconst 0xc]
 	.dwattr $C$DW$112, DW_AT_accessibility(DW_ACCESS_public)
 
@@ -1164,8 +1164,8 @@ $C$DW$114	.dwtag  DW_TAG_member
 
 $C$DW$115	.dwtag  DW_TAG_member
 	.dwattr $C$DW$115, DW_AT_type(*$C$DW$T$16)
-	.dwattr $C$DW$115, DW_AT_name("torqueDivJestAcc")
-	.dwattr $C$DW$115, DW_AT_TI_symbol_name("_torqueDivJestAcc")
+	.dwattr $C$DW$115, DW_AT_name("AccEst")
+	.dwattr $C$DW$115, DW_AT_TI_symbol_name("_AccEst")
 	.dwattr $C$DW$115, DW_AT_data_member_location[DW_OP_plus_uconst 0x12]
 	.dwattr $C$DW$115, DW_AT_accessibility(DW_ACCESS_public)
 

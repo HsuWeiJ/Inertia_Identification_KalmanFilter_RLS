@@ -43,5 +43,6 @@ Include project specific include files.
 #include "F2837xD_Dac_setting.h"
 #include "spi_dac.h"
 #include "SpeedLoop.h"
+#include "Filter.h"
 
 #endif /* MONOMTRSERVO_H_ */

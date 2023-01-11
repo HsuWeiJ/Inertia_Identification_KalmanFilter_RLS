@@ -132,7 +132,7 @@ int16	SerialCommsTimer;
 //****************************************************************************
 // Global variables used in this system
 //****************************************************************************
-char DAC_Switch = 3;
+char DAC_Switch = 4;
 char Angle_Switch = 0;
 int Initial_Cnt = 0;
 
@@ -142,6 +142,7 @@ int DAC_Gain_C = 60;
 int DAC_Gain_D = 60;
 
 float Speed_Est_BW = 50 * 2 * PI;
+float Acc_Est_BW = 50 * 2 * PI;
 int32 SpeedFBK_Cnt = 0;
 
 #if BUILDLEVEL == LEVEL3
@@ -158,6 +159,7 @@ float CurrentCmd_Sin_Frequency_pu = 0.2;
 /*******************Speed Loop Bandwidth Test at Level 4*******************/
 RMPCNTL rc_SpeedCmd_Control_Variation_Rate = RMPCNTL_DEFAULTS;
 RAMPGEN rg_SpeedCmd_Generate_Sin = RAMPGEN_DEFAULTS;
+LOW_PASS_FILTER Estimated_Acc = LOW_PASS_FILTER_DEFAULTS ;
 float SpeedCmd_Sin_Frequency_pu = 0.001;
 float SpeedCmd_Sin_Magnitude_pu = 0.0;
 
@@ -812,6 +814,10 @@ void main(void)
 #endif
 #if BUILDLEVEL == LEVEL4
     rg_SpeedCmd_Generate_Sin.StepAngleMax = _IQ(BASE_FREQ*motor1.T);
+    // Filter Initialize
+
+    Estimated_Acc.BW = 2 * PI * 5;
+    Estimated_Acc.T = TS ;
 #endif
 
     // Initialize the PID module for Speed Estimation
@@ -824,6 +830,18 @@ void main(void)
     motor1.speed_est.param.J_est = J;
     motor1.speed_est.param.divJ_est = DIV_J;
     motor1.speed_est.param.BaseRpm = 60U*(BASE_FREQ);
+
+
+
+    // Initialize the PID module for Acc Estimation
+//    motor1.acc_est.param.K_speed = 3 * Acc_Est_BW * J;
+//    motor1.acc_est.param.Kp = 3 * Acc_Est_BW * Acc_Est_BW * J;
+//    motor1.acc_est.param.Ki = Acc_Est_BW * Acc_Est_BW * Acc_Est_BW * J;
+//    motor1.acc_est.param.Kt = KT;
+//    motor1.acc_est.param.T_est = TS;
+//    motor1.acc_est.param.f_est = FS;
+//    motor1.acc_est.param.J_est = J;
+//    motor1.acc_est.param.divJ_est = DIV_J;
 
     // Initialize the PI module for position
 	motor1.pi_pos.Kp = _IQ(1.0);            //_IQ(10.0);
@@ -897,7 +915,7 @@ void main(void)
 	motor1.pi_id.Umin = _IQ(-0.5);
 
 	// Init PI module for IQ loop
-	motor1.pi_iq.Kp   = _IQ(5);
+	motor1.pi_iq.Kp   = _IQ(5/2);
 	motor1.pi_iq.Ki   = _IQ(motor1.T/0.04);
 	motor1.pi_iq.Umax = _IQ(0.7);
 	motor1.pi_iq.Umin = _IQ(-0.7);
@@ -1631,22 +1649,22 @@ inline void BuildLevel3(MOTOR_VARS * motor)
 
 
 	if(DAC_Switch == 1){
-	    SPIDAC_write_dac_channel(0, (motor->rg.Out)*2047+2048);             //VoutA on SPIDAC Chip
-	    SPIDAC_write_dac_channel(1, (motor->speed.ElecTheta)*2047+2048);    //VoutB on SPIDAC Chip
-	    SPIDAC_write_dac_channel(2, (motor->clarke.Bs)*2047+2048);          //VoutC on SPIDAC Chip
-	    SPIDAC_write_dac_channel(3, (motor->clarke.As)*2047+2048);          //VoutD on SPIDAC Chip
+        SPIDAC_write_dac_channel(0, (motor->rg.Out)*2047 * DAC_Gain_A + 2048);             //VoutA on SPIDAC Chip
+        SPIDAC_write_dac_channel(1, (motor->speed.ElecTheta)*2047 * DAC_Gain_B + 2048);    //VoutB on SPIDAC Chip
+        SPIDAC_write_dac_channel(2, (motor->clarke.Bs)*2047 * DAC_Gain_C + 2048);          //VoutC on SPIDAC Chip
+        SPIDAC_write_dac_channel(3, (motor->clarke.As)*2047 * DAC_Gain_D + 2048);          //VoutD on SPIDAC Chip
     }
     else if(DAC_Switch == 2){
-        SPIDAC_write_dac_channel(0, (motor->pi_iq.Ref)*2047+2048);
-        SPIDAC_write_dac_channel(1, (motor->pi_iq.Fbk)*2047+2048);
-        SPIDAC_write_dac_channel(2, (motor->pi_id.Ref)*2047+2048);
-        SPIDAC_write_dac_channel(3, (motor->pi_id.Fbk)*2047+2048);
+        SPIDAC_write_dac_channel(0, (motor->pi_iq.Ref)*2047 * DAC_Gain_A + 2048);
+        SPIDAC_write_dac_channel(1, (motor->pi_iq.Fbk)*2047 * DAC_Gain_B + 2048);
+        SPIDAC_write_dac_channel(2, (motor->pi_id.Ref)*2047 * DAC_Gain_C + 2048);
+        SPIDAC_write_dac_channel(3, (motor->pi_id.Fbk)*2047 * DAC_Gain_D + 2048);
     }
     else if(DAC_Switch == 3){
-        SPIDAC_write_dac_channel(0, (__sinpuf32(rg_CurrentCmd_Generate_Sin.Out))*2047+2048);
-        SPIDAC_write_dac_channel(1, (motor->pi_iq.Fbk)*2047+2048);
-        SPIDAC_write_dac_channel(2, (motor->pi_id.Ref)*2047+2048);
-        SPIDAC_write_dac_channel(3, (motor->pi_id.Fbk)*2047+2048);
+        SPIDAC_write_dac_channel(0, (motor->SpeedRef)*2047 * DAC_Gain_A +2048);
+        SPIDAC_write_dac_channel(1, (motor->speed.Speed)*2047 * DAC_Gain_B +2048);
+        SPIDAC_write_dac_channel(2, (motor->pi_id.Ref)*2047 * DAC_Gain_C +2048);
+        SPIDAC_write_dac_channel(3, (motor->pi_id.Fbk)*2047 * DAC_Gain_D +2048);
     }
 
     SPIDAC_update_all();//motor1.clarke.As,phase_volt
@@ -1745,6 +1763,21 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	motor->speed_est.term.MechTheta = motor->MechTheta;
 	motor->speed_est.term.CurrentCmd = motor->pi_iq.Ref * BASE_CURRENT;
 	SPEED_EST_MACRO(motor->speed_est)
+
+// -----------------------------------------------------------------------------------
+//  Connect inputs of the Low Pass Filter module and let estimated acc pass the filter
+// -----------------------------------------------------------------------------------
+	Estimated_Acc.Input = motor->speed_est.term.AccEst;
+	LPF_MARCRO(Estimated_Acc)
+
+
+// ------------------------------------------------------------------------------
+//  Connect inputs of the ACC_EST module and call the acc calculation macro
+// ------------------------------------------------------------------------------
+//    motor->acc_est.term.MechTheta = motor->MechTheta;
+//	motor->acc_est.term.SpeedRef = motor->speed_est.term.Enhanced_SpeedEst_pu;
+//    motor->acc_est.term.CurrentCmd = motor->pi_iq.Ref * BASE_CURRENT;
+//    ACC_EST_MARCRO(motor->acc_est)
 
 // ------------------------------------------------------------------------------
 //  Connect inputs of the SPEED_FR module and call the speed calculation macro
@@ -1861,8 +1894,14 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     else if(DAC_Switch == 3){
         SPIDAC_write_dac_channel(0, (motor->pi_spd.term.Ref)*2047 * DAC_Gain_A + 2048);
         SPIDAC_write_dac_channel(1, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_B + 2048);
-        SPIDAC_write_dac_channel(2, (motor->pi_spd.term.Fbk)*2047 * DAC_Gain_C + 2048);
-        SPIDAC_write_dac_channel(3, (motor->speed.Speed/ (POLES/2))*2047 * DAC_Gain_D + 2048);
+        SPIDAC_write_dac_channel(2, (Estimated_Acc.Out/(2*PI)/(2*PI*BASE_FREQ))*2047 * DAC_Gain_C + 2048);
+        SPIDAC_write_dac_channel(3, (motor->speed_est.term.AccEst/(2*PI)/(2*PI*BASE_FREQ))*2047 * DAC_Gain_D + 2048);
+    }
+    else if(DAC_Switch == 4){
+        SPIDAC_write_dac_channel(0, DAC_Gain_A);
+        SPIDAC_write_dac_channel(1, DAC_Gain_B);
+        SPIDAC_write_dac_channel(2, DAC_Gain_C);
+        SPIDAC_write_dac_channel(3, DAC_Gain_D);
     }
 
     SPIDAC_update_all();//motor1.clarke.As,phase_volt

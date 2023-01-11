@@ -104,6 +104,7 @@ MonoMtrServo.obj: C:/Users/jason/workspace_v10_4/MonoMtrServo_379D/utility\ Src\
 MonoMtrServo.obj: ../f2837xpwmdac_PM.h
 MonoMtrServo.obj: ../F2837xD_Dac_setting.h
 MonoMtrServo.obj: ../spi_dac.h
+MonoMtrServo.obj: ../Filter.h
 
 ../MonoMtrServo.c:
 
@@ -312,4 +313,6 @@ C:/Users/jason/workspace_v10_4/MonoMtrServo_379D/utility\ Src\ Files/DLOG_4CH_F.
 ../F2837xD_Dac_setting.h:
 
 ../spi_dac.h:
+
+../Filter.h:
 
