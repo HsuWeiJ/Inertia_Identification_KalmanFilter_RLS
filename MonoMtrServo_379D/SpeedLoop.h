@@ -3,7 +3,8 @@
  *
  *  Created on: 2023/01/05
  *      Author: WeiJ
- *      Speed PI+CFF Controller + Speed Estimator + ACC Estimator for no per unit
+ *      Speed PI Controller
+ *      Enhanced Speed Estimator + ACC Estimator for no per unit bandwidth design
  */
 
 #ifndef SPEEDLOOP_H_
@@ -99,33 +100,34 @@ Default initalisation values for the PID objects
  ------------------------------------------------------------------------------*/
 typedef struct
 {
-    float MechTheta;            // Input: MechThetaerence set-point
-    float OldMechTheta;            // Input: feedback
-    float PosError;            // Output: controller output
-    float PosErrorKdDivJest;             // Internal: derivative filter coefficient 1
-    float PosErrorKp;             // Internal: derivative filter coefficient 2
-    float PosErrorKi;             // Internal: derivative filter coefficient 2
-    float torqueCmd;             // Internal: derivative filter coefficient 2
-    float D_est;             // Internal: derivative filter coefficient 2
-    float CurrentCmd;             // Internal: derivative filter coefficient 2
-    float torqueDivJestAcc;             // Internal: derivative filter coefficient 2
-    float torqueDivJest;             // Internal: derivative filter coefficient 2
-    float SpeedEst;             // Internal: derivative filter coefficient 2
-    float PosEst;             // Internal: derivative filter coefficient 2
-    int32 SpeedRpm;      // Output : Speed in rpm  (Q0) - independently with global Q
-    Uint32 BaseRpm;      // Parameter: Base speed in rpm (Q0) - independently with global Q
+    float MechTheta;              // Input: MechTheta get from encoder (pu)
+    float OldMechTheta;           // Internal: Last step of estimated theta (pu)
+    float PosError;               // Internal: MechTheta - OldMechTheta
+    float PosErrorKdDivJest;      // Internal: Enhanced term for derivative
+    float PosErrorKp;             // Internal: Error * Kp
+    float PosErrorKi;             // Internal: Error * Ki/s
+    float torqueCmd;              // Internal: CurrentCmd * Kt
+    float D_est;                  // Internal: Estimated disturbance
+    float CurrentCmd;             // Input : pi_iq.Ref * BASE_CURRENT;
+    float torqueDivJestAcc;       // Internal: Estimted Acc
+    float Enhanced_SpeedEst;      // Internal: Enhanced estimted speed
+    float Enhanced_SpeedEst_pu;   // Output: Enhanced estimted speed (pu)
+    float SpeedEst;               // Internal: Estimted speed
+    float PosEst;                 // Internal: Estimated theta
+    int32 SpeedRpm;               // Output : Speed in rpm
 } V_EST_TERMINALS;
 
 typedef struct
 {
-    float Kd;             // Parameter: MechThetaerence set-point weighting
-    float Kp;             // Parameter: proportional loop gain
-    float Ki;             // Parameter: integral gain
-    float Kt;             // Parameter: integral gain
-    float T_est;            // Parameter: integral gain2
-    float f_est;            // Parameter: integral gain2
-    float J_est;           // Parameter: lower saturation limit
-    float divJ_est;           // Parameter: lower saturation limit
+    float Kd;                     // Parameter: Derivative gain
+    float Kp;                     // Parameter: Proportional gain
+    float Ki;                     // Parameter: Integral gain
+    float Kt;                     // Parameter: Torque constant
+    float T_est;                  // Parameter: Sampling time of speed estimator
+    float f_est;                  // Parameter: 1/T_est
+    float J_est;                  // Parameter: Estimated inertia in the observer system
+    float divJ_est;               // Parameter: 1/J_est
+    Uint32 BaseRpm;               // Parameter: Base speed in rpm
 } V_EST_PARAMETERS;
 
 
@@ -139,7 +141,7 @@ typedef struct
  Default initalisation values for the V_EST objects
  -----------------------------------------------------------------------------*/
 
-#define V_EST_TERM_DEFAULTS {              \
+#define V_EST_TERM_DEFAULTS {             \
                            0.0,           \
                            0.0,           \
                            0.0,           \
@@ -152,16 +154,21 @@ typedef struct
                            0.0,           \
                            0.0,           \
                            0.0,           \
-                           0.0            \
+                           0.0,           \
+                           0.0,           \
+                           0              \
                           }
 
-#define V_EST_PARAM_DEFAULTS {             \
+#define V_EST_PARAM_DEFAULTS {            \
                            0.0,           \
                            0.0,           \
                            0.0,           \
                            0.0,           \
                            0.0,           \
-                           0.0            \
+                           0.0,           \
+                           0.0,           \
+                           0.0,           \
+                           0              \
                           }
 
 
@@ -169,7 +176,7 @@ typedef struct
  Velocity Estimator Macro Definition
  ------------------------------------------------------------------------------*/
 /* Backward */
-#define V_EST_MARCRO(v)\
+#define SPEED_EST_MACRO(v)\
         v.term.PosError = v.term.MechTheta - v.term.OldMechTheta;\
         if (v.term.PosError < -_IQ(0.5))                                       \
             v.term.PosError = v.term.PosError + _IQ(1.0);                                      \
@@ -185,12 +192,16 @@ typedef struct
         \
         /*current(CCW) is Position(CW) inverse => -current(CW)*/\
         v.term.torqueDivJestAcc = (v.term.D_est + v.term.torqueCmd) * v.param.divJ_est;\
-        v.term.torqueDivJest += v.term.torqueDivJestAcc * v.param.T_est;\
-        v.term.SpeedEst = v.term.PosErrorKdDivJest + v.term.torqueDivJest;\
-        v.term.SpeedEst /= (2*PI);\
+        v.term.Enhanced_SpeedEst += v.term.torqueDivJestAcc * v.param.T_est;\
+        v.term.SpeedEst = (v.term.PosErrorKdDivJest + v.term.Enhanced_SpeedEst)/(2*PI);\
         v.term.PosEst += v.term.SpeedEst * v.param.T_est;\
+        if (v.term.PosEst < -_IQ(0.0))                                       \
+            v.term.PosEst += _IQ(1.0);                                      \
+        else if (v.term.PosEst > _IQ(1.0))                                       \
+            v.term.PosEst -= _IQ(1.0);                                      \
         v.term.OldMechTheta = v.term.PosEst;\
-        v.term.SpeedRpm = _IQmpy(v.term.BaseRpm,v.term.SpeedEst);
+        v.term.Enhanced_SpeedEst_pu = v.term.Enhanced_SpeedEst / (2*PI*BASE_FREQ);\
+        v.term.SpeedRpm = _IQmpy(v.param.BaseRpm,v.term.Enhanced_SpeedEst_pu);
 
 
 

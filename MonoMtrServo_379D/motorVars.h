@@ -110,6 +110,8 @@ typedef struct {
 	PI_CONTROLLER         pi_iq;
 	PI_SPEED_CONTROLLER   pi_spd;
 
+	V_ESTIMATOR           speed_est;
+
 	SVGEN svgen;               // SVPWM variable
 
 	RMPCNTL rc;                // ramp control
@@ -180,11 +182,12 @@ typedef struct {
                                                           \
 		    /* PIDREG3_DEFAULTS,    pid_pos    */         \
 		    PI_CONTROLLER_DEFAULTS,  /*   pi_pos   */     \
-		    {PID_TERM_DEFAULTS, PID_PARAM_DEFAULTS, PID_DATA_DEFAULTS},  /*  pid_spd  */   \
+		    {PID_TERM_DEFAULTS, PID_PARAM_DEFAULTS, PID_DATA_DEFAULTS},   /*  pid_spd  */     \
 		    PI_CONTROLLER_DEFAULTS,   /*  pi_id   */      \
 		    PI_CONTROLLER_DEFAULTS,   /*  pi_iq   */      \
-		    {PI_TERM_DEFAULTS, PI_PARAM_DEFAULTS, PI_DATA_DEFAULTS},        /*  pi_spd  */      \
+		    {PI_TERM_DEFAULTS, PI_PARAM_DEFAULTS, PI_DATA_DEFAULTS},      /*  pi_spd  */      \
                                                           \
+            {V_EST_TERM_DEFAULTS , V_EST_PARAM_DEFAULTS},                 /*  speed_est  */   \
 		    SVGEN_DEFAULTS,           /* svgen    */      \
 		    RMPCNTL_DEFAULTS,         /* rc       */      \
 		    RAMPGEN_DEFAULTS,         /* rg       */      \

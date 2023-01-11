@@ -62,7 +62,6 @@ This line sets the BUILDLEVEL to one of the available choices.
 #define TRUE  1
 #endif
 
-#define PI 3.14159265358979
 
 // Define the system frequency (MHz)
 #if (DSP2803x_DEVICE_H==1)
@@ -105,10 +104,22 @@ This line sets the BUILDLEVEL to one of the available choices.
 set the motor parameters to the one available
 ------------------------------------------------------------------------------*/
 
+//===========================================================================
+/* Constant Parameter */
+//===========================================================================
+#define TWO_PI          6.283185307179586476925286766559
+#define PI              3.14159265358979
+#define ppr             2000         // pulse_per_rev
+#define P_to_R          0.0031415926     // pulse to radius 2*pi/ppr
+#define R_to_P          318.3098916   // radius to pulse ppr/(2*pi)
+#define TS               0.0001      //10kHz
+#define FS              10000       //10kHz
+
 // Define the Mechanical motor parametes
 
 #define J       0.000087                //Inertia     (kg*m^2)
-#define B       0.000087                 //Friction   (kg*m^2/s)
+#define DIV_J   11494.25287             // 1/J
+#define B       0.000087                //Friction   (kg*m^2/s)
 
 // Define the electrical motor parametes (Estun Servomotor)
 #define RS 		0.13		    	    // Stator resistance (ohm)
@@ -117,7 +128,7 @@ set the motor parameters to the one available
 //#define LR   			  				// Rotor inductance (H)
 //#define LM   			   				// Magnatizing inductance (H)
 #define POLES  	10						// Number of poles
-										// Number of poles
+#define KT      0.169                   // Torque Constant
 
 // Define the base quantites
 #define BASE_VOLTAGE        25.98     // Base peak phase voltage (volt), maximum measurable DC Bus(45) Vdc/sqrt(3)

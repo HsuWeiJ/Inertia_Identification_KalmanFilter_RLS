@@ -135,10 +135,14 @@ int16	SerialCommsTimer;
 char DAC_Switch = 3;
 char Angle_Switch = 0;
 int Initial_Cnt = 0;
-int DAC_Gain_A = 30;
-int DAC_Gain_B = 30;
-int DAC_Gain_C = 1;
-int DAC_Gain_D = 1;
+
+int DAC_Gain_A = 60;
+int DAC_Gain_B = 60;
+int DAC_Gain_C = 60;
+int DAC_Gain_D = 60;
+
+float Speed_Est_BW = 50 * 2 * PI;
+int32 SpeedFBK_Cnt = 0;
 
 #if BUILDLEVEL == LEVEL3
 
@@ -155,7 +159,7 @@ float CurrentCmd_Sin_Frequency_pu = 0.2;
 RMPCNTL rc_SpeedCmd_Control_Variation_Rate = RMPCNTL_DEFAULTS;
 RAMPGEN rg_SpeedCmd_Generate_Sin = RAMPGEN_DEFAULTS;
 float SpeedCmd_Sin_Frequency_pu = 0.001;
-float SpeedCmd_Sin_Magnitude_pu = 0.002;
+float SpeedCmd_Sin_Magnitude_pu = 0.0;
 
 #endif
 
@@ -475,6 +479,7 @@ void GPIO_TogglePin(Uint16 pin)
 void main(void)
 {
 
+
 	// Initialize System Control:
 	// PLL, WatchDog, enable Peripheral Clocks
 	// This function derived from the one found in F2837x_SysCtrl.c file
@@ -490,6 +495,7 @@ void main(void)
 
 	// Disable CPU interrupts
 	DINT;
+
 
 	// Initialize the PIE control registers to their default state.
 	// The default state is all PIE interrupts disabled and flags
@@ -807,6 +813,18 @@ void main(void)
 #if BUILDLEVEL == LEVEL4
     rg_SpeedCmd_Generate_Sin.StepAngleMax = _IQ(BASE_FREQ*motor1.T);
 #endif
+
+    // Initialize the PID module for Speed Estimation
+    motor1.speed_est.param.Kd = 3 * Speed_Est_BW * J;
+    motor1.speed_est.param.Kp = 3 * Speed_Est_BW * Speed_Est_BW * J;
+    motor1.speed_est.param.Ki = Speed_Est_BW * Speed_Est_BW * Speed_Est_BW * J;
+    motor1.speed_est.param.Kt = KT;
+    motor1.speed_est.param.T_est = TS;
+    motor1.speed_est.param.f_est = FS;
+    motor1.speed_est.param.J_est = J;
+    motor1.speed_est.param.divJ_est = DIV_J;
+    motor1.speed_est.param.BaseRpm = 60U*(BASE_FREQ);
+
     // Initialize the PI module for position
 	motor1.pi_pos.Kp = _IQ(1.0);            //_IQ(10.0);
 	motor1.pi_pos.Ki = _IQ(0.001);          //_IQ(motor1.T*SpeedLoopPrescaler/0.3);
@@ -858,8 +876,8 @@ void main(void)
 #endif
 
 //	//Initialize the PI Speed Controller
-	motor1.pi_spd.param.Kp       = _IQ(J*5*2*PI*BASE_FREQ/BASE_CURRENT*5);
-	motor1.pi_spd.param.Ki       = _IQ(B*5*2*PI*BASE_FREQ/BASE_CURRENT*1);
+	motor1.pi_spd.param.Kp       = _IQ(J*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
+	motor1.pi_spd.param.Ki       = _IQ(B*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
 //    motor1.pi_spd.param.Kp       = _IQ(J*10*2*PI);
 //    motor1.pi_spd.param.Ki       = _IQ(B*10*2*PI);
 	motor1.pi_spd.param.Kr       = _IQ(1.0);
@@ -885,7 +903,7 @@ void main(void)
 	motor1.pi_iq.Umin = _IQ(-0.7);
 
 	// Set mock REFERENCES for Speed and Iq loops
-	motor1.SpeedRef = 0.01;
+	motor1.SpeedRef = 0.007;
 
 	motor1.IqRef = _IQ(0.1);
 
@@ -1722,6 +1740,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	CLARKE_MACRO(motor->clarke)
 
 // ------------------------------------------------------------------------------
+//  Connect inputs of the SPEED_EST module and call the speed calculation macro
+// ------------------------------------------------------------------------------
+	motor->speed_est.term.MechTheta = motor->MechTheta;
+	motor->speed_est.term.CurrentCmd = motor->pi_iq.Ref * BASE_CURRENT;
+	SPEED_EST_MACRO(motor->speed_est)
+
+// ------------------------------------------------------------------------------
 //  Connect inputs of the SPEED_FR module and call the speed calculation macro
 // ------------------------------------------------------------------------------
 	motor->speed.ElecTheta = motor->ElecTheta;
@@ -1757,7 +1782,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
         motor->SpeedLoopCount = 0;
 
         motor->pi_spd.term.Ref = motor->rc.SetpointValue + SpeedCmd_Sin_Magnitude_pu * __sinpuf32(rg_SpeedCmd_Generate_Sin.Out);  //motor->SpeedRef;
-        motor->pi_spd.term.Fbk = motor->speed.Speed / (POLES/2);
+        if(SpeedFBK_Cnt >= 5000) {
+            motor->pi_spd.term.Fbk = motor->speed_est.term.Enhanced_SpeedEst_pu;
+        }
+        else {
+            motor->pi_spd.term.Fbk = motor->speed.Speed / (POLES/2);
+            SpeedFBK_Cnt++;
+        }
         PI_SPEED(motor->pi_spd);
      }
 
@@ -1829,9 +1860,9 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     }
     else if(DAC_Switch == 3){
         SPIDAC_write_dac_channel(0, (motor->pi_spd.term.Ref)*2047 * DAC_Gain_A + 2048);
-        SPIDAC_write_dac_channel(1, (motor->pi_spd.term.Fbk)*2047 * DAC_Gain_B + 2048);
-        SPIDAC_write_dac_channel(2, (motor->pi_iq.Ref)*2047 * DAC_Gain_C + 2048);
-        SPIDAC_write_dac_channel(3, (motor->pi_iq.Fbk)*2047 * DAC_Gain_D + 2048);
+        SPIDAC_write_dac_channel(1, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_B + 2048);
+        SPIDAC_write_dac_channel(2, (motor->pi_spd.term.Fbk)*2047 * DAC_Gain_C + 2048);
+        SPIDAC_write_dac_channel(3, (motor->speed.Speed/ (POLES/2))*2047 * DAC_Gain_D + 2048);
     }
 
     SPIDAC_update_all();//motor1.clarke.As,phase_volt
