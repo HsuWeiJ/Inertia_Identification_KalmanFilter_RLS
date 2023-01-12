@@ -132,7 +132,7 @@ int16	SerialCommsTimer;
 //****************************************************************************
 // Global variables used in this system
 //****************************************************************************
-char DAC_Switch = 4;
+char DAC_Switch = 3;
 char Angle_Switch = 0;
 int Initial_Cnt = 0;
 
@@ -140,10 +140,18 @@ int DAC_Gain_A = 60;
 int DAC_Gain_B = 60;
 int DAC_Gain_C = 60;
 int DAC_Gain_D = 60;
+float test = 0;
 
 float Speed_Est_BW = 50 * 2 * PI;
 float Acc_Est_BW = 50 * 2 * PI;
 int32 SpeedFBK_Cnt = 0;
+
+Matrix test1;
+Matrix test2;
+Matrix test3;
+float result[4]={0,0,0,0};
+Kalman Kalman_Handler;
+
 
 #if BUILDLEVEL == LEVEL3
 
@@ -832,17 +840,6 @@ void main(void)
     motor1.speed_est.param.BaseRpm = 60U*(BASE_FREQ);
 
 
-
-    // Initialize the PID module for Acc Estimation
-//    motor1.acc_est.param.K_speed = 3 * Acc_Est_BW * J;
-//    motor1.acc_est.param.Kp = 3 * Acc_Est_BW * Acc_Est_BW * J;
-//    motor1.acc_est.param.Ki = Acc_Est_BW * Acc_Est_BW * Acc_Est_BW * J;
-//    motor1.acc_est.param.Kt = KT;
-//    motor1.acc_est.param.T_est = TS;
-//    motor1.acc_est.param.f_est = FS;
-//    motor1.acc_est.param.J_est = J;
-//    motor1.acc_est.param.divJ_est = DIV_J;
-
     // Initialize the PI module for position
 	motor1.pi_pos.Kp = _IQ(1.0);            //_IQ(10.0);
 	motor1.pi_pos.Ki = _IQ(0.001);          //_IQ(motor1.T*SpeedLoopPrescaler/0.3);
@@ -938,6 +935,34 @@ void main(void)
 //  carefully during open loop tests (i.e pi_id.Umax, pi_iq.Umax and Umins) as
 //	in project manuals. Violation of this procedure yields distorted  current
 // waveforms and unstable closed loop operations which may damage the inverter.
+
+// ****************************************************
+// Initialize Matrix for Kalman Filter and RLS
+// ****************************************************
+
+	Kalman_Ini(&Kalman_Handler, 3);
+//	Matrix_Generate(&test1,2,2);
+//	Matrix_Generate(&test2,2,2);
+//	Matrix_Generate(&test3,2,2);
+//	int i=0,j=0;
+//	for(i=0;i<2;i++)
+//	{
+//	    for(j=0;j<2;j++)
+//	        test1.data[i][j]=1;
+//	}
+//    for(i=0;i<2;i++)
+//    {
+//        for(j=0;j<2;j++)
+//            test2.data[i][j]=2;
+//    }
+//    Matrix_Product(&test1,&test2,&test3);
+//
+//    for(i=0;i<2;i++)
+//    {
+//        for(j=0;j<2;j++)
+//            result[2*i+j]=test3.data[i][j];
+//    }
+
 
 // ****************************************************
 // Initialize DATALOG module
@@ -1770,14 +1795,10 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	Estimated_Acc.Input = motor->speed_est.term.AccEst;
 	LPF_MARCRO(Estimated_Acc)
 
-
-// ------------------------------------------------------------------------------
-//  Connect inputs of the ACC_EST module and call the acc calculation macro
-// ------------------------------------------------------------------------------
-//    motor->acc_est.term.MechTheta = motor->MechTheta;
-//	motor->acc_est.term.SpeedRef = motor->speed_est.term.Enhanced_SpeedEst_pu;
-//    motor->acc_est.term.CurrentCmd = motor->pi_iq.Ref * BASE_CURRENT;
-//    ACC_EST_MARCRO(motor->acc_est)
+// -----------------------------------------------------------------------------------
+//  Kalman Filter
+// -----------------------------------------------------------------------------------
+	Matrix_Product(&Kalman_Handler.A,&Kalman_Handler.A_t,&Kalman_Handler.Test_result);
 
 // ------------------------------------------------------------------------------
 //  Connect inputs of the SPEED_FR module and call the speed calculation macro
@@ -2475,6 +2496,7 @@ interrupt void MotorControlISR(void)
 
 	// Verifying the ISR
     IsrTicker++;
+
 
 //    GPIO_TogglePin(TEMP_GPIO, IsrTicker%2);
 

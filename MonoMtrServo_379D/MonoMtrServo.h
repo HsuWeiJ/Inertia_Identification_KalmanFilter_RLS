@@ -44,5 +44,6 @@ Include project specific include files.
 #include "spi_dac.h"
 #include "SpeedLoop.h"
 #include "Filter.h"
+#include "KalmanFilter_RLS.h"
 
 #endif /* MONOMTRSERVO_H_ */

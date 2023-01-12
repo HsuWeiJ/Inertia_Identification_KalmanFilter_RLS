@@ -11,8 +11,12 @@ PAGE 0 :
    RAMLS1_LS2       : origin = 0x008800, length = 0x001000
    RAMLS3      		: origin = 0x009800, length = 0x000800
    RAMLS4      		: origin = 0x00A000, length = 0x000800
-   RAMGS10     		: origin = 0x016000, length = 0x001000
-   RAMGS11          : origin = 0x017000, length = 0x001000
+   RAMGS9           : origin = 0x015000, length = 0x001000
+   RAMGS10_GS11    	: origin = 0x016000, length = 0x002000
+   RAMGS12     		: origin = 0x018000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
+   RAMGS13     		: origin = 0x019000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
+   RAMGS14     		: origin = 0x01A000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
+   RAMGS15     		: origin = 0x01B000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
    RESET           	: origin = 0x3FFFC0, length = 0x000002
 
 PAGE 1 :
@@ -32,11 +36,6 @@ PAGE 1 :
    RAMGS6      : origin = 0x012000, length = 0x001000
    RAMGS7      : origin = 0x013000, length = 0x001000
    RAMGS8      : origin = 0x014000, length = 0x001000
-   RAMGS9      : origin = 0x015000, length = 0x001000
-   RAMGS12     : origin = 0x018000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
-   RAMGS13     : origin = 0x019000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
-   RAMGS14     : origin = 0x01A000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
-   RAMGS15     : origin = 0x01B000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
 
    CANA_MSG_RAM     : origin = 0x049000, length = 0x000800
    CANB_MSG_RAM     : origin = 0x04B000, length = 0x000800
@@ -49,8 +48,8 @@ PAGE 1 :
 SECTIONS
 {
    codestart        : > BEGIN,     PAGE = 0
-   .text            : >>RAMM0 | RAMGS11 | RAMD0 |  RAMLS0 | RAMLS1_LS2 | RAMLS3 | RAMLS4 ,   PAGE = 0
-   .cinit           : > RAMM0 | RAMGS10,     PAGE = 0
+   .text            : >>RAMM0 | RAMD0 |  RAMLS0 | RAMLS1_LS2 | RAMLS3 | RAMLS4 | RAMGS9 | RAMGS10_GS11 | RAMGS12 | RAMGS13 | RAMGS14 ,   PAGE = 0
+   .cinit           : > RAMM0 | RAMGS15,     PAGE = 0
    .pinit           : > RAMM0,     PAGE = 0
    .switch          : > RAMM0,     PAGE = 0
    .reset           : > RESET,     PAGE = 0, TYPE = DSECT /* not used, */
@@ -64,7 +63,7 @@ SECTIONS
 
 #ifdef __TI_COMPILER_VERSION__
    #if __TI_COMPILER_VERSION__ >= 15009000
-    .TI.ramfunc : {} > RAMM0 | RAMGS10 ,      PAGE = 0
+    .TI.ramfunc : {} > RAMM0 | RAMGS15 ,      PAGE = 0
    #else
     ramfuncs    : > RAMM0      PAGE = 0   
    #endif
