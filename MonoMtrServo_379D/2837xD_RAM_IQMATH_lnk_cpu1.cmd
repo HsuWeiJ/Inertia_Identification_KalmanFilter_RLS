@@ -10,7 +10,6 @@ PAGE 0 :
    RAMLS0          	: origin = 0x008000, length = 0x000800
    RAMLS1_LS2       : origin = 0x008800, length = 0x001000
    RAMLS3      		: origin = 0x009800, length = 0x000800
-   RAMLS4      		: origin = 0x00A000, length = 0x000800
    RAMGS9           : origin = 0x015000, length = 0x001000
    RAMGS10_GS11    	: origin = 0x016000, length = 0x002000
    RAMGS12     		: origin = 0x018000, length = 0x001000     /* Only Available on F28379D, F28377D, F28375D devices. Remove line on other devices. */
@@ -25,6 +24,7 @@ PAGE 1 :
    RAMM1           : origin = 0x000400, length = 0x000400     /* on-chip RAM block M1 */
    RAMD1           : origin = 0x00B800, length = 0x000800
 
+   RAMLS4      : origin = 0x00A000, length = 0x000800
    RAMLS5      : origin = 0x00A800, length = 0x000800
 
    RAMGS0      : origin = 0x00C000, length = 0x001000
@@ -48,7 +48,7 @@ PAGE 1 :
 SECTIONS
 {
    codestart        : > BEGIN,     PAGE = 0
-   .text            : >>RAMM0 | RAMD0 |  RAMLS0 | RAMLS1_LS2 | RAMLS3 | RAMLS4 | RAMGS9 | RAMGS10_GS11 | RAMGS12 | RAMGS13 | RAMGS14 ,   PAGE = 0
+   .text            : >>RAMM0 | RAMD0 |  RAMLS0 | RAMLS1_LS2 | RAMLS3  | RAMGS9 | RAMGS10_GS11 | RAMGS12 | RAMGS13 | RAMGS14 ,   PAGE = 0
    .cinit           : > RAMM0 | RAMGS15,     PAGE = 0
    .pinit           : > RAMM0,     PAGE = 0
    .switch          : > RAMM0,     PAGE = 0
@@ -58,7 +58,7 @@ SECTIONS
    //.ebss            : > RAMLS5,    PAGE = 1
    .ebss            : > RAMGS6 | RAMGS7,    PAGE = 1
    .econst          : > RAMLS5,    PAGE = 1
-   .esysmem         : > RAMLS5,    PAGE = 1
+   .esysmem         : > RAMLS4 | RAMLS5,    PAGE = 1
    Filter_RegsFile  : > RAMGS0,	   PAGE = 1
 
 #ifdef __TI_COMPILER_VERSION__

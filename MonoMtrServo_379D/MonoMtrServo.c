@@ -892,7 +892,7 @@ void main(void)
 
 //	//Initialize the PI Speed Controller
 	motor1.pi_spd.param.Kp       = _IQ(J*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
-	motor1.pi_spd.param.Ki       = _IQ(B*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
+	motor1.pi_spd.param.Ki       = _IQ(BM*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
 //    motor1.pi_spd.param.Kp       = _IQ(J*10*2*PI);
 //    motor1.pi_spd.param.Ki       = _IQ(B*10*2*PI);
 	motor1.pi_spd.param.Kr       = _IQ(1.0);
@@ -940,7 +940,7 @@ void main(void)
 // Initialize Matrix for Kalman Filter and RLS
 // ****************************************************
 
-	Kalman_Ini(&Kalman_Handler, 3);
+	Kalman_Ini_3X3(&Kalman_Handler);
 //	Matrix_Generate(&test1,2,2);
 //	Matrix_Generate(&test2,2,2);
 //	Matrix_Generate(&test3,2,2);
@@ -1729,7 +1729,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 // and in case of QEP also finds the index location and initializes the angle
 // w.r.t. the index location
 // ------------------------------------------------------------------------------
-    GPIO_WritePin(GPIO25,TRUE);
+
 
 	if(!motor->RunMotor)
 		motor->lsw = 0;
@@ -1795,10 +1795,6 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	Estimated_Acc.Input = motor->speed_est.term.AccEst;
 	LPF_MARCRO(Estimated_Acc)
 
-// -----------------------------------------------------------------------------------
-//  Kalman Filter
-// -----------------------------------------------------------------------------------
-	Matrix_Product(&Kalman_Handler.A,&Kalman_Handler.A_t,&Kalman_Handler.Test_result);
 
 // ------------------------------------------------------------------------------
 //  Connect inputs of the SPEED_FR module and call the speed calculation macro
@@ -1820,6 +1816,11 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	motor->park.Cosine = __cospuf32(motor->park.Angle);
 
 	PARK_MACRO(motor->park)
+
+// -----------------------------------------------------------------------------------
+//  Kalman Filter
+// -----------------------------------------------------------------------------------
+    Kalman_Calculate(&Kalman_Handler , motor->MechTheta * TWO_PI ,  motor->park.Qs * BASE_CURRENT * KT);
 
 // ------------------------------------------------------------------------------
 //    Connect inputs of the PI module and call the PID speed controller macro
@@ -1927,7 +1928,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 
     SPIDAC_update_all();//motor1.clarke.As,phase_volt
 
-    GPIO_WritePin(GPIO25,FALSE);
+
 	return;
 
 }
@@ -2508,6 +2509,7 @@ interrupt void MotorControlISR(void)
 // ------------------------------------------------------------------------------
 //  Measure phase currents and obtain position encoder (QEP) feedback
 // ------------------------------------------------------------------------------
+    GPIO_WritePin(GPIO25,TRUE);
     motorCurrentSense();    //  Measure normalised phase currents (-1,+1)
     motorVoltageSense();    //  Measure normalised phase voltages (-1,+1)
     posEncoder(&motor1);    //  Motor 1 Position encoder
@@ -2539,7 +2541,7 @@ interrupt void MotorControlISR(void)
 #endif
 
 #endif
-
+    GPIO_WritePin(GPIO25,FALSE);
     //clear ADCINT1 INT and ack PIE INT
 	AdcbRegs.ADCINTFLGCLR.bit.ADCINT1=1;
 	PieCtrlRegs.PIEACK.all=PIEACK_GROUP1;
