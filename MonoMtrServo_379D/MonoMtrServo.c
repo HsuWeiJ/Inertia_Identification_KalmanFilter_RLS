@@ -150,7 +150,8 @@ Matrix test1;
 Matrix test2;
 Matrix test3;
 float result[4]={0,0,0,0};
-Kalman Kalman_Handler;
+Kalman Kalman3X3_Handler;
+Kalman Kalman2X2_Handler;
 
 
 #if BUILDLEVEL == LEVEL3
@@ -940,7 +941,8 @@ void main(void)
 // Initialize Matrix for Kalman Filter and RLS
 // ****************************************************
 
-	Kalman_Ini_3X3(&Kalman_Handler);
+	Kalman_Ini_3X3(&Kalman3X3_Handler);
+	Kalman_Ini_2X2(&Kalman2X2_Handler);
 //	Matrix_Generate(&test1,2,2);
 //	Matrix_Generate(&test2,2,2);
 //	Matrix_Generate(&test3,2,2);
@@ -1820,7 +1822,8 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 // -----------------------------------------------------------------------------------
 //  Kalman Filter
 // -----------------------------------------------------------------------------------
-    Kalman_Calculate(&Kalman_Handler , motor->MechTheta * TWO_PI ,  motor->park.Qs * BASE_CURRENT * KT);
+	Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->park.Qs * BASE_CURRENT * KT);
+	Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed_est.term.Enhanced_SpeedEst_pu * BASE_FREQ * TWO_PI,  motor->park.Qs * BASE_CURRENT * KT);
 
 // ------------------------------------------------------------------------------
 //    Connect inputs of the PI module and call the PID speed controller macro

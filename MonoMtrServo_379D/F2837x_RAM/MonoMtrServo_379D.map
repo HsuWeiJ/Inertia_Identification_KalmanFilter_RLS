@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Thu Feb  2 14:49:04 2023
+>> Linked Thu Feb  2 15:50:31 2023
 
 OUTPUT FILE NAME:   <MonoMtrServo_379D.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00008a97
@@ -19,7 +19,7 @@ PAGE 0:
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   RAMD0                 0000b000   00000800  000007ff  00000001  RWIX
   RAMGS9                00015000   00001000  00000000  00001000  RWIX
-  RAMGS10_GS11          00016000   00002000  000018c2  0000073e  RWIX
+  RAMGS10_GS11          00016000   00002000  00001bd0  00000430  RWIX
   RAMGS12               00018000   00001000  00000000  00001000  RWIX
   RAMGS13               00019000   00001000  00000000  00001000  RWIX
   RAMGS14               0001a000   00001000  00000000  00001000  RWIX
@@ -104,7 +104,7 @@ PAGE 1:
   GPIOCTRL              00007c00   00000180  00000180  00000000  RWIX
   GPIODAT               00007f00   00000030  00000030  00000000  RWIX
   RAMLS4                0000a000   00000800  00000800  00000000  RWIX
-  RAMLS5                0000a800   00000800  00000276  0000058a  RWIX
+  RAMLS5                0000a800   00000800  000002c4  0000053c  RWIX
   RAMD1                 0000b800   00000800  00000000  00000800  RWIX
   RAMGS0                0000c000   00001000  00000000  00001000  RWIX
   RAMGS1                0000d000   00001000  00000000  00001000  RWIX
@@ -112,7 +112,7 @@ PAGE 1:
   RAMGS3                0000f000   00001000  00000000  00001000  RWIX
   RAMGS4                00010000   00001000  00000000  00001000  RWIX
   RAMGS5                00011000   00001000  00000000  00001000  RWIX
-  RAMGS6                00012000   00001000  00000a10  000005f0  RWIX
+  RAMGS6                00012000   00001000  00000a90  00000570  RWIX
   RAMGS7                00013000   00001000  00000000  00001000  RWIX
   RAMGS8                00014000   00001000  00000000  00001000  RWIX
   CPU2TOCPU1RAM         0003f800   00000400  00000000  00000400  RWIX
@@ -198,48 +198,62 @@ Cla1RegsFile
                   0000a000    00000004     rts2800_fpu32.lib : memory.c.obj (.esysmem)
                   0000a004    000007fc     --HOLE--
 
-.econst    1    0000a800    00000276     
+.econst    1    0000a800    000002c4     
                   0000a800    000001c0     F2837xD_PieVect.obj (.econst:_PieVectTableInit)
-                  0000a9c0    00000012     MonoMtrServo.obj (.econst:_$P$T0$27)
-                  0000a9d2    00000012     MonoMtrServo.obj (.econst:_$P$T12$39)
-                  0000a9e4    00000012     MonoMtrServo.obj (.econst:_$P$T13$40)
-                  0000a9f6    00000012     MonoMtrServo.obj (.econst:_$P$T4$31)
-                  0000aa08    00000012     MonoMtrServo.obj (.econst:_$P$T7$34)
-                  0000aa1a    00000012     MonoMtrServo.obj (.econst:_$P$T8$35)
+                  0000a9c0    00000012     MonoMtrServo.obj (.econst:_$P$T14$41)
+                  0000a9d2    00000012     MonoMtrServo.obj (.econst:_$P$T18$45)
+                  0000a9e4    00000012     MonoMtrServo.obj (.econst:_$P$T21$48)
+                  0000a9f6    00000012     MonoMtrServo.obj (.econst:_$P$T22$49)
+                  0000aa08    00000012     MonoMtrServo.obj (.econst:_$P$T26$53)
+                  0000aa1a    00000012     MonoMtrServo.obj (.econst:_$P$T27$54)
                   0000aa2c    00000010     rts2800_fpu32.lib : e_expf.c.obj (.econst)
-                  0000aa3c    00000006     MonoMtrServo.obj (.econst:_$P$T1$28)
-                  0000aa42    00000006     MonoMtrServo.obj (.econst:_$P$T10$37)
-                  0000aa48    00000006     MonoMtrServo.obj (.econst:_$P$T2$29)
-                  0000aa4e    00000006     MonoMtrServo.obj (.econst:_$P$T3$30)
-                  0000aa54    00000006     MonoMtrServo.obj (.econst:_$P$T5$32)
-                  0000aa5a    00000006     MonoMtrServo.obj (.econst:_$P$T6$33)
-                  0000aa60    00000006     MonoMtrServo.obj (.econst:_$P$T9$36)
-                  0000aa66    00000004     rts2800_fpu32.lib : e_expf.c.obj (.econst:_halF)
-                  0000aa6a    00000004                       : e_expf.c.obj (.econst:_ln2HI)
-                  0000aa6e    00000004                       : e_expf.c.obj (.econst:_ln2LO)
-                  0000aa72    00000002     MonoMtrServo.obj (.econst:_$P$T11$38)
-                  0000aa74    00000002     rts2800_fpu32.lib : s_floorf.c.obj (.econst)
+                  0000aa3c    00000008     MonoMtrServo.obj (.econst:_$P$T0$27)
+                  0000aa44    00000008     MonoMtrServo.obj (.econst:_$P$T12$39)
+                  0000aa4c    00000008     MonoMtrServo.obj (.econst:_$P$T13$40)
+                  0000aa54    00000008     MonoMtrServo.obj (.econst:_$P$T4$31)
+                  0000aa5c    00000008     MonoMtrServo.obj (.econst:_$P$T7$34)
+                  0000aa64    00000008     MonoMtrServo.obj (.econst:_$P$T8$35)
+                  0000aa6c    00000006     MonoMtrServo.obj (.econst:_$P$T15$42)
+                  0000aa72    00000006     MonoMtrServo.obj (.econst:_$P$T16$43)
+                  0000aa78    00000006     MonoMtrServo.obj (.econst:_$P$T17$44)
+                  0000aa7e    00000006     MonoMtrServo.obj (.econst:_$P$T19$46)
+                  0000aa84    00000006     MonoMtrServo.obj (.econst:_$P$T20$47)
+                  0000aa8a    00000006     MonoMtrServo.obj (.econst:_$P$T23$50)
+                  0000aa90    00000006     MonoMtrServo.obj (.econst:_$P$T24$51)
+                  0000aa96    00000004     MonoMtrServo.obj (.econst:_$P$T1$28)
+                  0000aa9a    00000004     MonoMtrServo.obj (.econst:_$P$T10$37)
+                  0000aa9e    00000004     MonoMtrServo.obj (.econst:_$P$T2$29)
+                  0000aaa2    00000004     MonoMtrServo.obj (.econst:_$P$T3$30)
+                  0000aaa6    00000004     MonoMtrServo.obj (.econst:_$P$T5$32)
+                  0000aaaa    00000004     MonoMtrServo.obj (.econst:_$P$T6$33)
+                  0000aaae    00000004     MonoMtrServo.obj (.econst:_$P$T9$36)
+                  0000aab2    00000004     rts2800_fpu32.lib : e_expf.c.obj (.econst:_halF)
+                  0000aab6    00000004                       : e_expf.c.obj (.econst:_ln2HI)
+                  0000aaba    00000004                       : e_expf.c.obj (.econst:_ln2LO)
+                  0000aabe    00000002     MonoMtrServo.obj (.econst:_$P$T11$38)
+                  0000aac0    00000002     MonoMtrServo.obj (.econst:_$P$T25$52)
+                  0000aac2    00000002     rts2800_fpu32.lib : s_floorf.c.obj (.econst)
 
-.ebss      1    00012000    00000a10     UNINITIALIZED
-                  00012000    00000334     MonoMtrServo.obj (.ebss)
-                  00012334    00000008     F2837xD_Dac_setting.obj (.ebss:_DAC_PTR)
-                  0001233c    00000004     MonoMtrServo.obj (.ebss:_VTimer0)
-                  00012340    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH1)
-                  000124d0    00000010     MonoMtrServo.obj (.ebss:_posArray)
-                  000124e0    00000006     rts2800_fpu32.lib : exit.c.obj (.ebss)
-                  000124e6    00000004     MonoMtrServo.obj (.ebss:_VTimer1)
-                  000124ea    00000004     MonoMtrServo.obj (.ebss:_VTimer2)
-                  000124ee    00000004     rts2800_fpu32.lib : memory.c.obj (.ebss)
-                  000124f2    00000003     F2837xD_Dac_setting.obj (.ebss)
-                  000124f5    00000001     rts2800_fpu32.lib : errno.c.obj (.ebss)
-                  000124f6    00000002                       : _lock.c.obj (.ebss:__lock)
-                  000124f8    00000002                       : _lock.c.obj (.ebss:__unlock)
-                  000124fa    00000006     --HOLE--
-                  00012500    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH2)
-                  00012690    00000030     --HOLE--
-                  000126c0    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH3)
-                  00012850    00000030     --HOLE--
-                  00012880    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH4)
+.ebss      1    00012000    00000a90     UNINITIALIZED
+                  00012000    000003b4     MonoMtrServo.obj (.ebss)
+                  000123b4    00000008     F2837xD_Dac_setting.obj (.ebss:_DAC_PTR)
+                  000123bc    00000004     MonoMtrServo.obj (.ebss:_VTimer0)
+                  000123c0    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH1)
+                  00012550    00000010     MonoMtrServo.obj (.ebss:_posArray)
+                  00012560    00000006     rts2800_fpu32.lib : exit.c.obj (.ebss)
+                  00012566    00000004     MonoMtrServo.obj (.ebss:_VTimer1)
+                  0001256a    00000004     MonoMtrServo.obj (.ebss:_VTimer2)
+                  0001256e    00000004     rts2800_fpu32.lib : memory.c.obj (.ebss)
+                  00012572    00000003     F2837xD_Dac_setting.obj (.ebss)
+                  00012575    00000001     rts2800_fpu32.lib : errno.c.obj (.ebss)
+                  00012576    00000002                       : _lock.c.obj (.ebss:__lock)
+                  00012578    00000002                       : _lock.c.obj (.ebss:__unlock)
+                  0001257a    00000006     --HOLE--
+                  00012580    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH2)
+                  00012710    00000030     --HOLE--
+                  00012740    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH3)
+                  000128d0    00000030     --HOLE--
+                  00012900    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH4)
 
 .TI.ramfunc 
 *          0    0001b301    00000004     
@@ -669,15 +683,15 @@ CpuSysRegsFile
                   0000b770    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
                   0000b7f8    00000007                       : memset.c.obj (.text)
 
-.text.5    0    00016000    000018c2     
-                  00016000    000018c2     MonoMtrServo.obj (.text)
+.text.5    0    00016000    00001bd0     
+                  00016000    00001bd0     MonoMtrServo.obj (.text)
 
 MODULE SUMMARY
 
        Module                           code    initialized data   uninitialized data
        ------                           ----    ----------------   ------------------
     .\
-       MonoMtrServo.obj                 6554    864                2448              
+       MonoMtrServo.obj                 7336    942                2576              
        F2837xD_GlobalVariableDefs.obj   0       0                  8759              
        F2837xD_DefaultISR.obj           1413    0                  0                 
        F2837xD_SysCtrl.obj              886     0                  0                 
@@ -692,7 +706,7 @@ MODULE SUMMARY
        F2837xD_usDelay.obj              4       0                  0                 
        F2837xD_CodeStartBranch.obj      2       0                  0                 
     +--+--------------------------------+-------+------------------+--------------------+
-       Total:                           10538   1335               11218             
+       Total:                           11320   1413               11346             
                                                                                      
     .\utility Src Files\
        DLOG_4CH_F.obj                   135     0                  0                 
@@ -720,7 +734,7 @@ MODULE SUMMARY
        Heap:                            0       0                  2048              
        Stack:                           0       0                  896               
     +--+--------------------------------+-------+------------------+--------------------+
-       Grand Total:                     12052   1397               14177             
+       Grand Total:                     12834   1475               14305             
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -913,33 +927,35 @@ address     data page           name
 00012080     482 (00012080)     _Estimated_Acc
 00012090     482 (00012080)     _dlog_4ch1
 
-000120c0     483 (000120c0)     _Kalman_Handler
+000120c0     483 (000120c0)     _Kalman3X3_Handler
 
-00012140     485 (00012140)     _motor1
+00012140     485 (00012140)     _Kalman2X2_Handler
 
-00012334     48c (00012300)     _DAC_PTR
-0001233c     48c (00012300)     _VTimer0
+000121c0     487 (000121c0)     _motor1
 
-00012340     48d (00012340)     _DBUFF_4CH1
+000123b4     48e (00012380)     _DAC_PTR
+000123bc     48e (00012380)     _VTimer0
 
-000124d0     493 (000124c0)     _posArray
-000124e0     493 (000124c0)     ___TI_enable_exit_profile_output
-000124e2     493 (000124c0)     ___TI_cleanup_ptr
-000124e4     493 (000124c0)     ___TI_dtors_ptr
-000124e6     493 (000124c0)     _VTimer1
-000124ea     493 (000124c0)     _VTimer2
-000124f2     493 (000124c0)     _dacAval
-000124f3     493 (000124c0)     _dacBval
-000124f4     493 (000124c0)     _dacCval
-000124f5     493 (000124c0)     _errno
-000124f6     493 (000124c0)     __lock
-000124f8     493 (000124c0)     __unlock
+000123c0     48f (000123c0)     _DBUFF_4CH1
 
-00012500     494 (00012500)     _DBUFF_4CH2
+00012550     495 (00012540)     _posArray
+00012560     495 (00012540)     ___TI_enable_exit_profile_output
+00012562     495 (00012540)     ___TI_cleanup_ptr
+00012564     495 (00012540)     ___TI_dtors_ptr
+00012566     495 (00012540)     _VTimer1
+0001256a     495 (00012540)     _VTimer2
+00012572     495 (00012540)     _dacAval
+00012573     495 (00012540)     _dacBval
+00012574     495 (00012540)     _dacCval
+00012575     495 (00012540)     _errno
+00012576     495 (00012540)     __lock
+00012578     495 (00012540)     __unlock
 
-000126c0     49b (000126c0)     _DBUFF_4CH3
+00012580     496 (00012580)     _DBUFF_4CH2
 
-00012880     4a2 (00012880)     _DBUFF_4CH4
+00012740     49d (00012740)     _DBUFF_4CH3
+
+00012900     4a4 (00012900)     _DBUFF_4CH4
 
 00047000    11c0 (00047000)     _Emif1Regs
 
@@ -994,10 +1010,10 @@ page  address   name
 abs   ffffffff  .text                                 
 0     000003ae  C$$EXIT                               
 0     0000b770  FS$$DIV                               
-0     000165cd  _A0                                   
-0     00016597  _A1                                   
-0     0001656d  _A2                                   
-0     00016567  _A3                                   
+0     00016428  _A0                                   
+0     000163f2  _A1                                   
+0     000163c8  _A2                                   
+0     000163c2  _A3                                   
 0     0000b57b  _ADCA1_ISR                            
 0     0000b571  _ADCA2_ISR                            
 0     0000b567  _ADCA3_ISR                            
@@ -1037,16 +1053,16 @@ abs   ffffffff  .text
 0     00008209  _AuxAuxClkSel                         
 0     00008224  _AuxIntOsc2Sel                        
 0     00008213  _AuxXtalOscSel                        
-0     000165e5  _B0                                   
-0     00016591  _B1                                   
-0     00016561  _B2                                   
-0     0001655b  _B3                                   
+0     00016440  _B0                                   
+0     000163ec  _B1                                   
+0     000163bc  _B2                                   
+0     000163b6  _B3                                   
 1     0001201c  _B_Task_Ptr                           
 1     00012009  _BackTicker                           
-0     000165fa  _C0                                   
-0     00016573  _C1                                   
-0     00016551  _C2                                   
-0     00016543  _C3                                   
+0     00016455  _C0                                   
+0     000163ce  _C1                                   
+0     000163ac  _C2                                   
+0     0001639e  _C3                                   
 0     0000b4a9  _CANA0_ISR                            
 0     0000b49f  _CANA1_ISR                            
 0     0000b495  _CANB0_ISR                            
@@ -1086,13 +1102,13 @@ abs   ffffffff  .text
 1     00012005  _DAC_Gain_B                           
 1     00012006  _DAC_Gain_C                           
 1     00012007  _DAC_Gain_D                           
-1     00012334  _DAC_PTR                              
+1     000123b4  _DAC_PTR                              
 1     00012001  _DAC_Switch                           
 0     0000b41d  _DATALOG_ISR                          
-1     00012340  _DBUFF_4CH1                           
-1     00012500  _DBUFF_4CH2                           
-1     000126c0  _DBUFF_4CH3                           
-1     00012880  _DBUFF_4CH4                           
+1     000123c0  _DBUFF_4CH1                           
+1     00012580  _DBUFF_4CH2                           
+1     00012740  _DBUFF_4CH3                           
+1     00012900  _DBUFF_4CH4                           
 0     0000879b  _DLOG_4CH_F_FUNC                      
 0     00008774  _DLOG_4CH_F_init                      
 0     0000b413  _DMA_CH1_ISR                          
@@ -1101,7 +1117,7 @@ abs   ffffffff  .text
 0     0000b3f5  _DMA_CH4_ISR                          
 0     0000b3eb  _DMA_CH5_ISR                          
 0     0000b3e1  _DMA_CH6_ISR                          
-0     000164fd  _DMC1_Protection                      
+0     00016358  _DMC1_Protection                      
 0     00008a20  _DRV8301_SPI_Read                     
 0     00008a04  _DRV8301_SPI_Write                    
 0     000089f4  _DRV8305_SPI_Read                     
@@ -1211,7 +1227,7 @@ abs   ffffffff  .text
 0     000083d9  _GPIO_SetupXINT3Gpio                  
 0     000083d2  _GPIO_SetupXINT4Gpio                  
 0     000083cb  _GPIO_SetupXINT5Gpio                  
-0     0001652f  _GPIO_TogglePin                       
+0     0001638a  _GPIO_TogglePin                       
 0     000083b1  _GPIO_WritePin                        
 1     00007c00  _GpioCtrlRegs                         
 1     00007f00  _GpioDataRegs                         
@@ -1254,9 +1270,12 @@ abs   ffffffff  .text
 1     0001202e  _IsrTicker                            
 1     00012030  _K1                                   
 1     00012032  _K2                                   
-0     00016bac  _Kalman_Calculate                     
-1     000120c0  _Kalman_Handler                       
-0     000160b2  _Kalman_Ini_3X3                       
+0     00016f18  _Kalman2X2_Calculate                  
+1     00012140  _Kalman2X2_Handler                    
+0     00016a0b  _Kalman3X3_Calculate                  
+1     000120c0  _Kalman3X3_Handler                    
+0     00016210  _Kalman_Ini_2X2                       
+0     000160f8  _Kalman_Ini_3X3                       
 1     0001200a  _LedCnt                               
 0     0000b1f4  _MCBSPA_RX_ISR                        
 0     0000b1ea  _MCBSPA_TX_ISR                        
@@ -1282,7 +1301,7 @@ abs   ffffffff  .text
 1     00012010  _PwmDacCh2                            
 1     00012011  _PwmDacCh3                            
 1     00012012  _PwmDacCh4                            
-0     000164c0  _PwmTripConfig                        
+0     0001631b  _PwmTripConfig                        
 0     0000b1ae  _RAM_ACCESS_VIOLATION_ISR             
 0     0000b1a4  _RAM_CORRECTABLE_ERROR_ISR            
 0     0000b19a  _RTOS_ISR                             
@@ -1306,9 +1325,9 @@ abs   ffffffff  .text
 0     0000b104  _SPIC_RX_ISR                          
 0     0000b0fa  _SPIC_TX_ISR                          
 0     00016072  _SPIDAC_setup                         
-0     00016ba2  _SPIDAC_update_all                    
-0     00016b96  _SPIDAC_write_dac_channel             
-0     00016b80  _SPIDAC_xmit_u16                      
+0     00016a01  _SPIDAC_update_all                    
+0     000169f5  _SPIDAC_write_dac_channel             
+0     000169df  _SPIDAC_xmit_u16                      
 0     000089c0  _SPI_Driver                           
 0     00008040  _STANDBY                              
 0     0000b0f0  _SYS_PLL_SLIP_ISR                     
@@ -1352,9 +1371,9 @@ abs   ffffffff  .text
 0     0000b046  _USER9_ISR                            
 1     00006200  _UppRegs                              
 0     0000b03c  _VCU_ISR                              
-1     0001233c  _VTimer0                              
-1     000124e6  _VTimer1                              
-1     000124ea  _VTimer2                              
+1     000123bc  _VTimer0                              
+1     00012566  _VTimer1                              
+1     0001256a  _VTimer2                              
 0     0000b032  _WAKE_ISR                             
 1     00007000  _WdRegs                               
 0     0000b028  _XINT1_ISR                            
@@ -1367,9 +1386,9 @@ abs   ffffffff  .text
 1     00000780  __STACK_END                           
 abs   00000380  __STACK_SIZE                          
 abs   00000800  __SYSMEM_SIZE                         
-1     000124e2  ___TI_cleanup_ptr                     
-1     000124e4  ___TI_dtors_ptr                       
-1     000124e0  ___TI_enable_exit_profile_output      
+1     00012562  ___TI_cleanup_ptr                     
+1     00012564  ___TI_dtors_ptr                       
+1     00012560  ___TI_enable_exit_profile_output      
 0     000003ac  ___TI_heap_check                      
 0     0000038f  ___TI_heap_largest_available          
 0     00000372  ___TI_heap_total_available            
@@ -1383,7 +1402,7 @@ abs   ffffffff  ___etext__
 abs   ffffffff  ___pinit__                            
 abs   ffffffff  ___text__                             
 0     00008b57  __args_main                           
-1     000124f6  __lock                                
+1     00012576  __lock                                
 0     00008b71  __nop                                 
 0     00008b6d  __register_lock                       
 0     00008b69  __register_unlock                     
@@ -1391,7 +1410,7 @@ abs   ffffffff  ___text__
 1     0000a000  __sys_memory                          
 0     000003ff  __system_post_cinit                   
 0     000087fb  __system_pre_init                     
-1     000124f8  __unlock                              
+1     00012578  __unlock                              
 0     000003ae  _abort                                
 1     00012020  _adc_cal                              
 0     000002cc  _aligned_alloc                        
@@ -1400,25 +1419,25 @@ abs   ffffffff  ___text__
 1     00012038  _cntr1                                
 0     00008b2e  _configureDAC                         
 0     00008aed  _copy_in                              
-1     000124f2  _dacAval                              
-1     000124f3  _dacBval                              
-1     000124f4  _dacCval                              
+1     00012572  _dacAval                              
+1     00012573  _dacBval                              
+1     00012574  _dacCval                              
 1     00012090  _dlog_4ch1                            
-1     000124f5  _errno                                
+1     00012575  _errno                                
 0     000003b0  _exit                                 
 0     00008663  _exp                                  
 0     00008663  _expf                                 
 0     00008a3e  _floor                                
 0     00008a3e  _floorf                               
 0     0000014d  _free                                 
-0     0001660f  _main                                 
+0     0001646a  _main                                 
 0     00000122  _malloc                               
 0     000002cc  _memalign                             
 0     00008b11  _memcpy                               
 0     0000b7f8  _memset                               
 0     0000029b  _minit                                
-1     00012140  _motor1                               
-1     000124d0  _posArray                             
+1     000121c0  _motor1                               
+1     00012550  _posArray                             
 1     0001203a  _posSlewRate                          
 1     0001200d  _ptr1                                 
 1     0001200c  _ptrMax                               
@@ -1681,27 +1700,29 @@ page  address   name
 0     0001601c  _refPosGen                            
 0     00016051  _ramper_speed                         
 0     00016072  _SPIDAC_setup                         
-0     000160b2  _Kalman_Ini_3X3                       
-0     000164c0  _PwmTripConfig                        
-0     000164fd  _DMC1_Protection                      
-0     0001652f  _GPIO_TogglePin                       
-0     00016543  _C3                                   
-0     00016551  _C2                                   
-0     0001655b  _B3                                   
-0     00016561  _B2                                   
-0     00016567  _A3                                   
-0     0001656d  _A2                                   
-0     00016573  _C1                                   
-0     00016591  _B1                                   
-0     00016597  _A1                                   
-0     000165cd  _A0                                   
-0     000165e5  _B0                                   
-0     000165fa  _C0                                   
-0     0001660f  _main                                 
-0     00016b80  _SPIDAC_xmit_u16                      
-0     00016b96  _SPIDAC_write_dac_channel             
-0     00016ba2  _SPIDAC_update_all                    
-0     00016bac  _Kalman_Calculate                     
+0     000160f8  _Kalman_Ini_3X3                       
+0     00016210  _Kalman_Ini_2X2                       
+0     0001631b  _PwmTripConfig                        
+0     00016358  _DMC1_Protection                      
+0     0001638a  _GPIO_TogglePin                       
+0     0001639e  _C3                                   
+0     000163ac  _C2                                   
+0     000163b6  _B3                                   
+0     000163bc  _B2                                   
+0     000163c2  _A3                                   
+0     000163c8  _A2                                   
+0     000163ce  _C1                                   
+0     000163ec  _B1                                   
+0     000163f2  _A1                                   
+0     00016428  _A0                                   
+0     00016440  _B0                                   
+0     00016455  _C0                                   
+0     0001646a  _main                                 
+0     000169df  _SPIDAC_xmit_u16                      
+0     000169f5  _SPIDAC_write_dac_channel             
+0     00016a01  _SPIDAC_update_all                    
+0     00016a0b  _Kalman3X3_Calculate                  
+0     00016f18  _Kalman2X2_Calculate                  
 0     0001b000  ___cinit__                            
 0     0001b000  cinit                                 
 0     0001b301  _F28x_usDelay                         
@@ -1833,26 +1854,27 @@ page  address   name
 1     00012066  _rc_SpeedCmd_Control_Variation_Rate   
 1     00012080  _Estimated_Acc                        
 1     00012090  _dlog_4ch1                            
-1     000120c0  _Kalman_Handler                       
-1     00012140  _motor1                               
-1     00012334  _DAC_PTR                              
-1     0001233c  _VTimer0                              
-1     00012340  _DBUFF_4CH1                           
-1     000124d0  _posArray                             
-1     000124e0  ___TI_enable_exit_profile_output      
-1     000124e2  ___TI_cleanup_ptr                     
-1     000124e4  ___TI_dtors_ptr                       
-1     000124e6  _VTimer1                              
-1     000124ea  _VTimer2                              
-1     000124f2  _dacAval                              
-1     000124f3  _dacBval                              
-1     000124f4  _dacCval                              
-1     000124f5  _errno                                
-1     000124f6  __lock                                
-1     000124f8  __unlock                              
-1     00012500  _DBUFF_4CH2                           
-1     000126c0  _DBUFF_4CH3                           
-1     00012880  _DBUFF_4CH4                           
+1     000120c0  _Kalman3X3_Handler                    
+1     00012140  _Kalman2X2_Handler                    
+1     000121c0  _motor1                               
+1     000123b4  _DAC_PTR                              
+1     000123bc  _VTimer0                              
+1     000123c0  _DBUFF_4CH1                           
+1     00012550  _posArray                             
+1     00012560  ___TI_enable_exit_profile_output      
+1     00012562  ___TI_cleanup_ptr                     
+1     00012564  ___TI_dtors_ptr                       
+1     00012566  _VTimer1                              
+1     0001256a  _VTimer2                              
+1     00012572  _dacAval                              
+1     00012573  _dacBval                              
+1     00012574  _dacCval                              
+1     00012575  _errno                                
+1     00012576  __lock                                
+1     00012578  __unlock                              
+1     00012580  _DBUFF_4CH2                           
+1     00012740  _DBUFF_4CH3                           
+1     00012900  _DBUFF_4CH4                           
 1     00047000  _Emif1Regs                            
 1     00047800  _Emif2Regs                            
 1     00048000  _CanaRegs                             
@@ -1892,4 +1914,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                                 
 abs   ffffffff  pinit                                 
 
-[447 symbols]
+[450 symbols]

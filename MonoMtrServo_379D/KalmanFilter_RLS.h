@@ -167,6 +167,49 @@ inline void Matrix_Dot_Product(Matrix* in , float c , Matrix* out)
     }
 }
 
+void Kalman_Ini_2X2(Kalman* k)
+{
+    //float initialization
+    k->u = 0;
+    k->R = 1;
+    k->e_threshold = 0.08;
+    k->e = 0;
+    k->tem = 0;
+
+    //Matrix initialization
+    float A_data[4] = {(1-BM/J*TS),(-TS/J),0,1};
+    Matrix_Generate(&(k->A),2,2,A_data);
+    float B_data[2] = {TS/J,0};
+    Matrix_Generate(&(k->B),2,1,B_data);
+    float X_Priori_data[2] = {0};
+    Matrix_Generate(&(k->X_Priori),2,1,X_Priori_data);
+    float X_Posteriori_data[2] = {0};
+    Matrix_Generate(&(k->X_Posteriori),2,1,X_Posteriori_data);
+    float P_data[4] = {10000,0,0,10000};
+    Matrix_Generate(&(k->P),2,2,P_data);
+    float K_data[2] = {0};
+    Matrix_Generate(&(k->K),2,1,K_data);
+    float H_data[2] = {1,0};
+    Matrix_Generate(&(k->H),1,2,H_data);
+    float Q_data[4] = {0.01,0,0,0.0001};
+    Matrix_Generate(&(k->Q),2,2,Q_data);
+    float Tem_nXn_data[4] = {0};
+    Matrix_Generate(&(k->tem_nXn_1),2,2,Tem_nXn_data);
+    Matrix_Generate(&(k->tem_nXn_2),2,2,Tem_nXn_data);
+    float Tem_1Xn_data[2] = {0};
+    Matrix_Generate(&(k->tem_1Xn),1,2,Tem_1Xn_data);
+    float Tem_nX1_data[2] = {0};
+    Matrix_Generate(&(k->tem_nX1_1),2,1,Tem_nX1_data);
+    Matrix_Generate(&(k->tem_nX1_2),2,1,Tem_nX1_data);
+    float Tem_1X1_data[1] = {0};
+    Matrix_Generate(&(k->tem_1X1),1,1,Tem_1X1_data);
+    float I_data[4] = {1,0,0,1};
+    Matrix_Generate(&(k->I),2,2,I_data);
+    float Zero_data[4] = {0};
+    Matrix_Generate(&(k->Zero),2,2,Zero_data);
+
+}
+
 void Kalman_Ini_3X3(Kalman* k)
 {
     //float initialization
@@ -210,7 +253,47 @@ void Kalman_Ini_3X3(Kalman* k)
 
 }
 
-void Kalman_Calculate(Kalman* k ,float theda , float u)
+void Kalman2X2_Calculate(Kalman* k ,float speed , float u)
+{
+
+    //X_Priori=A*X+B.*u;
+    Matrix_Product(&k->A, &k->X_Posteriori, &k->tem_nX1_1);    // tem_nX1_1 : A*X
+    Matrix_Dot_Product(&k->B, u, &k->tem_nX1_2);               // tem_nX1_2 : B.*u
+    Matrix_Add(&k->tem_nX1_1, &k->tem_nX1_2, &k->X_Priori);
+
+    //P=A*P*A'+Q;
+    Matrix_Product(&k->A, &k->P, &k->tem_nXn_1);               // tem_nXn_1 : A*P
+    Matrix_Transpose(&k->A, &k->tem_nXn_2);                    // tem_nXn_2 : A'
+    Matrix_Product(&k->tem_nXn_1, &k->tem_nXn_2, &k->P);       // P : A*P*A'
+    Matrix_Add(&k->P, &k->Q , &k->P);
+
+    //K=(P*H')./(H*P*H'+R);
+    Matrix_Product(&k->H, &k->P, &k->tem_1Xn);                 // tem_1Xn : H*P
+    Matrix_Transpose(&k->H, &k->tem_nX1_1);                    // tem_nX1_1 : H';
+    Matrix_Product(&k->tem_1Xn, &k->tem_nX1_1, &k->tem_1X1);   // tem_1X1 : H*P*H'
+    k->tem = k->tem_1X1.data[0][0] + k->R;                     // tem : (H*P*H'+R)
+    Matrix_Product(&k->P, &k->tem_nX1_1, &k->tem_nX1_2);       // tem_nX1_2 : P*H';
+    Matrix_Dot_Product(&k->tem_nX1_2 , (1/k->tem) , &k->K);
+
+    //X_Posteriori=X_Priori+K.*(Speed-H*X_Priori);
+    Matrix_Product(&k->H, &k->X_Priori, &k->tem_1X1);          // tem_1X1 : H*X_Priori
+    k->e = speed - k->tem_1X1.data[0][0] ;                     // e : (Speed-H*X_Priori)
+    Matrix_Dot_Product(&k->K , k->e , &k->tem_nX1_1);          // tem_nX1_1 : K.*(Speed-H*X_Priori)
+    Matrix_Add(&k->X_Priori,&k->tem_nX1_1,&k->X_Posteriori);
+
+    //P=(eye(2)-K*H)*P;
+    Matrix_Product(&k->K, &k->H, &k->tem_nXn_1);               // tem_nXn_1 : K*H
+    Matrix_Minor(&k->I, &k->tem_nXn_1, &k->tem_nXn_2);         // tem_nXn_2 : (eye(2)-K*H)
+    Matrix_Product(&k->tem_nXn_2, &k->P, &k->tem_nXn_1);       // tem_nXn_1 : (eye(2)-K*H)*P
+    Matrix_Add(&k->tem_nXn_1, &k->Zero, &k->P);
+
+    //Update Terminal
+    k->Terminal.speed = k->X_Posteriori.data[0][0];
+    k->Terminal.TL = k->X_Posteriori.data[1][0];
+    k->Terminal.error = k->e;
+}
+
+void Kalman3X3_Calculate(Kalman* k ,float theda , float u)
 {
 
     //X_Priori=A*X+B.*u;
