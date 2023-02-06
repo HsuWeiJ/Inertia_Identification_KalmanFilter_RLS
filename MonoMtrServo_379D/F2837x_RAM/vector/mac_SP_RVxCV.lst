@@ -1,0 +1,194 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_RVxCV.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mac_SP_RVxCV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable multiply-and-accumulate of a real vector and a 
+       5              ;;              complex vector
+       6              ;;! \author David M. Alter
+       7              ;;! \date   04/23/15
+       8              ;;
+       9              ;; HISTORY:
+      10              ;;    - original (D. Alter)
+      11              ;;
+      12              ;; DESCRIPTION: C-Callable multiply-and-accumulate of a real vector and a 
+      13              ;;              complex vector
+      14              ;                y_re = sum(x[i]*w_re[i])
+      15              ;                y_im = sum(x[i]*w_im[i])
+      16              ;;
+      17              ;; FUNCTION: 
+      18              ;;   extern complex_float mac_SP_RVxCV(const complex_float *w,
+      19              ;;                            const float32 *x, const Uint16 N)
+      20              ;;
+      21              ;; USAGE:       y = mac_SP_RVxCV(w, x, N);
+      22              ;;
+      23              ;; PARAMETERS:  complex_float *w = input complex array
+      24              ;;              float32 *x  = input real array
+      25              ;;              Uint16 N = length of w and x arrays
+      26              ;; 
+      27              ;; RETURNS:     complex_float y = complex result
+      28              ;; 
+      29              ;; BENCHMARK:   3*N + 28 cycles (including the call and return)
+      30              ;; 
+      31              ;; NOTES:
+      32              ;;   1) N must be at least 5, and can be odd or even.
+      33              ;;   2) The main loop is unrolled once, but does NOT require N to be even.
+      34              ;;      The N=odd case is handled by executing one iteration prior to the main
+      35              ;;      loop, and then executing the unrolled loop for the remaining even 
+      36              ;;      counts.
+      37              ;;   3) The inputs and return value are of type 'complex_float':
+      38              ;; 
+      39              ;;      typedef struct {
+      40              ;;         float32 dat[2];
+      41              ;;      } complex_float;
+      42              ;;
+      43              ;;  Group:            C2000
+      44              ;;  Target Family:    C28x+FPU32
+      45              ;;
+      46              ;;#############################################################################
+      47              ;;
+      48              ;;
+      49              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      50              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      51              ;;#############################################################################
+      52                  .if __TI_EABI__
+      53                  .asg mac_SP_RVxCV, _mac_SP_RVxCV
+      54                  .endif
+      55                  
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_RVxCV.asm                                           PAGE    2
+
+      56                  .global _mac_SP_RVxCV
+      57 00000000           .text
+      58              
+      59 00000000       _mac_SP_RVxCV:
+      60 00000000 E203      MOV32       *SP++,R7H      ;Save R7H (save-on-entry register)
+         00000001 07BD 
+      61 00000002 E203      MOV32       *SP++,R6H      ;Save R6H (save-on-entry register)
+         00000003 06BD 
+      62                              
+      63 00000004 E593      ZERO        R3H            ;Zero R3H (y_re accumulator)
+      64 00000005 E597      ZERO        R7H            ;Zero R7H (y_im accumulator)
+      65                                             
+      66 00000006 40A9      TBIT        AL, #0         ;Test if N odd or even (result stored in TC bit)
+      67 00000007 9C01      ADDB        AL, #1         ;Add 1 to properly handle the N=odd case (no 
+      68                                             ;effect on N=even case)
+      69 00000008 FFC0      LSR         AL, #1         ;Divide N by 2 (main loop is spatially unrolled 
+      70                                             ;once to eliminate delay slots)
+      71 00000009 9CFD      ADDB        AL, #-3        ;Subtract 3 since RPTB is 'n-1' times, and first
+      72                                             ;and last iterations done separately
+      73              
+      74 0000000a E2AF      MOV32       R0H, *XAR4++   ;load first w_re[i]
+         0000000b 0084 
+      75              
+      76              ;--- First loop iteration done separately to avoid having to zero R2H and R6H
+      77              ;    registers, and also for odd/even loop count control.
+      78 0000000c E2AF      MOV32       R1H, *XAR5++                ;load x[i]
+         0000000d 0185 
+      79 0000000e E300      MPYF32      R2H, R1H, R0H               ;R2H = x[i]*w_re[i]
+         0000000f 5084 
+      80                  || MOV32    R0H, *XAR4++                ;load w_im[i]
+      81 00000010 E300      MPYF32      R6H, R1H, R0H               ;R6H = x[i]*w_im[i]
+         00000011 7084 
+      82                  || MOV32    R0H, *XAR4++                ;load w_re[i+1]
+      83              
+      84 00000012 EE07      BF          line1, TC                   ;skip one MAC set if N was odd
+      85              
+      86 00000013 E2AF      MOV32       R1H, *XAR5++                ;load x[i+1]
+         00000014 0185 
+      87 00000015 E330      MACF32      R3H, R2H, R2H, R1H, R0H     ;y_re += R2H, R2H = x[i+1]*w_re[i+1]
+         00000016 5084 
+      88                  || MOV32    R0H, *XAR4++                ;load w_im[i+1]
+      89 00000017 E3C0      MACF32      R7H, R6H, R6H, R1H, R0H     ;y_im += R6H, R6H = x[i+1]*w_im[i+1]
+         00000018 7084 
+      90                  || MOV32    R0H, *XAR4++                ;load w_re[i]
+      91              
+      92              ;---Main loop
+      93 00000019       line1:
+      94 00000019 B50C      RPTB        end_loop, @AL
+         0000001a 00A9 
+      95              
+      96 0000001b E2AF      MOV32       R1H, *XAR5++                ;load x[i]
+         0000001c 0185 
+      97 0000001d E330      MACF32      R3H, R2H, R2H, R1H, R0H     ;y_re += R2H, R2H = x[i]*w_re[i]
+         0000001e 5084 
+      98                  || MOV32    R0H, *XAR4++                ;load w_im[i]
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_RVxCV.asm                                           PAGE    3
+
+      99 0000001f E3C0      MACF32      R7H, R6H, R6H, R1H, R0H     ;y_im += R6H, R6H = x[i]*w_im[i]
+         00000020 7084 
+     100                  || MOV32    R0H, *XAR4++                ;load w_re[i+1]
+     101                              
+     102 00000021 E2AF      MOV32       R1H, *XAR5++                ;load x[i+1]
+         00000022 0185 
+     103 00000023 E330      MACF32      R3H, R2H, R2H, R1H, R0H     ;y_re += R2H, R2H = x[i+1]*w_re[i+1]
+         00000024 5084 
+     104                  || MOV32    R0H, *XAR4++                ;load w_im[i+1]
+     105 00000025 E3C0      MACF32      R7H, R6H, R6H, R1H, R0H     ;y_im += R6H, R6H = x[i+1]*w_im[i+1]
+         00000026 7084 
+     106                  || MOV32    R0H, *XAR4++                ;load w_re[i]
+     107              
+     108 00000027       end_loop:
+     109              
+     110              ;--- Last loop iteration done separately to avoid pointer overrun and loading
+     111              ;    from possibly undefined memory
+     112 00000027 E2AF      MOV32       R1H, *XAR5++                ;load x[i]
+         00000028 0185 
+     113 00000029 E330      MACF32      R3H, R2H, R2H, R1H, R0H     ;y_re += R2H, R2H = x[i]*w_re[i]
+         0000002a 5084 
+     114                  || MOV32    R0H, *XAR4++                ;load w_im[i]
+     115 0000002b E3C0      MACF32      R7H, R6H, R6H, R1H, R0H     ;y_im += R6H, R6H = x[i]*w_im[i]
+         0000002c 7084 
+     116                  || MOV32    R0H, *XAR4++                ;load w_re[i+1]
+     117                              
+     118 0000002d E2AF      MOV32       R1H, *XAR5                  ;load x[i+1]
+         0000002e 01C5 
+     119 0000002f E330      MACF32      R3H, R2H, R2H, R1H, R0H     ;y_re += R2H, R2H = x[i+1]*w_re[i+1]
+         00000030 50C4 
+     120                  || MOV32    R0H, *XAR4                  ;load w_im[i+1]
+     121 00000031 E743      MACF32      R7H, R6H, R6H, R1H, R0H     ;y_im += R6H, R6H = x[i+1]*w_im[i+1]
+         00000032 7E0E 
+     122              
+     123              ;--- Final accumulations and result storage
+     124 00000033 7700      NOP                                     ;delay slot
+     125 00000034 E710      ADDF32      R3H, R3H, R2H               ;Final accumulate for y_re
+         00000035 009B 
+     126 00000036 E31D      ADDF32      R7H, R7H, R6H               ;Final accumulate for y_im
+         00000037 FEBE 
+     127                  || MOV32    R6H,*--SP                   ;Restore R6H
+     128              
+     129              ;Store the return value
+     130                      .if             __TI_EABI__
+     131                  MOV32       R0H, R3H                    ;store real part of return value
+     132                  MOV32       R1H, R7H                    ;store imag part of return value
+     133                  .else
+     134 00000038 E203      MOV32       *+XAR6[0], R3H              ;store real part of return value
+         00000039 03C6 
+     135 0000003a E203      MOV32       *+XAR6[2], R7H              ;store imag part of return value
+         0000003b 07D6 
+     136                  .endif
+     137              
+     138              ;Finish up
+     139 0000003c E2AF      MOV32       R7H,*--SP                   ;Restore R7H
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_RVxCV.asm                                           PAGE    4
+
+         0000003d 07BE 
+     140 0000003e 0006      LRETR                                   ;return
+     141              
+     142              ;end of function _mac_SP_RVxCV()
+     143              ;*********************************************************************
+     144              
+     145                  .end
+
+No Assembly Errors, No Assembly Warnings

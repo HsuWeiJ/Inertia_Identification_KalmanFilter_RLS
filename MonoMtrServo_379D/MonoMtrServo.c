@@ -132,7 +132,7 @@ int16	SerialCommsTimer;
 //****************************************************************************
 // Global variables used in this system
 //****************************************************************************
-char DAC_Switch = 3;
+char DAC_Switch = 4;
 char Angle_Switch = 0;
 int Initial_Cnt = 0;
 
@@ -152,6 +152,12 @@ Matrix test3;
 float result[4]={0,0,0,0};
 Kalman Kalman3X3_Handler;
 Kalman Kalman2X2_Handler;
+float tt1[9] = {1,2,3,4,5,6,7,8,9};
+float tt2[9] = {1,0,0,0,1,0,0,1,1};
+float tt3[9] = {0};
+float* fp1=tt1;
+float* fp2=tt2;
+float* fp3=tt3;
 
 
 #if BUILDLEVEL == LEVEL3
@@ -943,6 +949,10 @@ void main(void)
 
 	Kalman_Ini_3X3(&Kalman3X3_Handler);
 	Kalman_Ini_2X2(&Kalman2X2_Handler);
+	//mpy_SP_RMxRM(tt3, tt1, tt2, 3, 3, 3);
+//	Matrix_Dot_Product(tt2, 1.5, tt3 ,9);
+//	Matrix_Add(tt2, Kalman3X3_Handler.Zero, tt1, 9);
+	//memcpy_fast(fp1, fp2, 9);
 //	Matrix_Generate(&test1,2,2);
 //	Matrix_Generate(&test2,2,2);
 //	Matrix_Generate(&test3,2,2);
@@ -1732,7 +1742,6 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 // w.r.t. the index location
 // ------------------------------------------------------------------------------
 
-
 	if(!motor->RunMotor)
 		motor->lsw = 0;
 	else if (motor->lsw == 0)
@@ -1823,7 +1832,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 //  Kalman Filter
 // -----------------------------------------------------------------------------------
 	Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->park.Qs * BASE_CURRENT * KT);
-	Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed_est.term.Enhanced_SpeedEst_pu * BASE_FREQ * TWO_PI,  motor->park.Qs * BASE_CURRENT * KT);
+	Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->park.Qs * BASE_CURRENT * KT);
 
 // ------------------------------------------------------------------------------
 //    Connect inputs of the PI module and call the PID speed controller macro
@@ -1923,10 +1932,10 @@ inline void BuildLevel4(MOTOR_VARS * motor)
         SPIDAC_write_dac_channel(3, (motor->speed_est.term.AccEst/(2*PI)/(2*PI*BASE_FREQ))*2047 * DAC_Gain_D + 2048);
     }
     else if(DAC_Switch == 4){
-        SPIDAC_write_dac_channel(0, DAC_Gain_A);
-        SPIDAC_write_dac_channel(1, DAC_Gain_B);
-        SPIDAC_write_dac_channel(2, DAC_Gain_C);
-        SPIDAC_write_dac_channel(3, DAC_Gain_D);
+        SPIDAC_write_dac_channel(0, (motor->pi_spd.term.Ref)*2047 * DAC_Gain_A + 2048);
+        SPIDAC_write_dac_channel(1, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_B + 2048);
+        SPIDAC_write_dac_channel(2, (Kalman2X2_Handler.Terminal.speed/(2*PI*BASE_FREQ))*2047 * DAC_Gain_C + 2048);
+        SPIDAC_write_dac_channel(3, (Kalman3X3_Handler.Terminal.speed/(2*PI*BASE_FREQ))*2047 * DAC_Gain_D + 2048);
     }
 
     SPIDAC_update_all();//motor1.clarke.As,phase_volt

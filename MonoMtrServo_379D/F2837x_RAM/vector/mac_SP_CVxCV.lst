@@ -1,0 +1,169 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_CVxCV.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mac_SP_CVxCV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable multiply-and-accumulate of a complex vector and a 
+       5              ;;              complex vector
+       6              ;;! \author Vishal Coelho
+       7              ;;! \date   07/18/16
+       8              ;;
+       9              ;; HISTORY:
+      10              ;;    - original (V. Coelho)
+      11              ;;
+      12              ;; DESCRIPTION: C-Callable multiply-and-accumulate of a complex vector and a 
+      13              ;;              complex vector
+      14              ;;               y_re = sum(w_re[i]*x_re[i] - w_im[i]*x_im[i])
+      15              ;;               y_im = sum(w_re[i]*x_im[i] + w_im[i]*x_re[i])
+      16              ;;
+      17              ;; FUNCTION: 
+      18              ;;   extern complex_float mac_SP_CVxCV(const complex_float *w,
+      19              ;;                          const complex_float *x, const uint16_t N)
+      20              ;;
+      21              ;; USAGE:       y = mac_SP_CVxCV(w, x, N);
+      22              ;;
+      23              ;; PARAMETERS:  complex_float *w  = first input complex array
+      24              ;;              complex_float *x  = second input complex array
+      25              ;;              uint16_t N        = length of w and x arrays
+      26              ;; 
+      27              ;; RETURNS:     complex_float y = complex result
+      28              ;; 
+      29              ;; BENCHMARK:   5*N + 24 cycles (including the call and return)
+      30              ;; 
+      31              ;; NOTES:
+      32              ;;   1) N must be at least 3, and can be odd or even.
+      33              ;;   2) The inputs and return value are of type 'complex_float':
+      34              ;; 
+      35              ;;      typedef struct {
+      36              ;;         float32 dat[2];
+      37              ;;      } complex_float;
+      38              ;;
+      39              ;;  Group:            C2000
+      40              ;;  Target Family:    C28x+FPU32
+      41              ;;
+      42              ;;#############################################################################
+      43              ;;
+      44              ;;
+      45              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      46              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      47              ;;#############################################################################
+      48                  .if __TI_EABI__
+      49                  .asg mac_SP_CVxCV, _mac_SP_CVxCV
+      50                  .endif
+      51                  
+      52                  .global _mac_SP_CVxCV
+      53 00000000           .text
+      54                  
+      55 00000000       _mac_SP_CVxCV:
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_CVxCV.asm                                           PAGE    2
+
+      56 00000000 E203      MOV32   *SP++, R7H              ; save R7H to the stack
+         00000001 07BD 
+      57 00000002 E203      MOV32   *SP++, R6H              ; save R6H to the stack
+         00000003 06BD 
+      58 00000004 E203      MOV32   *SP++, R5H              ; save R5H to the stack
+         00000005 05BD 
+      59 00000006 E203      MOV32   *SP++, R4H              ; save R4H to the stack
+         00000007 04BD 
+      60                  
+      61 00000008 9CFD      SUBB    AL, #3                  ; AL = N-3 (-1 for RPTB, -2 since two
+      62                                                  ; iterations are done seperately from the
+      63                                                  ; main loop)        
+      64 00000009 E2AF      MOV32   R0H, *XAR4++            ;      R0H = w_re[0]
+         0000000a 0084 
+      65 0000000b E2AF      MOV32   R1H, *XAR5++            ;      R1H = x_re[0]
+         0000000c 0185 
+      66 0000000d E302      MPYF32  R3H, R0H, R1H           ; *|   R3H = w_re[0]*x_re[0]
+         0000000e 1C84 
+      67               || MOV32   R4H, *XAR4++            ;  |   R4H = w_im[0]
+      68 0000000f E303      MPYF32  R7H, R4H, R1H           ; 1|*| R7H = w_im[0]*x_re[0]
+         00000010 3D85 
+      69               || MOV32   R5H, *XAR5++            ;  | | R5H = x_im[0]
+      70 00000011 E30B      MPYF32  R2H, R4H, R5H           ; *|1| R2H = w_im[0]*x_im[0]
+         00000012 1185 
+      71               || MOV32   R1H, *XAR5++            ;  | | R1H = x_re[i]   
+      72 00000013 E30A      MPYF32  R6H, R0H, R5H           ; 1|*| R6H = w_re[0]*x_im[0]
+         00000014 3084 
+      73               || MOV32   R0H, *XAR4++            ;  | | R0H = w_re[i]
+      74 00000015 E6AF      NEGF32  R2H, R2H                ;  |1| R2H = -(w_im[0]*x_im[0]) 
+         00000016 0012 
+      75                  
+      76                  ;; Main Loop
+      77                  .align  2
+      78 00000018 B50A      RPTB    _mac_SP_CVxCV_loop, AL
+         00000019 00A9 
+      79                  ; R3H = (w_re[i]*x_re[i])-(w_im[i]*x_im[i]), R2H = w_re[i]*x_re[i]
+      80 0000001a E332      MACF32  R3H, R2H, R2H, R0H, R1H ; *| 
+         0000001b 1484 
+      81               || MOV32   R4H, *XAR4++            ;  |   R4H = w_im[i]
+      82                  ; R7H = (w_im[i]*x_re[i])+(w_re[i]*x_im[i]), R6H = w_im[i]*x_re[i]
+      83 0000001c E3C3      MACF32  R7H, R6H, R6H, R4H, R1H ; 1|*|
+         0000001d 3585 
+      84               || MOV32   R5H, *XAR5++            ;  | | R5H = x_im[i]
+      85                  ; R3H += (w_re[i]*x_re[i]), R2H = w_im[i]*x_im[i]
+      86 0000001e E33B      MACF32  R3H, R2H, R2H, R4H, R5H ; *|1|
+         0000001f 1185 
+      87               || MOV32   R1H, *XAR5++            ;  | | R1H = x_re[i+1]
+      88                  ; R7H += (w_im[i]*x_re[i]), R6H = w_re[i]*x_im[i]
+      89 00000020 E3CA      MACF32  R7H, R6H, R6H, R0H, R5H ; 1|*|
+         00000021 3084 
+      90               || MOV32   R0H, *XAR4++            ;  | | R0H = w_re[i+1]
+      91 00000022 E6AF      NEGF32  R2H, R2H                ;  |1| R2H = -(w_im[i]*x_im[i])
+         00000023 0012 
+      92 00000024       _mac_SP_CVxCV_loop:
+      93              
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mac_SP_CVxCV.asm                                           PAGE    3
+
+      94                  ;; Last Iteration
+      95                  ; R3H = (w_re[i]*x_re[i])-(w_im[i]*x_im[i]), R2H = w_re[i]*x_re[i]
+      96 00000024 E332      MACF32  R3H, R2H, R2H, R0H, R1H ; *| 
+         00000025 1484 
+      97               || MOV32   R4H, *XAR4++            ;  |   R4H = w_im[i]
+      98                  ; R7H = (w_im[i]*x_re[i])+(w_re[i]*x_im[i]), R6H = w_im[i]*x_re[i]
+      99 00000026 E3C3      MACF32  R7H, R6H, R6H, R4H, R1H ; 1|*|
+         00000027 3585 
+     100               || MOV32   R5H, *XAR5++            ;  | | R5H = x_im[i]
+     101                  ; R3H += (w_re[i]*x_re[i]), R2H = w_im[i]*x_im[i]
+     102 00000028 E33B      MACF32  R3H, R2H, R2H, R4H, R5H ; *|1|
+         00000029 14BE 
+     103               || MOV32   R4H, *--SP              ;  | | restore R4H
+     104                  ; R7H += (w_im[i]*x_re[i]), R6H = w_re[i]*x_im[i]
+     105 0000002a E3CA      MACF32  R7H, R6H, R6H, R0H, R5H ; 1|*|
+         0000002b 35BE 
+     106               || MOV32   R5H, *--SP              ;  | | restore R5H
+     107 0000002c E6AF      NEGF32  R2H, R2H                ;  |1| R2H = -(w_im[i]*x_im[i])
+         0000002d 0012 
+     108 0000002e E710      ADDF32  R3H, R3H, R2H           ; *| | R3H += -(w_im[i]*x_im[i]) {y_re}
+         0000002f 009B 
+     109 00000030 E31D      ADDF32  R7H, R7H, R6H           ; 1|*| R7H += (w_re[i]*x_im[i])  {y_im}
+         00000031 FEBE 
+     110               || MOV32   R6H, *--SP              ;  | | restore R6H    
+     111                      .if             __TI_EABI__
+     112                  MOV32   R0H, R3H                ;  |1| save y_re
+     113                  MOV32   R1H, R7H                ;  | | save y_im
+     114                  .else
+     115 00000032 E203      MOV32   *+XAR6[0], R3H          ;  |1| save y_re
+         00000033 03C6 
+     116 00000034 E203      MOV32   *+XAR6[2], R7H          ;  | | save y_im
+         00000035 07D6 
+     117                  .endif
+     118 00000036 E2AF      MOV32   R7H, *--SP              ;  | | restore R7H
+         00000037 07BE 
+     119                  
+     120 00000038 0006      LRETR               ; return
+     121              
+     122              ;end of function _mac_SP_CVxCV()
+     123              ;*********************************************************************
+     124              
+     125                  .end
+
+No Assembly Errors, No Assembly Warnings

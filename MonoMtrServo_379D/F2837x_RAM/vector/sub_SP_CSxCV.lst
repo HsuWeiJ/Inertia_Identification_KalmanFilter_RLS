@@ -1,0 +1,120 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:34 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/sub_SP_CSxCV.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/sub_SP_CSxCV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable subtraction of a complex scalar from a complex vector
+       5              ;;!           y_re[i] = x_re[i] - c_re
+       6              ;;!           y_im[i] = x_im[i] - c_im
+       7              ;;! \author David M. Alter
+       8              ;;! \date   07/15/11
+       9              ;;! 
+      10              ;; FUNCTION: 
+      11              ;;   extern void sub_SP_CSxCV(complex_float *y, const complex_float *x, 
+      12              ;;                            const complex_float c, const Uint16 N)
+      13              ;; 
+      14              ;; USAGE:       sub_SP_CSxCV(y, w, c, N);
+      15              ;; 
+      16              ;; PARAMETERS:  complex_float *y = result complex array
+      17              ;;              complex_float *x = input complex array
+      18              ;;              complex_float  c = input complex scalar
+      19              ;;              Uint16 N = length of x and y arrays
+      20              ;; 
+      21              ;; RETURNS:     none
+      22              ;; 
+      23              ;; BENCHMARK:   4*N + 19 cycles (including the call and return for COFF)
+      24              ;;              4*N + 16 cycles (including the call and return for EABI)
+      25              ;; 
+      26              ;; NOTES:
+      27              ;;   1) N must be at least 2.
+      28              ;;   2) The inputs and return value are of type 'complex_float':
+      29              ;; 
+      30              ;;      typedef struct {
+      31              ;;         float32 dat[2];
+      32              ;;      } complex_float;
+      33              ;;
+      34              ;;  Group:            C2000
+      35              ;;  Target Family:    C28x+FPU32
+      36              ;;
+      37              ;;#############################################################################
+      38              ;;
+      39              ;;
+      40              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      41              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      42              ;;#############################################################################
+      43                      .if __TI_EABI__
+      44                      .asg    sub_SP_CSxCV, _sub_SP_CSxCV
+      45                      .endif
+      46                  
+      47                      .global _sub_SP_CSxCV
+      48 00000000               .text
+      49              _sub_SP_CSxCV:
+      50                      .if         !__TI_EABI__
+      51 00000000 C444          MOVL        XAR6, *-SP[4]   ;XAR6 = &c
+      52 00000001 E2AF          MOV32       R0H, *XAR6++    ;R0H = c_re
+         00000002 0086 
+      53 00000003 E2AF          MOV32       R1H, *XAR6      ;R1H = c_im
+         00000004 01C6 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:34 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/sub_SP_CSxCV.asm                                           PAGE    2
+
+      54                      .endif
+      55              
+      56 00000005 E203          MOV32       *SP++, R4H      ;save R4H on stack
+         00000006 04BD 
+      57 00000007 9CFE          ADDB        AL, #-2         ;subtract 2 from N since RPTB is 'n-1' 
+      58                                                  ;times and last iteration done separately
+      59                                                  
+      60 00000008 E2AF          MOV32       R4H, *XAR5++    ;load first x_re[i]
+         00000009 0485 
+      61                                                  
+      62              ;---Main loop
+      63                              .align          2
+      64 0000000a 7700                  NOP                                                     ; odd align RPTB to allow for block s
+      65 0000000b B508          RPTB        end_loop, @AL   
+         0000000c 00A9 
+      66                                                  
+      67 0000000d E321          SUBF32      R2H, R4H, R0H   ;y_re[i] = x_re[i] - c_re
+         0000000e 1485 
+      68                   || MOV32       R4H, *XAR5++    ;load next x_im[i]
+      69                                                  
+      70 0000000f E323          SUBF32      R3H, R4H, R1H   ;y_im[i] = x_im[i] - c_im
+         00000010 1C85 
+      71                   || MOV32       R4H, *XAR5++    ;load next x_re[i]
+      72                                                  
+      73 00000011 E203          MOV32       *XAR4++, R2H    ;store y_re[i]
+         00000012 0284 
+      74 00000013 E203          MOV32       *XAR4++, R3H    ;store y_im[i]
+         00000014 0384 
+      75              
+      76 00000015       end_loop:
+      77              
+      78              ;--- Last iteration done separately to avoid possible pointer overrun into 
+      79              ;    undefined memory
+      80 00000015 E321          SUBF32      R2H, R4H, R0H   ;y_re[i] = x_re[i] - c_re
+         00000016 14C5 
+      81                   || MOV32       R4H, *XAR5      ;load next x_im[i]
+      82                                                  
+      83 00000017 E323          SUBF32      R3H, R4H, R1H   ;y_im[i] = x_im[i] - c_im
+         00000018 1CBE 
+      84                   || MOV32       R4H, *--SP      ;restore R4H from stack
+      85              
+      86 00000019 E203          MOV32       *XAR4++, R2H    ;store y_re[i]
+         0000001a 0284 
+      87 0000001b E203          MOV32       *XAR4, R3H      ;store y_im[i]
+         0000001c 03C4 
+      88              
+      89              ;Finish up
+      90 0000001d 0006          LRETR                       ;return
+      91              
+      92              ;end of function _sub_SP_CSxCV()
+      93              ;*********************************************************************
+      94              
+      95                     .end
+
+No Assembly Errors, No Assembly Warnings

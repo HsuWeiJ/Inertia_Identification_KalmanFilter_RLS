@@ -1,0 +1,132 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/iabs_SP_CV.asm                                             PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/iabs_SP_CV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable inverse absolute value of a complex vector
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/20/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/20/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable inverse absolute value of a complex vector
+      12              ;;
+      13              ;; FUNCTION: 
+      14              ;;   extern void iabs_SP_CV(float32 *y, const complex_float *x, const Uint16 N)
+      15              ;;
+      16              ;; USAGE:       iabs_SP_CV(y, x, N);
+      17              ;;
+      18              ;; PARAMETERS:  float32 *y = results array
+      19              ;;              complex_float *x = input array
+      20              ;;              Uint16 N = length of x and y arrays
+      21              ;;
+      22              ;; RETURNS:     none
+      23              ;;
+      24              ;; BENCHMARK:   25*N+13 cycles (including the call and return)
+      25              ;;
+      26              ;; NOTES:
+      27              ;;   1) The type 'complex_float' is defined as
+      28              ;;
+      29              ;;      typedef struct {
+      30              ;;         float32 dat[2];
+      31              ;;      } complex_float;
+      32              ;;
+      33              ;;    Element dat[0] is the real part, dat[1] is the imag part.
+      34              ;;
+      35              ;;  Group:            C2000
+      36              ;;  Target Family:    C28x+FPU32
+      37              ;;
+      38              ;;#############################################################################
+      39              ;;
+      40              ;;
+      41              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      42              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      43              ;;#############################################################################
+      44                      .if __TI_EABI__
+      45                      .asg iabs_SP_CV, _iabs_SP_CV
+      46                      .endif
+      47                  
+      48                      .global _iabs_SP_CV
+      49 00000000               .text
+      50              
+      51 00000000       _iabs_SP_CV:
+      52 00000000 9CFF          ADDB        AL, #-1         ;Subtract 1 from N since RPTB is 'n-1' 
+      53                                                  ;times
+      54              
+      55              ;---Main loop
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/iabs_SP_CV.asm                                             PAGE    2
+
+      56 00000001 B528          RPTB        end_loop, @AL
+         00000002 00A9 
+      57              
+      58              ;Compute the magnitude squared
+      59 00000003 E2AF          MOV32       R0H, *XAR5++    ;R0H = x_re
+         00000004 0085 
+      60 00000005 E300          MPYF32      R1H, R0H, R0H   ;R1H = x_re * x_re
+         00000006 0A85 
+      61                      || MOV32    R2H, *XAR5++    ;R2H = x_im
+      62 00000007 E700          MPYF32      R3H, R2H, R2H   ;R3H = x_im * x_im (also delay slot for 
+         00000008 0093 
+      63                                                  ;MPYF32||MOV32)
+      64 00000009 7700          NOP                         ;delay slot
+      65 0000000a E710          ADDF32      R0H, R1H, R3H   ;R0H = (x_re * x_re) + (x_im * x_im)
+         0000000b 00C8 
+      66 0000000c 7700          NOP                         ;delay slot
+      67              
+      68              ;Compute 1/sqrt.  Use the code from the DSP28 Fast FPU Library!
+      69 0000000d E692          EISQRTF32   R1H,R0H         ;R1H = Ye = Estimate(1/sqrt(X))        
+         0000000e 0001 
+      70 0000000f E84F          MPYF32      R2H,R0H,#0.5    ;R2H = X*0.5
+         00000010 C002 
+      71 00000011 E700          MPYF32      R3H,R1H,R1H     ;R3H = Ye*Ye
+         00000012 004B 
+      72 00000013 7700          NOP                         ;delay slot
+      73 00000014 E700          MPYF32      R3H,R3H,R2H     ;R3H = Ye*Ye*X*0.5
+         00000015 009B 
+      74 00000016 7700          NOP                         ;delay slot
+      75 00000017 E8CF          SUBF32      R3H,#1.5,R3H    ;R3H = 1.5 - Ye*Ye*X*0.5
+         00000018 F01B 
+      76 00000019 7700          NOP                         ;delay slot
+      77 0000001a E700          MPYF32      R1H,R1H,R3H     ;R2H = Ye = Ye*(1.5 - Ye*Ye*X*0.5)
+         0000001b 00C9 
+      78 0000001c 7700          NOP                         ;delay slot
+      79              
+      80 0000001d E700          MPYF32      R3H,R1H,R2H     ;R3H = Ye*X*0.5
+         0000001e 008B 
+      81 0000001f 7700          NOP                         ;delay slot
+      82 00000020 E700          MPYF32      R3H,R1H,R3H     ;R3H = Ye*Ye*X*0.5
+         00000021 00CB 
+      83 00000022 7700          NOP                         ;delay slot
+      84 00000023 E8CF          SUBF32      R3H,#1.5,R3H    ;R3H = 1.5 - Ye*Ye*X*0.5
+         00000024 F01B 
+      85 00000025 7700          NOP                         ;delay slot
+      86 00000026 E700          MPYF32      R0H,R1H,R3H     ;R0H = Ye = Ye*(1.5 - Ye*Ye*X*0.5)
+         00000027 00C8 
+      87 00000028 7700          NOP                         ;delay slot
+      88              
+      89 00000029 E203          MOV32       *XAR4++, R0H    ;store the result to memory
+         0000002a 0084 
+      90              
+      91 0000002b       end_loop:
+      92              
+      93              ;Finish up
+      94 0000002b 0006          LRETR                       ;return
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/iabs_SP_CV.asm                                             PAGE    3
+
+      95              
+      96              ;end of function iabs_SP_CV()
+      97              ;*********************************************************************
+      98              
+      99                     .end
+
+No Assembly Errors, No Assembly Warnings

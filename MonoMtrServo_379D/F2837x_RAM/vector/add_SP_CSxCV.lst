@@ -1,0 +1,131 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CSxCV.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/add_SP_CSxCV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable addition of a complex scalar from a complex vector
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/15/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/15/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable addition of a complex scalar from a complex vector
+      12              ;;              y_re[i] = x_re[i] + c_re
+      13              ;;              y_im[i] = x_im[i] + c_im
+      14              ;;
+      15              ;; FUNCTION: 
+      16              ;;   extern void add_SP_CSxCV(complex_float *y, const complex_float *x, 
+      17              ;;                            const complex_float c, const Uint16 N)
+      18              ;;
+      19              ;; USAGE:        add_SP_CVxCV(y, w, c, N);
+      20              ;;
+      21              ;; PARAMETERS:  complex_float *y = result complex array
+      22              ;;              complex_float *x = input complex array
+      23              ;;              complex_float  c = input complex _scalar
+      24              ;;              Uint16 N = length of x and y arrays
+      25              ;;
+      26              ;; RETURNS:        none
+      27              ;;
+      28              ;; BENCHMARK:   4*N + 19 cycles (including the call and return for COFF)
+      29              ;;              4*N + 16 cycles (including the call and return for EABI)
+      30              ;;
+      31              ;; NOTES:
+      32              ;;   1) N must be at least 2.
+      33              ;;   2) The inputs and return value are of type 'complex_float':
+      34              ;;
+      35              ;;      typedef struct {
+      36              ;;         float32 dat[2];
+      37              ;;      } complex_float;
+      38              ;;
+      39              ;;  Group:            C2000
+      40              ;;  Target Family:    C28x+FPU32
+      41              ;;
+      42              ;;#############################################################################
+      43              ;;
+      44              ;;
+      45              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      46              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      47              ;;#############################################################################
+      48                      .if __TI_EABI__
+      49                      .asg add_SP_CSxCV, _add_SP_CSxCV
+      50                      .endif
+      51                      
+      52                      .global _add_SP_CSxCV
+      53 00000000               .text
+      54              _add_SP_CSxCV:                      
+      55                      .if         !__TI_EABI__
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CSxCV.asm                                           PAGE    2
+
+      56 00000000 C444          MOVL        XAR6, *-SP[4]     ;XAR6 = &c
+      57 00000001 E2AF          MOV32       R0H, *XAR6++      ;R0H = c_re
+         00000002 0086 
+      58 00000003 E2AF          MOV32       R1H, *XAR6        ;R1H = c_im
+         00000004 01C6 
+      59                      .endif 
+      60 00000005 E203          MOV32       *SP++, R4H        ;save R4H on stack
+         00000006 04BD 
+      61 00000007 9CFE          ADDB        AL, #-2           ;subtract 2 from N since RPTB is 'n-1' 
+      62                                                    ;times and last iteration done separately
+      63                                                  
+      64              
+      65                                                  
+      66 00000008 E2AF          MOV32       R4H, *XAR5++      ;load first x_re[i]
+         00000009 0485 
+      67                                                  
+      68              ;---Main loop   
+      69                      .align      2
+      70 0000000a 7700          NOP                                                       ; odd align RPTB to allow block size 8
+      71 0000000b B508          RPTB        end_loop, @AL   
+         0000000c 00A9 
+      72                                                  
+      73 0000000d E311          ADDF32      R2H, R4H, R0H     ;y_re[i] = x_re[i] + c_re
+         0000000e 1485 
+      74                      || MOV32    R4H, *XAR5++      ;load next x_im[i]
+      75                                                  
+      76 0000000f E313          ADDF32      R3H, R4H, R1H     ;y_im[i] = x_im[i] + c_im
+         00000010 1C85 
+      77                      || MOV32    R4H, *XAR5++      ;load next x_re[i]
+      78                                                  
+      79 00000011 E203          MOV32       *XAR4++, R2H      ;store y_re[i]
+         00000012 0284 
+      80 00000013 E203          MOV32       *XAR4++, R3H      ;store y_im[i]
+         00000014 0384 
+      81              
+      82 00000015       end_loop:
+      83              
+      84              ;--- Last iteration done separately to avoid possible pointer overrun into 
+      85              ;    undefined memory
+      86 00000015 E311          ADDF32      R2H, R4H, R0H     ;y_re[i] = x_re[i] + c_re
+         00000016 14C5 
+      87                      || MOV32    R4H, *XAR5        ;load next x_im[i]
+      88              
+      89 00000017 E313          ADDF32      R3H, R4H, R1H     ;y_im[i] = x_im[i] + c_im
+         00000018 1CBE 
+      90                      || MOV32    R4H, *--SP        ;restore R4H from stack
+      91              
+      92 00000019 E203          MOV32       *XAR4++, R2H      ;store y_re[i]
+         0000001a 0284 
+      93 0000001b E203          MOV32       *XAR4, R3H        ;store y_im[i]
+         0000001c 03C4 
+      94              
+      95              ;Finish up
+      96 0000001d 0006          LRETR                         ;return
+      97              
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CSxCV.asm                                           PAGE    3
+
+      98              ;end of function _add_SP_CSxCV()
+      99              ;*********************************************************************
+     100              
+     101                     .end
+
+No Assembly Errors, No Assembly Warnings

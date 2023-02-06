@@ -1,0 +1,195 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_2.asm                                            PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/abs_SP_CV_2.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable absolute value of an even length complex vector.
+       5              ;;! \author David M. Alter
+       6              ;;! \date   06/21/13
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   10/05/11 - Fixed bug that caused bad results if an odd indexed
+      10              ;;              complex input element was zero (re[i]=im[i]=0, i=odd).
+      11              ;;   07/20/11 - original (D. Alter)
+      12              ;;
+      13              ;; DESCRIPTION: C-Callable absolute value of an even length complex vector.
+      14              ;;              y[i] = sqrt(x_re[i]^2 + x_im[i]^2)
+      15              ;;
+      16              ;; FUNCTION: 
+      17              ;;  extern void abs_SP_CV_2(float32 *y, const complex_float *x, const Uint16 N)
+      18              ;;
+      19              ;; USAGE:        abs_SP_CV_2(x, y, N);
+      20              ;;
+      21              ;; PARAMETERS:     float32 *y = output array
+      22              ;;               complex_float *x = input array
+      23              ;;               Uint16 N = length of x and y arrays
+      24              ;;
+      25              ;; RETURNS:         none
+      26              ;;
+      27              ;; BENCHMARK:     18*N+22 cycles (including the call and return)
+      28              ;;
+      29              ;; NOTES:
+      30              ;;   1) N must be even.
+      31              ;;   2) The type 'complex_float' is defined as
+      32              ;;
+      33              ;;      typedef struct {
+      34              ;;         float32 dat[2];
+      35              ;;      } complex_float;
+      36              ;;
+      37              ;;    Element dat[0] is the real part, dat[1] is the imag part.
+      38              ;;
+      39              ;;  Group:            C2000
+      40              ;;  Target Family:    C28x+FPU32
+      41              ;;
+      42              ;;#############################################################################
+      43              ;;
+      44              ;;
+      45              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      46              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      47              ;;#############################################################################
+      48                              .if __TI_EABI__
+      49                              .asg abs_SP_CV_2, _abs_SP_CV_2
+      50                              .endif
+      51              
+      52                      .global _abs_SP_CV_2
+      53 00000000               .text
+      54              
+      55 00000000       _abs_SP_CV_2:
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_2.asm                                            PAGE    2
+
+      56              ;Save the utilized save on entry registers
+      57 00000000 E203          MOV32 *SP++, R4H                ;save R4H on stack
+         00000001 04BD 
+      58 00000002 E203          MOV32 *SP++, R5H                ;save R5H on stack
+         00000003 05BD 
+      59 00000004 E203          MOV32 *SP++, R6H                ;save R6H on stack
+         00000005 06BD 
+      60 00000006 E203          MOV32 *SP++, R7H                ;save R7H on stack
+         00000007 07BD 
+      61              
+      62              ;---Main loop.  Unroll once to eliminate delay slots.  Code that follows
+      63              ;---has the two loop iterations heavily interleaved.  Code comments use
+      64              ;---the notation x1, x2 to differentiate between loop iterations.
+      65 00000008 FFC0          LSR AL, #1                      ;Divide N by 2
+      66 00000009 9CFF          ADDB AL, #-1                    ;Subtract 1 from N since RPTB is 'n-1' times
+      67 0000000a B546          RPTB end_loop, @AL
+         0000000b 00A9 
+      68              
+      69              ;Compute the magnitude squared
+      70 0000000c E2AF          MOV32 R0H, *XAR5++              ;R0H = x1_re
+         0000000d 0085 
+      71 0000000e E300          MPYF32 R1H, R0H, R0H            ;R1H = x1_re * x1_re
+         0000000f 0A85 
+      72                      || MOV32 R2H, *XAR5++           ;R2H = x1_im
+      73              
+      74 00000010 E2AF          MOV32 R4H, *XAR5++              ;R4H = x2_re
+         00000011 0485 
+      75 00000012 E309          MPYF32 R5H, R4H, R4H            ;R5H = x2_re * x2_re]
+         00000013 2E85 
+      76                      || MOV32 R6H, *XAR5++           ;R6H = x2_im
+      77              
+      78 00000014 E700          MPYF32 R3H, R2H, R2H            ;R3H = x1_im * x_im1
+         00000015 0093 
+      79 00000016 E700          MPYF32 R7H, R6H, R6H            ;R7H = x2_im * x_im2
+         00000017 01B7 
+      80 00000018 E710          ADDF32 R0H, R1H, R3H            ;R0H = (x1_re * x1_re) + (x1_im * x1_im)
+         00000019 00C8 
+      81 0000001a E710          ADDF32 R4H, R5H, R7H            ;R4H = (x2_re * x2_re) + (x2_im * x2_im)
+         0000001b 01EC 
+      82              
+      83              ;Compute sqrt.  Use the code from the DSP28 Fast FPU Library!
+      84 0000001c E692          EISQRTF32   R1H, R0H            ;R1H = Ye1 = Estimate(1/sqrt(X1))
+         0000001d 0001 
+      85 0000001e E84F          MPYF32      R2H, R0H, #0.5      ;R2H = X1*0.5
+         0000001f C002 
+      86 00000020 E692          EISQRTF32   R5H, R4H            ;R5H = Ye2 = Estimate(1/sqrt(X2))        
+         00000021 0025 
+      87 00000022 E84F          MPYF32      R6H, R4H, #0.5      ;R6H = X2*0.5
+         00000023 C026 
+      88              
+      89 00000024 E700          MPYF32      R3H, R1H, R1H       ;R3H = Ye1*Ye1
+         00000025 004B 
+      90 00000026 E700          MPYF32      R7H, R5H, R5H       ;R7H = Ye2*Ye2
+         00000027 016F 
+      91 00000028 E700          MPYF32      R3H, R3H, R2H       ;R3H = Ye1*Ye1*X1*0.5
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_2.asm                                            PAGE    3
+
+         00000029 009B 
+      92 0000002a E700          MPYF32      R7H, R7H, R6H       ;R7H = Ye2*Ye2*X2*0.5
+         0000002b 01BF 
+      93 0000002c E8CF          SUBF32      R3H, #1.5, R3H      ;R3H = 1.5 - Ye1*Ye1*X1*0.5
+         0000002d F01B 
+      94 0000002e E8CF          SUBF32      R7H, #1.5, R7H      ;R7H = 1.5 - Ye2*Ye2*X2*0.5
+         0000002f F03F 
+      95 00000030 E700          MPYF32      R1H, R1H, R3H       ;R2H = Ye1 = Ye1*(1.5 - Ye1*Ye1*X1*0.5)
+         00000031 00C9 
+      96 00000032 E700          MPYF32      R5H, R5H, R7H       ;R6H = Ye2 = Ye2*(1.5 - Ye2*Ye2*X2*0.5)
+         00000033 01ED 
+      97 00000034 E700          MPYF32      R3H, R1H, R2H       ;R3H = Ye1*X1*0.5
+         00000035 008B 
+      98 00000036 E700          MPYF32      R7H, R5H, R6H       ;R7H = Ye2*X2*0.5
+         00000037 01AF 
+      99 00000038 E700          MPYF32      R3H, R1H, R3H       ;R3H = Ye1*Ye1*X1*0.5
+         00000039 00CB 
+     100 0000003a E700          MPYF32      R7H, R5H, R7H       ;R7H = Ye2*Ye2*X2*0.5
+         0000003b 01EF 
+     101              
+     102 0000003c E8CF          SUBF32      R3H, #1.5, R3H      ;R3H = 1.5 - Ye1*Ye1*X1*0.5
+         0000003d F01B 
+     103 0000003e E5A0          CMPF32      R0H, #0.0           ;Check if X1 == 0
+     104 0000003f E700          MPYF32      R1H, R1H, R3H       ;R1H = Ye1 = Ye1*(1.5 - Ye1*Ye1*X1*0.5)
+         00000040 00C9 
+     105 00000041 E8CF          SUBF32      R7H, #1.5, R7H      ;R7H = 1.5 - Ye2*Ye2*X2*0.5
+         00000042 F03F 
+     106 00000043 E6C1          MOV32       R1H, R0H, EQ        ;If X1 is zero, change the Ye1 estimate to 0
+         00000044 0001 
+     107 00000045 E5A4          CMPF32      R4H, #0.0           ;Check if X2 == 0
+     108 00000046 E700          MPYF32      R5H, R5H, R7H       ;R5H = Ye2 = Ye2*(1.5 - Ye2*Ye2*X2*0.5)
+         00000047 01ED 
+     109 00000048 E700          MPYF32      R0H, R0H, R1H       ;R0H = Y1 = X1*Ye1 = sqrt(X1)
+         00000049 0040 
+     110 0000004a E6C1          MOV32       R5H, R4H, EQ        ;If X2 is zero, change the Ye2 estimate to 0
+         0000004b 0025 
+     111 0000004c E700          MPYF32      R4H, R4H, R5H       ;R4H = Y2 = X2*Ye2 = sqrt(X2)
+         0000004d 0164 
+     112              
+     113 0000004e E203          MOV32 *XAR4++, R0H              ;store the first result to memory
+         0000004f 0084 
+     114 00000050 E203          MOV32 *XAR4++, R4H              ;store the second result to memory
+         00000051 0484 
+     115              
+     116 00000052       end_loop:
+     117              
+     118              ;Restore the utilized save on entry register
+     119 00000052 E2AF          MOV32 R7H, *--SP                ;restore R7H from stack
+         00000053 07BE 
+     120 00000054 E2AF          MOV32 R6H, *--SP                ;restore R6H from stack
+         00000055 06BE 
+     121 00000056 E2AF          MOV32 R5H, *--SP                ;restore R5H from stack
+         00000057 05BE 
+     122 00000058 E2AF          MOV32 R4H, *--SP                ;restore R4H from stack
+         00000059 04BE 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_2.asm                                            PAGE    4
+
+     123              
+     124              ;Finish up
+     125 0000005a 0006          LRETR                           ;return
+     126              
+     127              ;end of function abs_SP_CV_2()
+     128              ;*********************************************************************
+     129              
+     130                     .end
+
+No Assembly Errors, No Assembly Warnings

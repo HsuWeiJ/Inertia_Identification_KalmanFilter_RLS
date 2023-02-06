@@ -45,5 +45,7 @@ Include project specific include files.
 #include "SpeedLoop.h"
 #include "Filter.h"
 #include "KalmanFilter_RLS.h"
+#include "dsp.h"
+#include "fpu32/fpu_vector.h"
 
 #endif /* MONOMTRSERVO_H_ */

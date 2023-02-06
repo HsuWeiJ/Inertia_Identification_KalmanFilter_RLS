@@ -1,0 +1,127 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CVxCV.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/add_SP_CVxCV.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable addition of a complex vector and a complex vector
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/15/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/15/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable addition of a complex vector and a complex vector
+      12              ;;              y_re[i] = w_re[i] + x_re[i]
+      13              ;;              y_im[i] = w_im[i] + x_im[i]
+      14              ;;
+      15              ;; FUNCTION: 
+      16              ;;   extern void add_SP_CVxCV(complex_float *y, const complex_float *w, 
+      17              ;;                            const complex_float *x, const Uint16 N)
+      18              ;;
+      19              ;; USAGE:       add_SP_CVxCV(y, w, x, N);
+      20              ;;
+      21              ;; PARAMETERS:  complex_float *y = result complex array
+      22              ;;              complex_float *w = input complex array #1
+      23              ;;              complex_float *x = input complex array #2
+      24              ;;              Uint16 N = length of w, x, and y arrays
+      25              ;;
+      26              ;; RETURNS:     none
+      27              ;;
+      28              ;; BENCHMARK:   6*N + 15 cycles (including the call and return)
+      29              ;;
+      30              ;; NOTES:
+      31              ;;   1) N must be at least 2.
+      32              ;;   2) The inputs and return value are of type 'complex_float':
+      33              ;;
+      34              ;;      typedef struct {
+      35              ;;         float32 dat[2];
+      36              ;;      } complex_float;
+      37              ;;
+      38              ;;  Group:            C2000
+      39              ;;  Target Family:    C28x+FPU32
+      40              ;;
+      41              ;;#############################################################################
+      42              ;;
+      43              ;;
+      44              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      45              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      46              ;;#############################################################################
+      47                      .if __TI_EABI__
+      48                      .asg add_SP_CVxCV, _add_SP_CVxCV
+      49                      .endif
+      50                      
+      51                      .global _add_SP_CVxCV
+      52 00000000               .text
+      53 00000000       _add_SP_CVxCV:
+      54 00000000 C444          MOVL        XAR6, *-SP[4]   ;XAR6 = &x
+      55 00000001 9CFE          ADDB        AL, #-2         ;subtract 2 from N since RPTB is 'n-1' 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CVxCV.asm                                           PAGE    2
+
+      56                                                  ;times and last iteration done separately
+      57 00000002 E2AF          MOV32       R0H, *XAR5++    ;load first w_re[i]
+         00000003 0085 
+      58              
+      59              ;---Main loop
+      60 00000004 B50C          RPTB        end_loop, @AL
+         00000005 00A9 
+      61 00000006 E2AF          MOV32       R1H, *XAR6++    ;load next x_re[i]
+         00000007 0186 
+      62              
+      63 00000008 E312          ADDF32      R2H, R0H, R1H   ;y_re[i] = w_re[i] + x_re[i]
+         00000009 1085 
+      64                      || MOV32    R0H, *XAR5++    ;load w_im[i]
+      65              
+      66 0000000a E2AF          MOV32       R1H, *XAR6++    ;load x_im[i]    
+         0000000b 0186 
+      67              
+      68 0000000c E312          ADDF32      R3H, R0H, R1H   ;y_im[i] = w_im[i] + x_im[i]
+         0000000d 1885 
+      69                      || MOV32    R0H, *XAR5++    ;load next w_re[i]
+      70              
+      71 0000000e E203          MOV32       *XAR4++, R2H    ;store y_re[i]
+         0000000f 0284 
+      72 00000010 E203          MOV32       *XAR4++, R3H    ;store y_im[i]
+         00000011 0384 
+      73              
+      74 00000012       end_loop:
+      75              
+      76              ;--- Last iteration done separately to avoid possible pointer overrun into 
+      77              ;    undefined memory
+      78 00000012 E2AF          MOV32        R1H, *XAR6++               ;load next x_re[i]
+         00000013 0186 
+      79              
+      80 00000014 E312          ADDF32      R2H, R0H, R1H               ;y_re[i] = w_re[i] + x_re[i]
+         00000015 10C5 
+      81                      || MOV32    R0H, *XAR5                  ;load w_im[i]
+      82              
+      83 00000016 E2AF          MOV32       R1H, *XAR6                  ;load x_im[i]    
+         00000017 01C6 
+      84              
+      85 00000018 E710          ADDF32      R3H, R0H, R1H               ;y_im[i] = w_im[i] + x_im[i]
+         00000019 0043 
+      86              
+      87 0000001a E203          MOV32       *XAR4++, R2H                ;store y_re[i]
+         0000001b 0284 
+      88 0000001c E203          MOV32       *XAR4++, R3H                ;store y_im[i]
+         0000001d 0384 
+      89              
+      90              ;Finish up
+      91 0000001e 0006          LRETR                                   ;return
+      92              
+      93              ;end of function _add_SP_CVxCV()
+      94              ;*********************************************************************
+      95              
+      96                     .end
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/add_SP_CVxCV.asm                                           PAGE    3
+
+
+No Assembly Errors, No Assembly Warnings

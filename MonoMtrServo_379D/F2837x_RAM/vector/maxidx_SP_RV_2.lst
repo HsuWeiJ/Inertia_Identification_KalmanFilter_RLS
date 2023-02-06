@@ -1,0 +1,115 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/maxidx_SP_RV_2.asm                                         PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/maxidx_SP_RV_2.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable index of maximum value of an even length  real array
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/20/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/20/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable index of maximum value of an even length  real array
+      12              ;;
+      13              ;; FUNCTION:    extern Uint16 maxidx_SP_RV_2(const float32 *x, const Uint16 N);
+      14              ;;
+      15              ;; USAGE:       index = maxidx_SP_RV_2(x, N);
+      16              ;;
+      17              ;; PARAMETERS:  float32 x = input array
+      18              ;;              Uint16 N = length of x
+      19              ;;
+      20              ;; RETURNS:     Uint16 index = index of maximum value in x
+      21              ;;
+      22              ;; BENCHMARK:   3N+21 cycles (including the call and return)
+      23              ;;
+      24              ;; NOTES:
+      25              ;;   1) N must be even.
+      26              ;;   2) If more than one instance of the max value exists in x[], the function
+      27              ;;      will return the index of the first occurrence (lowest index value).
+      28              ;;   3) Register usage:
+      29              ;;      R3H = index_candidate
+      30              ;;      R2H = index
+      31              ;;      R1H = max_candidate
+      32              ;;      R0H = max
+      33              ;;      XAR4 = pointer to x array
+      34              ;;
+      35              ;;  Group:            C2000
+      36              ;;  Target Family:    C28x+FPU32
+      37              ;;
+      38              ;;#############################################################################
+      39              ;;
+      40              ;;
+      41              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      42              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      43              ;;#############################################################################
+      44                  .if __TI_EABI__
+      45                  .asg maxidx_SP_RV_2, _maxidx_SP_RV_2
+      46                  .endif
+      47                  
+      48                  .global _maxidx_SP_RV_2
+      49 00000000           .text
+      50              
+      51 00000000       _maxidx_SP_RV_2:
+      52              ;Start with x[0] as the assumed max
+      53 00000000 E2AF          MOV32       R0H, *XAR4      ;R0H = x[0] (initial max is first element 
+         00000001 00C4 
+      54                                                  ;in x[])
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/maxidx_SP_RV_2.asm                                         PAGE    2
+
+      55 00000002 E592          ZERO        R2H             ;R2H = 0.0 (initial index is 0)
+      56 00000003 E805          MOVIZF32    R3H, #-1.0      ;R3H = -1.0 (index_candidate, need to start 
+         00000004 FC03 
+      57                                                  ;at -1 because loop immediately increments)
+      58 00000005 FFC0          LSR         AL, #1          ;Divide N by 2
+      59 00000006 9CFF          ADDB        AL, #-1         ;Subtract 1 from N since RPTB is 'n-1' 
+      60                                                  ;times
+      61              
+      62              ;Main loop
+      63 00000007 B50C          RPTB        end_loop, @AL
+         00000008 00A9 
+      64 00000009 E88F          ADDF32      R3H, R3H, #1.0  ;increment index candidate
+         0000000a E01B 
+      65 0000000b E2AF          MOV32       R1H, *XAR4++    ;max candidate = x[i] (also delay slot for 
+         0000000c 0184 
+      66                                                  ;ADDF32)
+      67                      ;if max < max_candidate, then max = max_candidate 
+      68                      ;and index = index_candidate
+      69 0000000d E69C          MAXF32      R0H, R1H        ;if R0H < R1H, then R0H=R1H and R2H=R3H
+         0000000e 0688 
+      70                      || MOV32    R2H, R3H 
+      71 0000000f E88F          ADDF32      R3H, R3H, #1.0  ;increment index candidate
+         00000010 E01B 
+      72 00000011 E2AF          MOV32       R1H, *XAR4++    ;max candidate = x[i] (also delay slot for 
+         00000012 0184 
+      73                                                  ;ADDF32)
+      74                      ;if max < max_candidate, then max = max_candidate 
+      75                      ;and index = index_candidate
+      76 00000013 E69C          MAXF32      R0H, R1H        ;if R0H < R1H, then R0H=R1H and R2H=R3H
+         00000014 0688 
+      77                      || MOV32    R2H, R3H 
+      78 00000015       end_loop:
+      79              
+      80              ;Prepare the return value
+      81 00000015 E68E          F32TOUI16   R2H, R2H        ;convert index from float32 to Uint16
+         00000016 0012 
+      82 00000017 7700          NOP                         ;delay slot for F32TOUI16 
+      83 00000018 7700          NOP                         ;alignment cycle for trailing MOV32
+      84 00000019 BFA9          MOV32       ACC, R2H    
+         0000001a 0F1A 
+      85                  
+      86              ;Finish up  
+      87 0000001b 0006          LRETR                       ;return
+      88              
+      89              ;end of function maxidx_SP_RV_2()
+      90              ;*********************************************************************
+      91              
+      92                     .end
+
+No Assembly Errors, No Assembly Warnings

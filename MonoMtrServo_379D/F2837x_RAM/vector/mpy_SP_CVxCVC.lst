@@ -1,0 +1,113 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_CVxCVC.asm                                          PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mpy_SP_CVxCVC.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable multiplication of a complex vector (w) and the complex 
+       5              ;;!         conjugate of a complex vector (x)
+       6              ;;! \author David M. Alter
+       7              ;;! \date   07/15/11
+       8              ;;
+       9              ;; HISTORY:
+      10              ;;   07/15/11 - original (D. Alter)
+      11              ;;
+      12              ;; DESCRIPTION: C-Callable multiplication of a complex vector (w) and the 
+      13              ;;              complex conjugate of a complex vector (x)
+      14              ;;              xconj_re[i] = x_re[i]
+      15              ;;              xconj_im[i] = - x_im[i]
+      16              ;;              y_re[i] = w_re[i]*x_re[i] - w_im[i]*xconj_im[i]
+      17              ;;              y_im[i] = w_re[i]*xconj_im[i] + w_im[i]*x_re[i]
+      18              ;;
+      19              ;; FUNCTION: 
+      20              ;;   extern void mpy_SP_CVxCVC(complex_float *y, const complex_float *w, 
+      21              ;;                     const complex_float *x, const Uint16 N)
+      22              ;;
+      23              ;; USAGE:       mpy_SP_CVxCVC(y, w, x, N);
+      24              ;;
+      25              ;; PARAMETERS:  complex_float *y = result complex array
+      26              ;;              complex_float *w = input complex array #1
+      27              ;;              complex_float *x = input complex array #2
+      28              ;;              Uint16 N = length of w, x, and y arrays
+      29              ;;
+      30              ;; RETURNS:     none
+      31              ;;
+      32              ;; BENCHMARK:   11*N + 16 cycles (including the call and return)
+      33              ;;
+      34              ;; NOTES:
+      35              ;;   1) The inputs and return value is of type 'complex_float':
+      36              ;;
+      37              ;;      typedef struct {
+      38              ;;         float32 dat[2];
+      39              ;;      } complex_float;
+      40              ;;
+      41              ;;  Group:            C2000
+      42              ;;  Target Family:    C28x+FPU32
+      43              ;;
+      44              ;;#############################################################################
+      45              ;;
+      46              ;;
+      47              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      48              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      49              ;;#############################################################################
+      50                      .if __TI_EABI__
+      51                      .asg mpy_SP_CVxCVC, _mpy_SP_CVxCVC
+      52                      .endif
+      53                  
+      54                      .global _mpy_SP_CVxCVC
+      55 00000000               .text
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_CVxCVC.asm                                          PAGE    2
+
+      56 00000000       _mpy_SP_CVxCVC:
+      57 00000000 C444          MOVL        XAR6, *-SP[4]    ;XAR6 = &x
+      58 00000001 E203          MOV32       *SP++, R4H       ;save R4H on stack
+         00000002 04BD 
+      59 00000003 9CFF          ADDB        AL, #-1          ;Subtract 1 from N since RPTB is 'n-1' 
+      60                                                   ;times
+      61                                                 
+      62              ;---Main loop                      
+      63 00000004 B516          RPTB        end_loop, @AL  
+         00000005 00A9 
+      64                                                 
+      65 00000006 E2AF          MOV32       R0H, *XAR5++     ;R0H = w_re
+         00000007 0085 
+      66 00000008 E2AF          MOV32       R2H, *XAR6++     ;R2H = x_re
+         00000009 0286 
+      67 0000000a E304          MPYF32      R3H, R0H, R2H    ;R3H = w_re * x_re
+         0000000b 1985 
+      68                      || MOV32    R1H, *XAR5++     ;R1H = w_im
+      69 0000000c E304          MPYF32      R2H, R1H, R2H    ;R2H = w_im * x_re
+         0000000d 5486 
+      70                      || MOV32    R4H, *XAR6++     ;R4H = x_im
+      71 0000000e E6AF          NEGF32      R4H, R4H         ;R4H = -x_im (complex conjugate of x)
+         0000000f 0024 
+      72 00000010 E700          MPYF32      R1H, R1H, R4H    ;R1H = w_im * x_im
+         00000011 0109 
+      73 00000012 E700          MPYF32      R0H, R0H, R4H    ;R0H = w_re * x_im
+         00000013 0100 
+      74 00000014 E720          SUBF32      R3H, R3H, R1H    ;R3H = (w_re * x_re) - (w_im * x_im)
+         00000015 005B 
+      75 00000016 E710          ADDF32      R2H, R2H, R0H    ;R2H = (w_im * x_re) + (w_re * x_im)
+         00000017 0012 
+      76 00000018 E203          MOV32       *XAR4++, R3H     ;store y_re[i]
+         00000019 0384 
+      77 0000001a E203          MOV32       *XAR4++, R2H     ;store y_im[i]
+         0000001b 0284 
+      78 0000001c       end_loop:
+      79              
+      80              ;Finish up
+      81 0000001c E2AF          MOV32       R4H, *--SP       ;restore R4H from stack
+         0000001d 04BE 
+      82 0000001e 0006          LRETR                        ;return
+      83              
+      84              ;end of function _mpy_SP_CVxCVC()
+      85              ;*********************************************************************
+      86              
+      87                     .end
+
+No Assembly Errors, No Assembly Warnings

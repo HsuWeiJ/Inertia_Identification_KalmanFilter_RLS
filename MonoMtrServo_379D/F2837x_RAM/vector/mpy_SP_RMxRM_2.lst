@@ -1,0 +1,254 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RMxRM_2.asm                                         PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mpy_SP_RMxRM_2.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable multiplication of two real matrices
+       5              ;;! \author David M. Alter
+       6              ;;! \date   09/17/15
+       7              ;; HISTORY:
+       8              ;;   09/17/15 - original (D. Alter)
+       9              ;;
+      10              ;; DESCRIPTION:  y[] = w[] * x[]
+      11              ;;                where   w[] is of dimension m x n
+      12              ;;                        x[] is of dimension n x p
+      13              ;;                        y[] is of dimension m x p
+      14              ;;
+      15              ;; Note that in C, a two-dimensional array has elements stored sequentially 
+      16              ;; down the column. For example, this array:
+      17              ;;                             | 1 2 |
+      18              ;;                             | 3 4 |
+      19              ;;
+      20              ;; will be stored in memory as [1, 3, 2, 4].  It could be declared in C as 
+      21              ;; x[4] or x[2][2].
+      22              ;;
+      23              ;; FUNCTION: 
+      24              ;;   extern void mpy_SP_RMxRM_2(float *y, const float *w, const float *x,
+      25              ;;                      const uint16_t m, const uint16_t n, const uint16_t p)
+      26              ;;
+      27              ;; USAGE:       mpy_SP_RMxRM_2(y, w, x, m, n, p);
+      28              ;;
+      29              ;; PARAMETERS:  float* y = pointer to result matrix
+      30              ;;              float* w = pointer to 1st src matrix
+      31              ;;              float* x = pointer to 2nd src matrix
+      32              ;;              m = dimension m of matrices
+      33              ;;              n = dimension n of matrices
+      34              ;;              p = dimension p of matrices
+      35              ;;
+      36              ;; RETURNS:     none
+      37              ;;
+      38              ;; BENCHMARK: 2.5*m*n*p + overhead  (cycles)
+      39              ;;   Note that the overhead is significant for small dimensions.
+      40              ;;   For example, 
+      41              ;;         m=2 n=8, p=2 takes ~199 cycles (versus 2.5*m*n*p = 80).
+      42              ;;         m=8, n=8, p=8 takes ~2479 cycles (versus 2.5*m*n*p = 1280).
+      43              ;;         m=64, n=64, p=64 takes ~725663 cycles (versus 2.5*m*n*p = 655360).
+      44              ;;   This benchmark equation is best used to guage relative performance against
+      45              ;;   other matrix multiply functions rather than for trying to determine exact
+      46              ;;   execution cycles.
+      47              ;;
+      48              ;; NOTES:
+      49              ;;  1) n must be even and at least 4.  If not, use mpy_SP_RMxRM().
+      50              ;;  2) There are no restrictions on the values of m and p with this function.
+      51              ;;
+      52              ;; ***PASSED PARAMETERS***
+      53              ;;  XAR4 = &y[0,0]
+      54              ;;  XAR5 = &w[0,0]
+      55              ;;    AH = n
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RMxRM_2.asm                                         PAGE    2
+
+      56              ;;    AL = m
+      57              ;;  *-SP[4] = &x[0,0]
+      58              ;;  *-SP[5] = p
+      59              ;;
+      60              ;; ***REGISTER USAGE***
+      61              ;;   AR0 = row index adder (2*m)
+      62              ;;   AR1 = inner loop count seed (n/2-2)
+      63              ;;  XAR2 = &w (working register)
+      64              ;;  XAR3 = &x (working register)
+      65              ;;  XAR4 = &y (working register)
+      66              ;;  XAR5 = &w[0,0]
+      67              ;;   AR6 = middle loop counter (p iterations)
+      68              ;;   AR7 = outer loop counter (m iterations)
+      69              ;;     T = middle loop count seed (p-1)
+      70              ;;
+      71              ;; ***STACK USAGE***
+      72              ;; -SP[13] = p
+      73              ;; -SP[12] = &x[0,0]
+      74              ;; -SP[10] = return PC
+      75              ;; -SP[8]  = saved XAR1
+      76              ;; -SP[6]  = saved XAR2
+      77              ;; -SP[4]  = saved XAR3
+      78              ;; -SP[2]  = &y[0,0]
+      79              ;; -SP[0]  = next free location
+      80              ;;
+      81              ;;  Group:            C2000
+      82              ;;  Target Family:    C28x+FPU32
+      83              ;;
+      84              ;;#############################################################################
+      85              ;;
+      86              ;;
+      87              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      88              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      89              ;;#############################################################################
+      90                      .if __TI_EABI__
+      91                      .asg mpy_SP_RMxRM_2, _mpy_SP_RMxRM_2
+      92                      .endif
+      93                  
+      94                      .global _mpy_SP_RMxRM_2
+      95 00000000               .text
+      96              
+      97 00000000       _mpy_SP_RMxRM_2:
+      98 00000000 B2BD          MOVL        *SP++, XAR1     ;Save XAR1 (save-on-entry register)
+      99 00000001 AABD          MOVL        *SP++, XAR2     ;Save XAR2 (save-on-entry register)
+     100 00000002 A2BD          MOVL        *SP++, XAR3     ;Save XAR3 (save-on-entry register)
+     101                                                  
+     102 00000003 A8BD          MOVL        *SP++, XAR4     ;Store &y[0,0] on stack
+     103                                                  
+     104 00000004 FFD0          LSR         AH, #1          ;AH = n/2
+     105 00000005 9DFE          ADDB        AH, #-2         ;Subtract 2 (-1-1) since RPTB is 'N-1', 
+     106                                                  ;and also inner loop is pipelined
+     107 00000006 97A1          MOV         AR1, AH         ;AR1 = inner loop count seed (n/2 - 2)
+     108                                                  
+     109 00000007 93A9          MOV         AH, AL          ;AH = AL = m
+     110 00000008 9CFF          ADDB        AL, #-1         ;Subtract 1 from m since BANZ is 'N-1'
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RMxRM_2.asm                                         PAGE    3
+
+     111 00000009 96A7          MOV         AR7, AL         ;AR7 = outer loop counter (m-1)
+     112                                                  
+     113 0000000a 924D          MOV         AL, *-SP[13]    ;AL = p
+     114 0000000b 9CFF          ADDB        AL, #-1         ;Subtract 1 from m since BANZ is 'N-1'
+     115 0000000c 2DA9          MOV         T, AL           ;T = middle loop count seed (p-1)
+     116                                                  
+     117 0000000d FF90          LSL         AH, #1          ;AH = 2*m (because floating pt is 2 word 
+     118                                                  ;addresses)
+     119 0000000e 97A0          MOV         AR0, AH         ;AR0 = results row index adder (2*m)
+     120              
+     121              ;---------------------------------------------------------------
+     122              ;--- Outer loop
+     123              ;---------------------------------------------------------------
+     124 0000000f       loop1:
+     125              
+     126              ; Middle loop preparation
+     127 0000000f 824C          MOVL        XAR3, *-SP[12]  ;XAR3 = &x
+     128 00000010 8A42          MOVL        XAR4, *-SP[2]   ;XAR4 = &y
+     129 00000011 5EAC          MOV         AR6, T          ;Load middle loop counter with seed
+     130                  
+     131 00000012 561E          SETC        AMODE           ;C2xLP addressing mode
+     132                      .lp_amode
+     133              
+     134              ;-----------------------------------------------------
+     135              ;--- Middle loop
+     136              ;-----------------------------------------------------
+     137 00000013       loop2:
+     138              
+     139              ; Inner loop preparation
+     140 00000013 86A5          MOVL        XAR2, XAR5      ;XAR2 = &w
+     141 00000014 E593          ZERO        R3H             ;Zero out the result accumulation 
+     142                                                  ;(iteration i)
+     143 00000015 77B2          NOP         *, ARP2         ;ARP = XAR2
+     144              
+     145              ;-------------------------------------------
+     146              ;--- Inner loop
+     147              ;-------------------------------------------
+     148              
+     149              ;prolog
+     150 00000016 E2AF          MOV32       R0H, *0++, ARP3 ;(iteration i) R0H=w, XAR2+=AR0, ARP=XAR3
+         00000017 00D3 
+     151 00000018 E2AF          MOV32       R1H, *++, ARP2  ;(iteration i) R1H=x, ARP=XAR2
+         00000019 01C2 
+     152 0000001a E700          MPYF32      R2H, R0H, R1H   ;(iteration i)
+         0000001b 0042 
+     153 0000001c E2AF          MOV32       R0H, *0++, ARP3 ;(iteration i+1) R0H=w, XAR2+=AR0, ARP=XAR3
+         0000001d 00D3 
+     154              
+     155 0000001e E314          ADDF32      R3H, R3H, R2H   ;(iteration i)
+         0000001f D9C2 
+     156                  ||  MOV32       R1H, *++, ARP2  ;(iteration i+1) R1H=x, ARP=XAR2
+     157              
+     158              ;loop
+     159 00000020 B50A          RPTB        end_loop3, AR1
+         00000021 00A1 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RMxRM_2.asm                                         PAGE    4
+
+     160 00000022 E302          MPYF32      R2H, R0H, R1H   ;(iteration i+1)
+         00000023 10D3 
+     161                  ||  MOV32       R0H, *0++, ARP3 ;(iteration i) R0H=w, XAR2+=AR0, ARP=XAR3
+     162 00000024 E2AF          MOV32       R1H, *++, ARP2  ;(iteration i) R1H=x, ARP=XAR2
+         00000025 01C2 
+     163                      ADDF32      R3H, R3H, R2H   ;(iteration i+1)
+     164 00000026 E741      ||  MPYF32      R2H, R0H, R1H   ;(iteration i)
+         00000027 3642 
+     165 00000028 E2AF          MOV32       R0H, *0++, ARP3 ;(iteration i+1) R0H=w, XAR2+=AR0, ARP=XAR3
+         00000029 00D3 
+     166 0000002a E314          ADDF32      R3H, R3H, R2H   ;(iteration i)
+         0000002b D9C2 
+     167                  ||  MOV32       R1H, *++, ARP2  ;(iteration i+1) R1H=x, ARP=XAR2
+     168              
+     169 0000002c       end_loop3:
+     170              
+     171              ;epilog
+     172 0000002c E700          MPYF32      R2H, R0H, R1H   ;(iteration i+1)
+         0000002d 0042 
+     173 0000002e 7700          NOP                         ;(iteration i+1)
+     174 0000002f E710          ADDF32      R3H, R3H, R2H   ;(iteration i+1)
+         00000030 009B 
+     175              
+     176              ;-------------------------------------------
+     177              ;--- End of inner loop
+     178              ;-------------------------------------------
+     179              
+     180 00000031 77B4          NOP         *, ARP4
+     181 00000032 E203          MOV32       *0++, R3H       ;Store the result
+         00000033 03BB 
+     182 00000034 000E          BANZ        loop2, AR6--    ;Middle loop branch
+         00000035 FFDF 
+     183              ;-----------------------------------------------------
+     184              ;--- End of middle loop
+     185              ;-----------------------------------------------------
+     186              
+     187 00000036 5616          CLRC        AMODE           ;C28 addressing mode
+     188                      .c28_amode  
+     189                  
+     190 00000037 0202          MOVB        ACC, #2         ;ACC = 2 (2 words per floating pt value)
+     191 00000038 5601          ADDL        XAR5, ACC       ;Advance &x to the next row
+         00000039 00A5 
+     192 0000003a 5601          ADDL        *-SP[2], ACC    ;Advance &y to the next row
+         0000003b 0042 
+     193                  
+     194 0000003c 000F          BANZ        loop1, AR7--    ;Outer loop branch
+         0000003d FFD3 
+     195              ;---------------------------------------------------------------
+     196              ;--- End of outer loop
+     197              ;---------------------------------------------------------------
+     198              
+     199              ;Finish up
+     200 0000003e FE82          SUBB        SP, #2          ;De-allocate local frame
+     201 0000003f 82BE          MOVL        XAR3, *--SP     ;Restore XAR3 (save-on-entry register)
+     202 00000040 86BE          MOVL        XAR2, *--SP     ;Restore XAR2 (save-on-entry register)
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RMxRM_2.asm                                         PAGE    5
+
+     203 00000041 8BBE          MOVL        XAR1, *--SP     ;Restore XAR1 (save-on-entry register)
+     204 00000042 0006          LRETR                       ;return
+     205              
+     206              ;end of function mpy_SP_RMxRM_2()
+     207              ;**********************************************************************
+     208              
+     209                      .end
+
+No Assembly Errors, No Assembly Warnings

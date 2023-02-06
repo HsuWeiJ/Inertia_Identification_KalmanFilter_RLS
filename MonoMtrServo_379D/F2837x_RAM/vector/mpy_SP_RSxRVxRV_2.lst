@@ -1,0 +1,142 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RSxRVxRV_2.asm                                      PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mpy_SP_RSxRVxRV_2.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable multiplication of a real scalar, a real vector, and a 
+       5              ;;!         real vector
+       6              ;;! \author David M. Alter
+       7              ;;! \date   07/15/11
+       8              ;;
+       9              ;; HISTORY:
+      10              ;;   07/15/11 - original (D. Alter)
+      11              ;;
+      12              ;; DESCRIPTION: C-Callable multiplication of a real scalar, a real vector, 
+      13              ;;              and a real vector
+      14              ;;              y[i] = c*w[i]*x[i]
+      15              ;;
+      16              ;; FUNCTION: 
+      17              ;;   extern void mpy_SP_RSxRVxRV_2(float32 *y, const float32 *w, 
+      18              ;;                          const float32 *x, const float32 c, const Uint16 N)
+      19              ;;
+      20              ;; USAGE:       mpy_SP_RSxRVxRV_2(y, w, x, c, N);
+      21              ;;
+      22              ;; PARAMETERS:  float32 *y = result real array
+      23              ;;              float32 *w = input real array #1
+      24              ;;              float32 *x = input real array #2
+      25              ;;              float32  c = input real scalar
+      26              ;;              Uint16   N = length of w, x and y arrays
+      27              ;;
+      28              ;; RETURNS:     none
+      29              ;;
+      30              ;; BENCHMARK:   3*N + 22 cycles (including the call and return)
+      31              ;;
+      32              ;; NOTES:
+      33              ;;   1) N must be even and at least 4.
+      34              ;;
+      35              ;;  Group:            C2000
+      36              ;;  Target Family:    C28x+FPU32
+      37              ;;
+      38              ;;#############################################################################
+      39              ;;
+      40              ;;
+      41              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      42              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      43              ;;#############################################################################
+      44                      .if __TI_EABI__
+      45                      .asg mpy_SP_RSxRVxRV_2, _mpy_SP_RSxRVxRV_2
+      46                      .endif
+      47                  
+      48                      .global _mpy_SP_RSxRVxRV_2
+      49 00000000               .text
+      50 00000000       _mpy_SP_RSxRVxRV_2:
+      51 00000000 C444          MOVL        XAR6, *-SP[4]    ;XAR6 = &x
+      52                                                   
+      53 00000001 E203          MOV32       *SP++, R4H       ;save R4H on stack
+         00000002 04BD 
+      54 00000003 E203          MOV32       *SP++, R5H       ;save R5H on stack
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RSxRVxRV_2.asm                                      PAGE    2
+
+         00000004 05BD 
+      55 00000005 E203          MOV32       *SP++, R6H       ;save R6H on stack
+         00000006 06BD 
+      56                                                   
+      57 00000007 FFC0          LSR         AL, #1           ;divide N by 2
+      58 00000008 9CFE          ADDB        AL, #-2          ;subtract 2 from N since RPTB is 'n-1' 
+      59                                                   ;times and last iteration done separately
+      60                                                   
+      61 00000009 E2AF          MOV32       R6H, *XAR5++     ;load first w[i]
+         0000000a 0685 
+      62 0000000b E2AF          MOV32       R2H, *XAR6++     ;load first x[i]
+         0000000c 0286 
+      63                                                   
+      64 0000000d E2AF          MOV32       R4H, *XAR5++     ;load first w[i+1]
+         0000000e 0485 
+      65 0000000f E2AF          MOV32       R5H, *XAR6++     ;load first x[i+1]
+         00000010 0586 
+      66                                                   
+      67              ;---Main loop                        
+      68 00000011 B50C          RPTB        end_loop, @AL    
+         00000012 00A9 
+      69                                                   
+      70 00000013 E305          MPYF32      R3H, R6H, R2H    ;y[i] = w[i]*x[i]
+         00000014 9E85 
+      71                      || MOV32    R6H, *XAR5++     ;load next w[i]
+      72                                                   
+      73 00000015 E30B          MPYF32      R1H, R4H, R5H    ;y[i+1] = w[i+1]*x[i+1]
+         00000016 0C85 
+      74                      || MOV32    R4H, *XAR5++     ;load next w[i+1]
+      75                                                   
+      76 00000017 E300          MPYF32      R3H, R3H, R0H    ;y[i] = c*w[i]*x[i]
+         00000018 DA86 
+      77                      || MOV32    R2H, *XAR6++     ;load next x[i]
+      78                                                   
+      79 00000019 E300          MPYF32      R1H, R1H, R0H    ;y[i+1] = c*w[i+1]*x[i+1]
+         0000001a 4D86 
+      80                      || MOV32    R5H, *XAR6++     ;load next x[i+1]
+      81                                                   
+      82 0000001b E203          MOV32       *XAR4++, R3H     ;store y[i]
+         0000001c 0384 
+      83 0000001d E203          MOV32       *XAR4++, R1H     ;store y[i+1]
+         0000001e 0184 
+      84              
+      85 0000001f       end_loop:
+      86              
+      87              ;--- Last iteration done separately to avoid possible pointer overrun into 
+      88              ;    undefined memory
+      89 0000001f E305          MPYF32      R3H, R6H, R2H    ;y[i] = w[i]*x[i]
+         00000020 9EBE 
+      90                      || MOV32    R6H, *--SP       ;restore R6H from stack
+      91 00000021 E30B          MPYF32      R1H, R4H, R5H    ;y[i+1] = w[i+1]*x[i+1]
+         00000022 0DBE 
+      92                      || MOV32    R5H, *--SP       ;restore R5H from stack
+      93 00000023 E300          MPYF32      R3H, R3H, R0H    ;y[i] = c*w[i]*x[i]
+         00000024 DCBE 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_RSxRVxRV_2.asm                                      PAGE    3
+
+      94                      || MOV32    R4H, *--SP       ;restore R4H from stack
+      95 00000025 E700          MPYF32      R1H, R1H, R0H    ;y[i+1] = c*w[i+1]*x[i+1]
+         00000026 0009 
+      96 00000027 E203          MOV32       *XAR4++, R3H     ;store y[i]
+         00000028 0384 
+      97 00000029 E203          MOV32       *XAR4, R1H       ;store y[i+1]
+         0000002a 01C4 
+      98                                                   
+      99              ;Finish up                           
+     100 0000002b 0006          LRETR                        ;return
+     101              
+     102              ;end of function _mpy_SP_RSxRVxRV_2()
+     103              ;*********************************************************************
+     104              
+     105                     .end
+
+No Assembly Errors, No Assembly Warnings

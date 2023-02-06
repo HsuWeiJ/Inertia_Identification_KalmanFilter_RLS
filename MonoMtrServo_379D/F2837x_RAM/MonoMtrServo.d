@@ -106,6 +106,10 @@ MonoMtrServo.obj: ../F2837xD_Dac_setting.h
 MonoMtrServo.obj: ../spi_dac.h
 MonoMtrServo.obj: ../Filter.h
 MonoMtrServo.obj: ../KalmanFilter_RLS.h
+MonoMtrServo.obj: C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/dsp.h
+MonoMtrServo.obj: C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/fpu32/fpu_vector.h
+MonoMtrServo.obj: C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/fpu32/fpu_types.h
+MonoMtrServo.obj: C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/float.h
 
 ../MonoMtrServo.c:
 
@@ -318,4 +322,12 @@ C:/Users/jason/workspace_v10_4/MonoMtrServo_379D/utility\ Src\ Files/DLOG_4CH_F.
 ../Filter.h:
 
 ../KalmanFilter_RLS.h:
+
+C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/dsp.h:
+
+C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/fpu32/fpu_vector.h:
+
+C:/ti/c2000/C2000Ware_4_01_00_00/libraries/dsp/FPU/c28/include/fpu32/fpu_types.h:
+
+C:/ti/ccs1040/ccs/tools/compiler/ti-cgt-c2000_20.2.5.LTS/include/float.h:
 

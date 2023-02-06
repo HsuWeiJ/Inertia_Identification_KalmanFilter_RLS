@@ -1,0 +1,170 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mean_SP_CV_2.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mean_SP_CV_2.asm
+       3              ;;!
+       4              ;;! \brief C-Callable mean of real and imag parts of a complex vector.
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/06/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/20/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable mean of real and imag parts of a complex vector.
+      12              ;;              y_re = sum(x_re)/N
+      13              ;;              y_im = sum(x_im)/N
+      14              ;; FUNCTION:    
+      15              ;;   extern complex_float mean_SP_CV_2(const complex_float *x, const Uint16 N)
+      16              ;;
+      17              ;; USAGE:       y = mean_SP_CV_2(x, N);
+      18              ;;
+      19              ;; PARAMETERS:  complex_float *x = input array
+      20              ;;              Uint16 N = length of x array
+      21              ;;
+      22              ;; RETURNS:     complex_float y = result
+      23              ;;
+      24              ;; BENCHMARK:   2*N + 34 cycles (including the call and return)
+      25              ;;
+      26              ;; NOTES:
+      27              ;;   1) N must be even, and a minimum of 4.
+      28              ;;   2) The type 'complex_float' is defined as
+      29              ;;
+      30              ;;      typedef struct {
+      31              ;;         float32 dat[2];
+      32              ;;      } complex_float;
+      33              ;;
+      34              ;;      Element dat[0] is the real part, dat[1] is the imag part.
+      35              ;;   3) The algorithm is mean_re = sum(re)/N
+      36              ;;                     mean_im = sum(im)/N
+      37              ;;      1/N is first computed and stored off.  The summations of the real
+      38              ;;      and imaginary parts are then computed, and multiplied by 1/N.  The
+      39              ;;      first summation of each is a just a load of the first element.
+      40              ;;      These loads are interleaved at the tail-end of the 1/N computation
+      41              ;;      to fill delay slots, and is why the loop epilog only shows one
+      42              ;;      additional summation, and not two).  Register choices for the
+      43              ;;      summation loop have been carefully chosen (R0H - R3H) to allow this.
+      44              ;;
+      45              ;;  Group:            C2000
+      46              ;;  Target Family:    C28x+FPU32
+      47              ;;
+      48              ;;#############################################################################
+      49              ;;
+      50              ;;
+      51              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      52              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      53              ;;#############################################################################
+      54                      .if __TI_EABI__
+      55                      .asg mean_SP_CV_2, _mean_SP_CV_2
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mean_SP_CV_2.asm                                           PAGE    2
+
+      56                      .endif
+      57                  
+      58                      .global _mean_SP_CV_2
+      59 00000000               .text
+      60 00000000       _mean_SP_CV_2:
+      61 00000000 96BD          MOV         *SP++, AL       ;store N on stack for later use
+      62 00000001 FFC0          LSR         AL, #1          ;divide N by 2
+      63              
+      64              ;Note: I believe the UI16TOF32 will incur a 1 cycle stall below due to SP 
+      65              ;write/read usage. But, there are no filler instructions we can move up here 
+      66              ;anyway, so we'll take the stall.
+      67              
+      68              ;Compute 1/N
+      69 00000002 E2C4          UI16TOF32   R1H, *--SP      ;retrieve N
+         00000003 01BE 
+      70 00000004 9CFE          ADDB        AL, #-2         ;subtract 2 from N (RPTB is 'n-1' times, 
+      71                                                  ;and one unrolled loop iteration done 
+      72                                                  ;separately)
+      73 00000005 E693          EINVF32     R2H, R1H        ;R2H = Ye = Estimate(1/B)
+         00000006 000A 
+      74 00000007 7700          NOP                         ;delay slot
+      75 00000008 E700          MPYF32      R3H, R2H, R1H   ;R3H = Ye*B
+         00000009 0053 
+      76 0000000a 7700          NOP                         ;delay slot
+      77 0000000b E8D0          SUBF32      R3H, #2.0, R3H  ;R3H = 2.0 - Ye*B       
+         0000000c 001B 
+      78 0000000d 7700          NOP                         ;delay slot
+      79 0000000e E700          MPYF32      R2H, R2H, R3H   ;R2H = Ye = Ye*(2.0 - Ye*B)
+         0000000f 00D2 
+      80 00000010 7700          NOP                         ;delay slot
+      81 00000011 E700          MPYF32      R3H, R2H, R1H   ;R3H = Ye*B
+         00000012 0053 
+      82 00000013 E2AF          MOV32       R0H, *XAR4++    ;load first real part (fill delay slot)
+         00000014 0084 
+      83 00000015 E8D0          SUBF32      R3H, #2.0, R3H  ;R3H = 2.0 - Ye*B
+         00000016 001B 
+      84 00000017 E2AF          MOV32       R1H, *XAR4++    ;load first imag part (fill delay slot)
+         00000018 0184 
+      85 00000019 E700          MPYF32      R2H, R2H, R3H   ;R2H = Ye = Ye*(2.0 - Ye*B) = 1/B
+         0000001a 00D2 
+      86 0000001b E2AF          MOV32       R3H, *XAR4++    ;load next real part (fill delay slot)
+         0000001c 0384 
+      87               
+      88 0000001d E203          MOV32       *SP++, R2H      ;store 1/B on stack for later use
+         0000001e 02BD 
+      89              
+      90              ;---Main loop - unrolled once
+      91 0000001f B508          RPTB        end_loop, @AL
+         00000020 00A9 
+      92              
+      93 00000021 E316          ADDF32      R0H, R0H, R3H   ;add next real part
+         00000022 0284 
+      94                      || MOV32    R2H, *XAR4++    ;load next imag part
+      95              
+      96 00000023 E314          ADDF32      R1H, R1H, R2H   ;add next imag part
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mean_SP_CV_2.asm                                           PAGE    3
+
+         00000024 4B84 
+      97                      || MOV32    R3H, *XAR4++    ;load next real part
+      98              
+      99 00000025 E316          ADDF32      R0H, R0H, R3H   ;add next real part
+         00000026 0284 
+     100                      || MOV32    R2H, *XAR4++    ;load next imag part
+     101              
+     102 00000027 E314          ADDF32      R1H, R1H, R2H   ;add next imag part
+         00000028 4B84 
+     103                      || MOV32    R3H, *XAR4++    ;load next real part
+     104              
+     105 00000029       end_loop:
+     106              
+     107              ;Last iteration done seperately to avoid XAR4 pointer overrun into possibly 
+     108              ;non-defined memory
+     109 00000029 E316          ADDF32      R0H, R0H, R3H   ;add last real part
+         0000002a 02C4 
+     110                      || MOV32    R2H, *XAR4      ;load last imag part
+     111                      
+     112 0000002b E710          ADDF32      R1H, R1H, R2H   ;add last imag part
+         0000002c 0089 
+     113              
+     114              ;Divide the summations by N (multiply by 1/N) and store back to memory
+     115 0000002d E2AF          MOV32       R2H, *--SP      ;retrieve 1/N from stack
+         0000002e 02BE 
+     116              
+     117 0000002f E700          MPYF32      R0H, R0H, R2H   ;real part
+         00000030 0080 
+     118 00000031 E700          MPYF32      R1H, R1H, R2H   ;imag part
+         00000032 0089 
+     119              
+     120 00000033 E203          MOV32       *XAR6++, R0H    ;store real part
+         00000034 0086 
+     121 00000035 E203          MOV32       *XAR6, R1H      ;store imag part
+         00000036 01C6 
+     122              
+     123              ;Finish up
+     124 00000037 0006          LRETR                       ;return
+     125              
+     126              ;end of function mean_SP_CV_2()
+     127              ;*********************************************************************
+     128              
+     129                     .end
+
+No Assembly Errors, No Assembly Warnings

@@ -1,0 +1,119 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_CSxCS.asm                                           PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/mpy_SP_CSxCS.asm
+       3              ;;!
+       4              ;;! \brief C-Callable complex multiply of two floating point numbers
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/20/11
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   07/20/11 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable complex multiply of two floating point numbers
+      12              ;;
+      13              ;; FUNCTION: 
+      14              ;;   extern complex_float mpy_SP_CSxCS(const complex_float w, 
+      15              ;;                                     const complex_float x);
+      16              ;;
+      17              ;; USAGE:       y = mpy_SP_CSxCS(w,x);
+      18              ;;
+      19              ;; PARAMETERS:  complex_float w = input #1
+      20              ;;              complex_float x = input #2
+      21              ;;
+      22              ;; RETURNS:     complex_float y = result
+      23              ;;
+      24              ;; BENCHMARK:   19 cycles (including the call and return for COFF)
+      25              ;;              17 cycles (including the call and return for EABI)
+      26              ;; NOTES:
+      27              ;;   1) This is a highly optimized function.  The order of the instructions
+      28              ;;      is very important.
+      29              ;;   2) The restore of Save-on-entry register R4H is hidden in a parallel
+      30              ;;      instruction after its last use.
+      31              ;;   3) The input and return value is of type 'complex_float':
+      32              ;;
+      33              ;;      typedef struct {
+      34              ;;         float32 dat[2];
+      35              ;;      } complex_float;
+      36              ;;
+      37              ;;      Element dat[0] is the real part, dat[1] is the imag part.
+      38              ;;
+      39              ;;  Group:            C2000
+      40              ;;  Target Family:    C28x+FPU32
+      41              ;;
+      42              ;;#############################################################################
+      43              ;;
+      44              ;;
+      45              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      46              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      47              ;;#############################################################################
+      48                      .if __TI_EABI__
+      49                      .asg mpy_SP_CSxCS, _mpy_SP_CSxCS
+      50                      .endif
+      51                  
+      52                      .global _mpy_SP_CSxCS
+      53 00000000               .text
+      54              
+      55 00000000       _mpy_SP_CSxCS:
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:32 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/mpy_SP_CSxCS.asm                                           PAGE    2
+
+      56              ;Save the utilized save on entry registers
+      57 00000000 E203          MOV32       *SP++, R4H      ;save R4H on stack
+         00000001 04BD 
+      58              
+      59              ;Optimally load the input values and do the math
+      60                      .if         !__TI_EABI__
+      61 00000002 E2AF          MOV32       R0H, *+XAR4[0]  ;R0H = w_re
+         00000003 00C4 
+      62 00000004 E2AF          MOV32       R2H, *+XAR5[0]  ;R2H = x_re
+         00000005 02C5 
+      63              
+      64 00000006 E304          MPYF32      R4H, R0H, R2H   ;R4H = w_re * x_re
+         00000007 21D4 
+      65                      || MOV32    R1H, *+XAR4[2]  ;R1H = w_im
+      66              
+      67 00000008 E304          MPYF32      R2H, R1H, R2H   ;R2H = w_im * x_re
+         00000009 53D5 
+      68                      || MOV32    R3H, *+XAR5[2]  ;R4H = x_im
+      69                      .else
+      70                      MPYF32      R4H, R0H, R2H   ;R4H = w_re * x_re
+      71                      MPYF32      R2H, R1H, R2H   ;R2H = w_im * x_re
+      72                      .endif
+      73              
+      74 0000000a E700          MPYF32      R1H, R1H, R3H   ;R1H = w_im * x_im
+         0000000b 00C9 
+      75              
+      76 0000000c E700          MPYF32      R0H, R0H, R3H   ;R0H = w_re * x_im
+         0000000d 00C0 
+      77              
+      78 0000000e E323          SUBF32      R3H, R4H, R1H   ;R3H = (w_re * x_re) - (w_im * x_im)
+         0000000f 1CBE 
+      79                      || MOV32    R4H, *--SP      ;restore R4H from stack
+      80 00000010 E710          ADDF32      R2H, R2H, R0H   ;R2H = (w_im * x_re) + (w_re * x_im)
+         00000011 0012 
+      81              
+      82              ;Store the return value
+      83                      .if         __TI_EABI__
+      84                      MOV32       R0H, R3H        ;store real part of return value
+      85                      MOV32       R1H, R2H        ;store imag part of return value
+      86                      .else
+      87 00000012 E203          MOV32       *+XAR6[0], R3H  ;store real part of return value
+         00000013 03C6 
+      88 00000014 E203          MOV32       *+XAR6[2], R2H  ;store imag part of return value
+         00000015 02D6 
+      89                      .endif
+      90              
+      91              ;Finish up
+      92 00000016 0006          LRETR                       ;return
+      93              
+      94              ;end of function mpy_SP_CSxCS()
+      95              ;*********************************************************************
+      96                     .end
+
+No Assembly Errors, No Assembly Warnings

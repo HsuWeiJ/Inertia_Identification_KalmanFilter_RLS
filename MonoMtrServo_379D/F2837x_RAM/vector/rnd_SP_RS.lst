@@ -1,0 +1,86 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/rnd_SP_RS.asm                                              PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/rnd_SP_RS.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable unbiased rounding of a floating point scalar
+       5              ;;! \author David M. Alter
+       6              ;;! \date   07/20/11
+       7              ;;! 
+       8              ;; FUNCTION:    extern float32 rnd_SP_RS(const float32 x);
+       9              ;;
+      10              ;; USAGE:       y = rnd_SP_RS(x);
+      11              ;;
+      12              ;; PARAMETERS:  float32 x = input value
+      13              ;;
+      14              ;; RETURNS:     float32 y = result
+      15              ;;
+      16              ;; BENCHMARK:   18 cycles (including the call and return)
+      17              ;;
+      18              ;; NOTES:
+      19              ;;   1) numerical examples:
+      20              ;;      rnd_SP_RS(+4.4) = +4.0
+      21              ;;      rnd_SP_RS(-4.4) = -4.0
+      22              ;;      rnd_SP_RS(+4.5) = +5.0
+      23              ;;      rnd_SP_RS(-4.5) = -5.0
+      24              ;;      rnd_SP_RS(+4.6) = +5.0
+      25              ;;      rnd_SP_RS(-4.6) = -5.0
+      26              ;;   2) The C version of this, y = floor(x+0.5) takes 78 cycles using
+      27              ;;      the rts2800_fpu32 library in c28x cgtools v6.0.1.
+      28              ;;
+      29              ;;#############################################################################
+      30              ;;
+      31              ;;
+      32              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      33              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      34              ;;#############################################################################
+      35                      .if __TI_EABI__
+      36                      .asg    rnd_SP_RS, _rnd_SP_RS
+      37                      .endif
+      38                  
+      39                      .global _rnd_SP_RS
+      40 00000000               .text
+      41              
+      42 00000000       _rnd_SP_RS:
+      43 00000000 E5A0          CMPF32  R0H, #0.0         ;determine if x is positive or negative
+      44 00000001 AD04          MOVST0  NF                ;copy NF flag to N bit in ST0
+      45 00000002 56C4          BF      negative, LT      ;branch if x is negative
+         00000003 000B 
+      46              
+      47              ;x is positive
+      48 00000004 E88F          ADDF32  R0H, #0.5, R0H    ;add 0.5 to x
+         00000005 C000 
+      49 00000006 7700          NOP                       ;delay slot for ADDF32
+      50 00000007 E6F1          FRACF32 R1H, R0H          ;R1H = fraction of R0H
+         00000008 0001 
+      51 00000009 7700          NOP                       ;delay slot for FRACF32
+      52 0000000a E720          SUBF32  R0H, R0H, R1H     ;subtract the fraction from x+0.5
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:33 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/rnd_SP_RS.asm                                              PAGE    2
+
+         0000000b 0040 
+      53 0000000c 0006          LRETR                     ;return
+      54              
+      55              ;x is negative
+      56 0000000d       negative:
+      57 0000000d E8AF          ADDF32  R0H, #-0.5, R0H   ;subtract 0.5 from x
+         0000000e C000 
+      58 0000000f 7700          NOP                       ;delay slot for ADDF32
+      59 00000010 E6F1          FRACF32 R1H, R0H          ;R1H = fraction of R0H
+         00000011 0001 
+      60 00000012 7700          NOP                       ;delay slot for FRACF32
+      61 00000013 E720          SUBF32  R0H, R0H, R1H     ;subtract the fraction from x+0.5
+         00000014 0040 
+      62 00000015 0006          LRETR                     ;return
+      63              
+      64              ;end of function rnd_SP_RS()
+      65              ;*********************************************************************
+      66              
+      67                     .end
+
+No Assembly Errors, No Assembly Warnings

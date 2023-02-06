@@ -1,0 +1,317 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    1
+
+       1              ;;#############################################################################
+       2              ;;! \file source/vector/abs_SP_CV_2_TMU0.asm
+       3              ;;!
+       4              ;;! \brief  C-Callable absolute value of an even length complex vector.
+       5              ;;! \author David M. Alter
+       6              ;;! \date   06/21/13
+       7              ;;
+       8              ;; HISTORY:
+       9              ;;   06/21/13 - original (D. Alter)
+      10              ;;
+      11              ;; DESCRIPTION: C-Callable absolute value of an even length complex vector.
+      12              ;;              y[i] = sqrt(x_re[i]^2 + x_im[i]^2)
+      13              ;;              Requires a C28x device with TMU0 or higher.
+      14              ;;              On non-TMU devices, use the abs_SP_CV_2() function.
+      15              ;;
+      16              ;; FUNCTION: 
+      17              ;;   extern void abs_SP_CV_TMU0(float32 *y, const complex_float *x, 
+      18              ;;                              const Uint16 N)
+      19              ;;
+      20              ;; USAGE:        abs_SP_CV_TMU0(x, y, N);
+      21              ;;
+      22              ;; PARAMETERS:     float32 *y = output array
+      23              ;;               complex_float *x = input array
+      24              ;;               Uint16 N = length of x and y arrays
+      25              ;;
+      26              ;; RETURNS:         none
+      27              ;;
+      28              ;; BENCHMARK (including the call and return):
+      29              ;;     if N=1: 30 cycles
+      30              ;;     if 1<N<8 and N even: 7.5*(N)+21 cycles
+      31              ;;     if 1<N<8 and N odd:  7.5*(N-1)+38 cycles
+      32              ;;     if N>=8 and N even:   4*(N-6)+56 cycles
+      33              ;;     if N>=8 and N odd:    4*(N-7)+73 cycles
+      34              ;;
+      35              ;; NOTES:
+      36              ;; 1) This function is optimized for N>=8.  It is less cycle efficient
+      37              ;;    when N<8.  For very small N (e.g., N=1, 2, maybe 3) the user might
+      38              ;;    consider using the TMU intrinsics in the compiler instead of this
+      39              ;;    function.
+      40              ;; 2) The type 'complex_float' is defined as
+      41              ;;
+      42              ;;      typedef struct {
+      43              ;;         float32 dat[2];
+      44              ;;      } complex_float;
+      45              ;;
+      46              ;;    Element dat[0] is the real part, dat[1] is the imag part.
+      47              ;; 3) For N>=8, main loop is software pipelined (temporal unrolling)
+      48              ;;    and spatially unrolled once.  For 1<N<8, main loop is spatially
+      49              ;;    unrolled once.
+      50              ;;
+      51              ;;  Group:            C2000
+      52              ;;  Target Family:    C28x+FPU32
+      53              ;;
+      54              ;;#############################################################################
+      55              ;;
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    2
+
+      56              ;;
+      57              ;; $Copyright: Copyright (C) 2022 Texas Instruments Incorporated -
+      58              ;;             http://www.ti.com/ ALL RIGHTS RESERVED $
+      59              ;;#############################################################################
+      60                              .if __TI_EABI__
+      61                              .asg abs_SP_CV_TMU0, _abs_SP_CV_TMU0
+      62                              .endif
+      63              
+      64                      .global _abs_SP_CV_TMU0
+      65 00000000               .text
+      66              
+      67 00000000       _abs_SP_CV_TMU0:
+      68              
+      69              ;--------------------------------------------------------------------------------
+      70              ;Check for N odd
+      71              ;--------------------------------------------------------------------------------
+      72 00000000 CDA9          AND AH, @AL, #1                 ;AND bit 0 of AL with a 1
+         00000001 0001 
+      73 00000002 EC16          BF N_even, EQ                   ;Branch if zero (N was even)
+      74              
+      75              ;--------------------------------------------------------------------------------
+      76              ;Perform the computation on the first complex element to make the remaining N even
+      77              ;--------------------------------------------------------------------------------
+      78 00000003       N_odd:
+      79 00000003 E2AF          MOV32   R0H, *XAR5++            ;R0H = x[i]_re
+         00000004 0085 
+      80 00000005 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[i]re * x[i]re
+         00000006 0185 
+      81                      ||MOV32 R1H, *XAR5++            ;R1H = x[i]im
+      82 00000007 E700          MPYF32  R1H, R1H, R1H           ;R1H = x[i]im * x[i]im
+         00000008 0049 
+      83 00000009 9CFF          ADDB AL, #-1                    ;Subtract 1 from N (also delay slot for MPYF32)
+      84 0000000a E710          ADDF32  R1H, R1H, R0H           ;R1H = (x[i]re * x[i]re) + (x[i]im * x[i]im)
+         0000000b 0009 
+      85 0000000c 7700          NOP                             ;delay slot
+      86 0000000d 7700          NOP                             ;delay slot
+      87 0000000e E277          SQRTF32 R1H, R1H                ;R1H = mag[i] = sqrt[(x[i]re * x[i]re) + (x[i]im * x[i]im)]
+         0000000f 0009 
+      88 00000010 7700          NOP                             ;delay slot
+      89 00000011 7700          NOP                             ;delay slot
+      90 00000012 7700          NOP                             ;delay slot
+      91 00000013 5200          CMPB AL, #0                     ;Test if remaining N = 0
+      92 00000014 E203          MOV32 *XAR4++,R1H               ;Store result[i] to memory
+         00000015 0184 
+      93              
+      94              ;--------------------------------------------------------------------------------
+      95              ;Check for the remaining N = 0
+      96              ;-------------------------------------------------------------------------------
+      97 00000016 ED02          BF N_even, NEQ                  ;Branch if higher
+      98 00000017 0006          LRETR                           ;Return if remaining N was 0
+      99              
+     100              ;--------------------------------------------------------------------------------
+     101              ;Check for the remaining N >= 8
+     102              ;--------------------------------------------------------------------------------
+     103 00000018       N_even:
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    3
+
+     104 00000018 5208          CMPB AL, #8                     ;Compare N to 8
+     105 00000019 56C7          BF main_N_GE_8, HIS             ;Branch if higher or same
+         0000001a 0021 
+     106              
+     107              ;--------------------------------------------------------------------------------
+     108              ;Main computation for remaining N < 8
+     109              ;--------------------------------------------------------------------------------
+     110 0000001b       main_N_LT_8:
+     111 0000001b FFC0          LSR AL, #1                      ;Divide N by 2
+     112 0000001c 9CFF          ADDB AL, #-1                    ;Subtract 1 from N since RPTB is 'n-1' times
+     113 0000001d B51A          RPTB end_loop1, @AL
+         0000001e 00A9 
+     114              
+     115 0000001f E2AF          MOV32   R0H, *XAR5++            ;R0H = x[i]_re
+         00000020 0085 
+     116 00000021 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[i]re * x[i]re
+         00000022 0185 
+     117                      ||MOV32 R1H, *XAR5++            ;R1H = x[i]im
+     118 00000023 E302          MPYF32  R1H, R1H, R1H           ;R1H = x[i]im * x[i]im
+         00000024 4A85 
+     119                      ||MOV32 R2H, *XAR5++            ;R2H = x[i+1]_re
+     120 00000025 E304          MPYF32  R2H, R2H, R2H           ;R2H = x[i+1]re * x[i+1]re
+         00000026 9385 
+     121                      ||MOV32 R3H, *XAR5++            ;R3H = x[i+1]im
+     122 00000027 E700          MPYF32  R3H, R3H, R3H           ;R3H = x[i+1]im * x[i+1]im
+         00000028 00DB 
+     123 00000029 E710          ADDF32  R1H, R1H, R0H           ;R1H = (x[i]re * x[i]re) + (x[i]im * x[i]im)
+         0000002a 0009 
+     124 0000002b E710          ADDF32  R3H, R3H, R2H           ;R2H = (x[i+1]re * x[i+1]re) + (x[i+1]im * x[i+1]im)
+         0000002c 009B 
+     125 0000002d 7700          NOP                             ;delay slot
+     126 0000002e E277          SQRTF32 R1H, R1H                ;R1H = mag[i] = sqrt[(x[i]re * x[i]re) + (x[i]im * x[i]im)]
+         0000002f 0009 
+     127 00000030 E277          SQRTF32 R3H, R3H                ;R3H = mag[i+1] = sqrt[(x[i+1]re * x[i+1]re) + (x[i+1]im * x[i+1]im)]
+         00000031 001B 
+     128 00000032 7700          NOP                             ;delay slot
+     129 00000033 7700          NOP                             ;delay slot
+     130 00000034 7700          NOP                             ;delay slot
+     131 00000035 E203          MOV32 *XAR4++,R1H               ;Store result[i] to memory
+         00000036 0184 
+     132 00000037 E203          MOV32 *XAR4++,R3H               ;Store result[i+1] to memory
+         00000038 0384 
+     133 00000039       end_loop1:
+     134              
+     135              ;Finish up
+     136 00000039 0006          LRETR                           ;Return
+     137              
+     138              ;--------------------------------------------------------------------------------
+     139              ;Main computation for remaining N >= 8
+     140              ;--------------------------------------------------------------------------------
+     141 0000003a       main_N_GE_8:
+     142              
+     143 0000003a       prolog1:
+     144 0000003a E2AF          MOV32   R0H, *XAR5++            ;R0H = x[0]re
+         0000003b 0085 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    4
+
+     145 0000003c E300          MPYF32  R0H, R0H, R0H           ;R0H = x[0]re * x[0]re
+         0000003d 0185 
+     146                      ||MOV32 R1H, *XAR5++            ;R1H = x[0]im
+     147 0000003e E700          MPYF32  R1H, R1H, R1H           ;R1H = x[0]im * x[0]im
+         0000003f 0049 
+     148 00000040 E203          MOV32 *SP++, R5H                ;Save R5H on stack (also delay slot for MPYF32)
+         00000041 05BD 
+     149 00000042 E310          ADDF32  R2H, R1H, R0H           ;R2H = (x[0]re * x[0]re) + (x[0]im * x[0]im)
+         00000043 5085 
+     150                      ||MOV32 R0H, *XAR5++            ;R0H = x[1]re
+     151 00000044 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[1]re * x[1]re
+         00000045 0185 
+     152                      ||MOV32 R1H, *XAR5++            ;R1H = x[1]im
+     153 00000046 E700          MPYF32  R1H, R1H, R1H           ;R1H = x[1]im * x[1]im
+         00000047 0049 
+     154 00000048 E203          MOV32 *SP++, R4H                ;Save R4H on stack (also delay slot for MPYF32)
+         00000049 04BD 
+     155 0000004a E310          ADDF32  R4H, R1H, R0H           ;R4H = (x[1]re * x[1]re) + (x[1]im * x[1]im)
+         0000004b 6085 
+     156                      ||MOV32 R0H, *XAR5++            ;R0H = x[2]re
+     157 0000004c E300          MPYF32  R0H, R0H, R0H           ;R0H = x[2]re * x[2]re
+         0000004d 0185 
+     158                      ||MOV32 R1H, *XAR5++            ;R1H = x[2]im
+     159 0000004e E700          MPYF32  R1H, R1H, R1H           ;R1H = x[2]im * x[2]im
+         0000004f 0049 
+     160 00000050 E277          SQRTF32 R3H, R2H                ;R3H = mag[0] = sqrt[(x[0]re * x[0]re) + (x[0]im * x[0]im)]
+         00000051 0013 
+     161 00000052 E310          ADDF32  R2H, R1H, R0H           ;R2H = (x[2]re * x[2]re) + (x[2]im * x[2]im)
+         00000053 5085 
+     162                      ||MOV32 R0H, *XAR5++            ;R0H = x[3]re
+     163 00000054 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[3]re * x[3]re
+         00000055 0185 
+     164                      ||MOV32 R1H, *XAR5++            ;R1H = x[3]im
+     165 00000056 E700          MPYF32  R1H, R1H, R1H           ;R1H = x[3]im * x[3]im
+         00000057 0049 
+     166 00000058 E277          SQRTF32 R5H, R4H                ;R5H = mag[1] = sqrt[x[1]re * x[1]re) + (x[1]im * x[1]im)]
+         00000059 0025 
+     167 0000005a E310          ADDF32  R4H, R1H, R0H           ;R4H = (x[3]re * x[3]re) + (x[3]im * x[3]im)
+         0000005b 6085 
+     168                      ||MOV32 R0H, *XAR5++            ;R0H = x[4]re
+     169              
+     170                  ;----------------
+     171                  ;Inner Loop, i=4,6,...,N
+     172                  ;----------------
+     173 0000005c 9CF8          ADDB AL, #-8                    ;[pre-loop] Subtract 6 from N (4 for prolog, 2 for loop since "n-1")
+     174 0000005d FFC0          LSR AL, #1                      ;[pre-loop] Divide by 2
+     175 0000005e B510          RPTB epilog1, @AL
+         0000005f 00A9 
+     176              
+     177 00000060 E300          MPYF32  R0H, R0H, R0H           ;[iteration 2] R0H = x[i]re * x[i]re
+         00000061 0185 
+     178                      ||MOV32 R1H, *XAR5++            ;[iteration 2] R1H = x[i]im
+     179 00000062 E002          MPYF32  R1H, R1H, R1H           ;[iteration 2] R1H = x[i]im * x[i]im
+         00000063 4B84 
+     180                      ||MOV32 *XAR4++, R3H            ;[iteration 0] Store result[i-4] to memory
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    5
+
+     181 00000064 E277          SQRTF32 R3H, R2H                ;[iteration 1] R3H = mag[i] = sqrt[(x[i]re * x[i]re) + (x[i]im * x[i]
+         00000065 0013 
+     182 00000066 E310          ADDF32  R2H, R1H, R0H           ;[iteration 2] R2H = (x[i]re * x[i]re) + (x[i]im * x[i]im)
+         00000067 5085 
+     183                      ||MOV32 R0H, *XAR5++            ;[iteration 2] R0H = x[i+1]re
+     184 00000068 E300          MPYF32  R0H, R0H, R0H           ;[iteration 2] R0H = x[i+1]re * x[i+1]re
+         00000069 0185 
+     185                      ||MOV32 R1H, *XAR5++            ;[iteration 2] R1H = x[i+1]im
+     186 0000006a E002          MPYF32  R1H, R1H, R1H           ;[iteration 2] R1H = x[i+1]im * x[i+1]im
+         0000006b 4D84 
+     187                      ||MOV32 *XAR4++, R5H            ;[iteration 0] Store result[i-3] to memory
+     188 0000006c E277          SQRTF32 R5H, R4H                ;[iteration 1] R5H = mag[i+1] = sqrt[(x[i+1]re * x[i+1]re) + (x[i+1]i
+         0000006d 0025 
+     189 0000006e E310          ADDF32  R4H, R1H, R0H           ;[iteration 2] R4H = (x[i+1]re * x[i+1]re) + (x[i+1]im * x[i+1]im)
+         0000006f 6085 
+     190                      ||MOV32 R0H, *XAR5++            ;[iteration 2] R0H = x[i]re
+     191              
+     192 00000070       epilog1:
+     193 00000070 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[N-2]re * x[N-2]re
+         00000071 0185 
+     194                      ||MOV32 R1H, *XAR5++            ;R1H = x[N-2]im
+     195 00000072 E002          MPYF32  R1H, R1H, R1H           ;R1H = x[N-2]im * x[N-2]im
+         00000073 4B84 
+     196                      ||MOV32 *XAR4++, R3H            ;Store result[N-6] to memory
+     197 00000074 E277          SQRTF32 R3H, R2H                ;R3H = mag[N-3] = sqrt[(x[N-3]re * x[N-3]re) + (x[N-3]im * x[N-3]im)]
+         00000075 0013 
+     198 00000076 E310          ADDF32  R2H, R1H, R0H           ;R2H = (x[N-2]re * x[N-2]re) + (x[N-2]im * x[N-2]im)
+         00000077 5085 
+     199                      ||MOV32 R0H, *XAR5++            ;R0H = x[N-1]re
+     200 00000078 E300          MPYF32  R0H, R0H, R0H           ;R0H = x[N-2]re * x[N-2]re
+         00000079 0185 
+     201                      ||MOV32 R1H, *XAR5++            ;R1H = x[N-1]im
+     202 0000007a E002          MPYF32  R1H, R1H, R1H           ;R1H = x[N-1]im * x[N-1]im
+         0000007b 4D84 
+     203                      ||MOV32 *XAR4++, R5H            ;Store result[N-5] to memory
+     204 0000007c E277          SQRTF32 R5H, R4H                ;R5H = mag[N-2] = sqrt[(x[N-2]re * x[N-2]re) + (x[N-2]im * x[N-2]im)]
+         0000007d 0025 
+     205 0000007e E710          ADDF32  R4H, R1H, R0H           ;R4H = (x[N-1]re * x[N-1]re) + (x[N-1]im * x[N-1]im)
+         0000007f 000C 
+     206 00000080 E203          MOV32 *XAR4++, R3H              ;Store result[N-4] to memory
+         00000081 0384 
+     207 00000082 E277          SQRTF32 R3H, R2H                ;R3H = mag[N-1] = sqrt[(x[N-1]re * x[N-1]re) + (x[N-1]im * x[N-1]im)]
+         00000083 0013 
+     208 00000084 7700          NOP                             ;Delay slot
+     209 00000085 E203          MOV32 *XAR4++, R5H              ;Store result[N-3] to memory
+         00000086 0584 
+     210 00000087 E277          SQRTF32 R0H, R4H                ;R5H = mag[N-2] = sqrt[(x[N-2]re * x[N-2]re) + (x[N-2]im * x[N-2]im)]
+         00000088 0020 
+     211 00000089 7700          NOP                             ;Delay slot
+     212 0000008a E203          MOV32 *XAR4++, R3H              ;Store result[N-2] to memory
+         0000008b 0384 
+     213 0000008c E2AF          MOV32 R4H, *--SP                ;Restore R4H from stack
+         0000008d 04BE 
+     214 0000008e E2AF          MOV32 R5H, *--SP                ;Restore R5H from stack (also delay slot for DIVF32)
+         0000008f 05BE 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:03:31 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+../vector/abs_SP_CV_TMU0.asm                                         PAGE    6
+
+     215 00000090 E203          MOV32 *XAR4++, R0H              ;Store result[N-1] to memory
+         00000091 0084 
+     216              
+     217              ;Finish up
+     218 00000092 0006          LRETR                           ;Return
+     219              
+     220              ;end of function abs_SP_CV_TMU0()
+     221              ;*********************************************************************
+     222              
+     223                     .end
+
+No Assembly Errors, No Assembly Warnings

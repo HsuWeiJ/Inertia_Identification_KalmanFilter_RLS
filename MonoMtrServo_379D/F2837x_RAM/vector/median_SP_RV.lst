@@ -1,0 +1,1198 @@
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    1
+
+       1              ;***************************************************************
+       2              ;* TMS320C2000 G3 C/C++ Codegen                               PC v20.2.5.LTS *
+       3              ;* Date/Time created: Thu Feb  2 17:04:22 2023                 *
+       4              ;***************************************************************
+       5                      .compiler_opts --abi=coffabi --cla_support=cla0 --float_support=fpu32 --hll_source=on --mem_model:cod
+       6                      .asg    XAR2, FP
+       7              
+       8              $C$DW$CU        .dwtag  DW_TAG_compile_unit
+       9                      .dwattr $C$DW$CU, DW_AT_name("../vector/median_SP_RV.c")
+      10                      .dwattr $C$DW$CU, DW_AT_producer("TI TMS320C2000 G3 C/C++ Codegen PC v20.2.5.LTS Copyright (c) 1996-2
+      11                      .dwattr $C$DW$CU, DW_AT_TI_version(0x01)
+      12                      .dwattr $C$DW$CU, DW_AT_comp_dir("C:\Users\jason\workspace_v10_4\MonoMtrServo_379D\F2837x_RAM")
+      13              ;       C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\opt2000.exe C:\\Users\\jason\\AppData\\L
+      14              ;       C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\ac2000.exe -@C:\\Users\\jason\\AppData\\
+      15 00000000               .sect   ".text"
+      16                      .clink
+      17                      .global __median_find_average_SP_RV
+      18              
+      19              $C$DW$1 .dwtag  DW_TAG_subprogram
+      20                      .dwattr $C$DW$1, DW_AT_name("_median_find_average_SP_RV")
+      21                      .dwattr $C$DW$1, DW_AT_low_pc(__median_find_average_SP_RV)
+      22                      .dwattr $C$DW$1, DW_AT_high_pc(0x00)
+      23                      .dwattr $C$DW$1, DW_AT_TI_symbol_name("__median_find_average_SP_RV")
+      24                      .dwattr $C$DW$1, DW_AT_external
+      25                      .dwattr $C$DW$1, DW_AT_type(*$C$DW$T$16)
+      26                      .dwattr $C$DW$1, DW_AT_TI_begin_file("../vector/median_SP_RV.c")
+      27                      .dwattr $C$DW$1, DW_AT_TI_begin_line(0xbc)
+      28                      .dwattr $C$DW$1, DW_AT_TI_begin_column(0x07)
+      29                      .dwattr $C$DW$1, DW_AT_TI_max_frame_size(-6)
+      30                      .dwpsn  file "../vector/median_SP_RV.c",line 189,column 1,is_stmt,address __median_find_average_SP_RV
+      31              
+      32                      .dwfde $C$DW$CIE, __median_find_average_SP_RV
+      33              $C$DW$2 .dwtag  DW_TAG_formal_parameter
+      34                      .dwattr $C$DW$2, DW_AT_name("x")
+      35                      .dwattr $C$DW$2, DW_AT_TI_symbol_name("_x")
+      36                      .dwattr $C$DW$2, DW_AT_type(*$C$DW$T$23)
+      37                      .dwattr $C$DW$2, DW_AT_location[DW_OP_reg12]
+      38              
+      39              $C$DW$3 .dwtag  DW_TAG_formal_parameter
+      40                      .dwattr $C$DW$3, DW_AT_name("median_low")
+      41                      .dwattr $C$DW$3, DW_AT_TI_symbol_name("_median_low")
+      42                      .dwattr $C$DW$3, DW_AT_type(*$C$DW$T$16)
+      43                      .dwattr $C$DW$3, DW_AT_location[DW_OP_regx 0x2b]
+      44              
+      45              $C$DW$4 .dwtag  DW_TAG_formal_parameter
+      46                      .dwattr $C$DW$4, DW_AT_name("N")
+      47                      .dwattr $C$DW$4, DW_AT_TI_symbol_name("_N")
+      48                      .dwattr $C$DW$4, DW_AT_type(*$C$DW$T$21)
+      49                      .dwattr $C$DW$4, DW_AT_location[DW_OP_reg0]
+      50              
+      51              
+      52              ;***************************************************************
+      53              ;* FNAME: __median_find_average_SP_RV   FR SIZE:   4           *
+      54              ;*                                                             *
+      55              ;* FUNCTION ENVIRONMENT                                        *
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    2
+
+      56              ;*                                                             *
+      57              ;* FUNCTION PROPERTIES                                         *
+      58              ;*                            2 Parameter,  0 Auto,  2 SOE     *
+      59              ;***************************************************************
+      60              
+      61              __median_find_average_SP_RV:
+      62              ;* R3    assigned to $O$C1
+      63              ;* R3    assigned to $O$C2
+      64              ;* AR4   assigned to _x
+      65              $C$DW$5 .dwtag  DW_TAG_variable
+      66                      .dwattr $C$DW$5, DW_AT_name("x")
+      67                      .dwattr $C$DW$5, DW_AT_TI_symbol_name("_x")
+      68                      .dwattr $C$DW$5, DW_AT_type(*$C$DW$T$23)
+      69                      .dwattr $C$DW$5, DW_AT_location[DW_OP_reg12]
+      70              
+      71              ;* R0    assigned to _median_low
+      72              $C$DW$6 .dwtag  DW_TAG_variable
+      73                      .dwattr $C$DW$6, DW_AT_name("median_low")
+      74                      .dwattr $C$DW$6, DW_AT_TI_symbol_name("_median_low")
+      75                      .dwattr $C$DW$6, DW_AT_type(*$C$DW$T$28)
+      76                      .dwattr $C$DW$6, DW_AT_location[DW_OP_regx 0x2b]
+      77              
+      78              ;* AL    assigned to _N
+      79              $C$DW$7 .dwtag  DW_TAG_variable
+      80                      .dwattr $C$DW$7, DW_AT_name("N")
+      81                      .dwattr $C$DW$7, DW_AT_TI_symbol_name("_N")
+      82                      .dwattr $C$DW$7, DW_AT_type(*$C$DW$T$22)
+      83                      .dwattr $C$DW$7, DW_AT_location[DW_OP_reg0]
+      84              
+      85              ;* R2    assigned to _median_delta
+      86              $C$DW$8 .dwtag  DW_TAG_variable
+      87                      .dwattr $C$DW$8, DW_AT_name("median_delta")
+      88                      .dwattr $C$DW$8, DW_AT_TI_symbol_name("_median_delta")
+      89                      .dwattr $C$DW$8, DW_AT_type(*$C$DW$T$16)
+      90                      .dwattr $C$DW$8, DW_AT_location[DW_OP_regx 0x33]
+      91              
+      92              ;* R1    assigned to _median_high
+      93              $C$DW$9 .dwtag  DW_TAG_variable
+      94                      .dwattr $C$DW$9, DW_AT_name("median_high")
+      95                      .dwattr $C$DW$9, DW_AT_TI_symbol_name("_median_high")
+      96                      .dwattr $C$DW$9, DW_AT_type(*$C$DW$T$16)
+      97                      .dwattr $C$DW$9, DW_AT_location[DW_OP_regx 0x2f]
+      98              
+      99              ;* AR5   assigned to _higher_count
+     100              $C$DW$10        .dwtag  DW_TAG_variable
+     101                      .dwattr $C$DW$10, DW_AT_name("higher_count")
+     102                      .dwattr $C$DW$10, DW_AT_TI_symbol_name("_higher_count")
+     103                      .dwattr $C$DW$10, DW_AT_type(*$C$DW$T$21)
+     104                      .dwattr $C$DW$10, DW_AT_location[DW_OP_reg14]
+     105              
+     106              ;* AR6   assigned to _i
+     107              $C$DW$11        .dwtag  DW_TAG_variable
+     108                      .dwattr $C$DW$11, DW_AT_name("i")
+     109                      .dwattr $C$DW$11, DW_AT_TI_symbol_name("_i")
+     110                      .dwattr $C$DW$11, DW_AT_type(*$C$DW$T$21)
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    3
+
+     111                      .dwattr $C$DW$11, DW_AT_location[DW_OP_reg16]
+     112              
+     113                      .dwcfi  cfa_offset, -2
+     114                      .dwcfi  save_reg_to_mem, 26, 0
+     115 00000000 E203          MOV32     *SP++,R4H             ; [CPU_FPU] 
+         00000001 04BD 
+     116                      .dwcfi  save_reg_to_mem, 59, 2
+     117                      .dwcfi  cfa_offset, -4
+     118 00000002 FE02          ADDB      SP,#2                 ; [CPU_ARAU] 
+     119                      .dwcfi  cfa_offset, -6
+     120                      .dwpsn  file "../vector/median_SP_RV.c",line 199,column 5,is_stmt,isa 0
+     121 00000003 E803          MOVIZ     R1H,#32639            ; [CPU_FPU] |199| 
+         00000004 FBF9 
+     122                      .dwpsn  file "../vector/median_SP_RV.c",line 206,column 14,is_stmt,isa 0
+     123 00000005 CDA9          AND       AH,AL,#0xfffe         ; [CPU_ALU] |206| 
+         00000006 FFFE 
+     124                      .dwpsn  file "../vector/median_SP_RV.c",line 200,column 5,is_stmt,isa 0
+     125 00000007 D500          MOVB      XAR5,#0               ; [CPU_ALU] |200| 
+     126                      .dwpsn  file "../vector/median_SP_RV.c",line 206,column 9,is_stmt,isa 0
+     127 00000008 BE00          MOVB      XAR6,#0               ; [CPU_ALU] |206| 
+     128                      .dwpsn  file "../vector/median_SP_RV.c",line 199,column 5,is_stmt,isa 0
+     129 00000009 E80F          MOVXI     R1H,#65535            ; [CPU_FPU] |199| 
+         0000000a FFF9 
+     130 0000000b E720          SUBF32    R2H,R1H,R0H           ; [CPU_FPU] |199| 
+         0000000c 000A 
+     131                      .dwpsn  file "../vector/median_SP_RV.c",line 206,column 14,is_stmt,isa 0
+     132 0000000d 612A          B         $C$L4,EQ              ; [CPU_ALU] |206| 
+     133                      ; branchcc occurs ; [] |206| 
+     134 0000000e       $C$L1:    
+     135                      .dwpsn  file "../vector/median_SP_RV.c",line 209,column 9,is_stmt,isa 0
+     136 0000000e E2AF          MOV32     R3H,*+XAR4[0]         ; [CPU_FPU] |209| 
+         0000000f 03C4 
+     137 00000010 E694          CMPF32    R3H,R0H               ; [CPU_FPU] |209| 
+         00000011 0003 
+     138 00000012 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |209| 
+     139 00000013 650C          B         $C$L2,LEQ             ; [CPU_ALU] |209| 
+     140                      ; branchcc occurs ; [] |209| 
+     141                      .dwpsn  file "../vector/median_SP_RV.c",line 213,column 13,is_stmt,isa 0
+     142 00000014 E720          SUBF32    R4H,R3H,R0H           ; [CPU_FPU] |213| 
+         00000015 001C 
+     143                      .dwpsn  file "../vector/median_SP_RV.c",line 211,column 13,is_stmt,isa 0
+     144 00000016 DD01          ADDB      XAR5,#1               ; [CPU_ALU] |211| 
+     145                      .dwpsn  file "../vector/median_SP_RV.c",line 213,column 13,is_stmt,isa 0
+     146 00000017 E694          CMPF32    R4H,R2H               ; [CPU_FPU] |213| 
+         00000018 0014 
+     147 00000019 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |213| 
+     148 0000001a 6305          B         $C$L2,GEQ             ; [CPU_ALU] |213| 
+     149                      ; branchcc occurs ; [] |213| 
+     150                      .dwpsn  file "../vector/median_SP_RV.c",line 216,column 17,is_stmt,isa 0
+     151 0000001b E6CF          MOV32     R1H,R3H               ; [CPU_FPU] |216| 
+         0000001c 0019 
+     152                      .dwpsn  file "../vector/median_SP_RV.c",line 218,column 17,is_stmt,isa 0
+     153 0000001d E720          SUBF32    R2H,R1H,R0H           ; [CPU_FPU] |218| 
+         0000001e 000A 
+     154 0000001f       $C$L2:    
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    4
+
+     155                      .dwpsn  file "../vector/median_SP_RV.c",line 225,column 9,is_stmt,isa 0
+     156 0000001f DC02          ADDB      XAR4,#2               ; [CPU_ALU] |225| 
+     157 00000020 E2AF          MOV32     R3H,*+XAR4[0]         ; [CPU_FPU] |225| 
+         00000021 03C4 
+     158 00000022 E694          CMPF32    R3H,R0H               ; [CPU_FPU] |225| 
+         00000023 0003 
+     159 00000024 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |225| 
+     160 00000025 650C          B         $C$L3,LEQ             ; [CPU_ALU] |225| 
+     161                      ; branchcc occurs ; [] |225| 
+     162                      .dwpsn  file "../vector/median_SP_RV.c",line 229,column 13,is_stmt,isa 0
+     163 00000026 E720          SUBF32    R4H,R3H,R0H           ; [CPU_FPU] |229| 
+         00000027 001C 
+     164                      .dwpsn  file "../vector/median_SP_RV.c",line 227,column 13,is_stmt,isa 0
+     165 00000028 DD01          ADDB      XAR5,#1               ; [CPU_ALU] |227| 
+     166                      .dwpsn  file "../vector/median_SP_RV.c",line 229,column 13,is_stmt,isa 0
+     167 00000029 E694          CMPF32    R4H,R2H               ; [CPU_FPU] |229| 
+         0000002a 0014 
+     168 0000002b AD14          MOVST0    ZF, NF                ; [CPU_FPU] |229| 
+     169 0000002c 6305          B         $C$L3,GEQ             ; [CPU_ALU] |229| 
+     170                      ; branchcc occurs ; [] |229| 
+     171                      .dwpsn  file "../vector/median_SP_RV.c",line 232,column 17,is_stmt,isa 0
+     172 0000002d E6CF          MOV32     R1H,R3H               ; [CPU_FPU] |232| 
+         0000002e 0019 
+     173                      .dwpsn  file "../vector/median_SP_RV.c",line 234,column 17,is_stmt,isa 0
+     174 0000002f E720          SUBF32    R2H,R1H,R0H           ; [CPU_FPU] |234| 
+         00000030 000A 
+     175 00000031       $C$L3:    
+     176                      .dwpsn  file "../vector/median_SP_RV.c",line 206,column 14,is_stmt,isa 0
+     177 00000031 93A9          MOV       AH,AL                 ; [CPU_ALU] |206| 
+     178 00000032 DE01          ADDB      XAR6,#1               ; [CPU_ALU] |206| 
+     179 00000033 FFD0          LSR       AH,1                  ; [CPU_ALU] |206| 
+     180                      .dwpsn  file "../vector/median_SP_RV.c",line 238,column 9,is_stmt,isa 0
+     181 00000034 DC02          ADDB      XAR4,#2               ; [CPU_ALU] |238| 
+     182                      .dwpsn  file "../vector/median_SP_RV.c",line 206,column 14,is_stmt,isa 0
+     183 00000035 55A6          CMP       AH,AR6                ; [CPU_ALU] |206| 
+     184 00000036 66D8          B         $C$L1,HI              ; [CPU_ALU] |206| 
+     185                      ; branchcc occurs ; [] |206| 
+     186 00000037       $C$L4:    
+     187                      .dwpsn  file "../vector/median_SP_RV.c",line 245,column 9,is_stmt,isa 0
+     188 00000037 FFC0          LSR       AL,1                  ; [CPU_ALU] |245| 
+     189 00000038 54A5          CMP       AL,AR5                ; [CPU_ALU] |245| 
+     190 00000039 6607          B         $C$L5,HI              ; [CPU_ALU] |245| 
+     191                      ; branchcc occurs ; [] |245| 
+     192 0000003a E710          ADDF32    R0H,R0H,R1H           ; [CPU_FPU] |245| 
+         0000003b 0040 
+     193 0000003c 7700          NOP       ; [CPU_ALU] 
+     194 0000003d E84F          MPYF32    R0H,R0H,#16128        ; [CPU_FPU] |245| 
+         0000003e C000 
+     195 0000003f 7700          NOP       ; [CPU_ALU] 
+     196 00000040       $C$L5:    
+     197 00000040 FE82          SUBB      SP,#2                 ; [CPU_ARAU] 
+     198                      .dwcfi  cfa_offset, -4
+     199 00000041 E2AF          MOV32     R4H,*--SP             ; [CPU_FPU] 
+         00000042 04BE 
+     200                      .dwcfi  cfa_offset, -2
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    5
+
+     201                      .dwcfi  restore_reg, 59
+     202              $C$DW$12        .dwtag  DW_TAG_TI_branch
+     203                      .dwattr $C$DW$12, DW_AT_low_pc(0x00)
+     204                      .dwattr $C$DW$12, DW_AT_TI_return
+     205              
+     206 00000043 0006          LRETR     ; [CPU_ALU] 
+     207                      ; return occurs ; [] 
+     208                      .dwattr $C$DW$1, DW_AT_TI_end_file("../vector/median_SP_RV.c")
+     209                      .dwattr $C$DW$1, DW_AT_TI_end_line(0xfd)
+     210                      .dwattr $C$DW$1, DW_AT_TI_end_column(0x01)
+     211                      .dwendentry
+     212                      .dwendtag $C$DW$1
+     213              
+     214 00000044               .sect   ".text"
+     215                      .clink
+     216                      .global _median_SP_RV
+     217              
+     218              $C$DW$13        .dwtag  DW_TAG_subprogram
+     219                      .dwattr $C$DW$13, DW_AT_name("median_SP_RV")
+     220                      .dwattr $C$DW$13, DW_AT_low_pc(_median_SP_RV)
+     221                      .dwattr $C$DW$13, DW_AT_high_pc(0x00)
+     222                      .dwattr $C$DW$13, DW_AT_TI_symbol_name("_median_SP_RV")
+     223                      .dwattr $C$DW$13, DW_AT_external
+     224                      .dwattr $C$DW$13, DW_AT_type(*$C$DW$T$16)
+     225                      .dwattr $C$DW$13, DW_AT_TI_begin_file("../vector/median_SP_RV.c")
+     226                      .dwattr $C$DW$13, DW_AT_TI_begin_line(0x36)
+     227                      .dwattr $C$DW$13, DW_AT_TI_begin_column(0x07)
+     228                      .dwattr $C$DW$13, DW_AT_TI_max_frame_size(-6)
+     229                      .dwpsn  file "../vector/median_SP_RV.c",line 55,column 1,is_stmt,address _median_SP_RV,isa 0
+     230              
+     231                      .dwfde $C$DW$CIE, _median_SP_RV
+     232              $C$DW$14        .dwtag  DW_TAG_formal_parameter
+     233                      .dwattr $C$DW$14, DW_AT_name("x")
+     234                      .dwattr $C$DW$14, DW_AT_TI_symbol_name("_x")
+     235                      .dwattr $C$DW$14, DW_AT_type(*$C$DW$T$23)
+     236                      .dwattr $C$DW$14, DW_AT_location[DW_OP_reg12]
+     237              
+     238              $C$DW$15        .dwtag  DW_TAG_formal_parameter
+     239                      .dwattr $C$DW$15, DW_AT_name("N")
+     240                      .dwattr $C$DW$15, DW_AT_TI_symbol_name("_N")
+     241                      .dwattr $C$DW$15, DW_AT_type(*$C$DW$T$21)
+     242                      .dwattr $C$DW$15, DW_AT_location[DW_OP_reg0]
+     243              
+     244              
+     245              ;***************************************************************
+     246              ;* FNAME: _median_SP_RV                 FR SIZE:   4           *
+     247              ;*                                                             *
+     248              ;* FUNCTION ENVIRONMENT                                        *
+     249              ;*                                                             *
+     250              ;* FUNCTION PROPERTIES                                         *
+     251              ;*                            2 Parameter,  0 Auto,  2 SOE     *
+     252              ;***************************************************************
+     253              
+     254              _median_SP_RV:
+     255              ;* AR6   assigned to $O$C2
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    6
+
+     256              ;* AR5   assigned to $O$C3
+     257              ;* R1    assigned to $O$C4
+     258              ;* R0    assigned to $O$C5
+     259              ;* AR7   assigned to $O$C6
+     260              ;* AR6   assigned to $O$C7
+     261              ;* AR7   assigned to $O$C8
+     262              ;* AR6   assigned to $O$C9
+     263              ;* AR7   assigned to $O$C11
+     264              ;* AR6   assigned to $O$C12
+     265              ;* AR6   assigned to $O$C13
+     266              ;* AR5   assigned to $O$C14
+     267              ;* R1    assigned to $O$C15
+     268              ;* R0    assigned to $O$C16
+     269              ;* AR6   assigned to $O$C17
+     270              ;* AR5   assigned to $O$C18
+     271              ;* R1    assigned to $O$C19
+     272              ;* R0    assigned to $O$C20
+     273              ;* AR6   assigned to $O$C21
+     274              ;* AR5   assigned to $O$C22
+     275              ;* R1    assigned to $O$C23
+     276              ;* R0    assigned to $O$C24
+     277              ;* R1    assigned to $O$T1
+     278              ;* AR4   assigned to _x
+     279              $C$DW$16        .dwtag  DW_TAG_variable
+     280                      .dwattr $C$DW$16, DW_AT_name("x")
+     281                      .dwattr $C$DW$16, DW_AT_TI_symbol_name("_x")
+     282                      .dwattr $C$DW$16, DW_AT_type(*$C$DW$T$24)
+     283                      .dwattr $C$DW$16, DW_AT_location[DW_OP_reg12]
+     284              
+     285              ;* PL    assigned to _N
+     286              $C$DW$17        .dwtag  DW_TAG_variable
+     287                      .dwattr $C$DW$17, DW_AT_name("N")
+     288                      .dwattr $C$DW$17, DW_AT_TI_symbol_name("_N")
+     289                      .dwattr $C$DW$17, DW_AT_type(*$C$DW$T$22)
+     290                      .dwattr $C$DW$17, DW_AT_location[DW_OP_reg2]
+     291              
+     292              ;* AR7   assigned to _p
+     293              $C$DW$18        .dwtag  DW_TAG_variable
+     294                      .dwattr $C$DW$18, DW_AT_name("p")
+     295                      .dwattr $C$DW$18, DW_AT_TI_symbol_name("_p")
+     296                      .dwattr $C$DW$18, DW_AT_type(*$C$DW$T$23)
+     297                      .dwattr $C$DW$18, DW_AT_location[DW_OP_reg18]
+     298              
+     299              ;* PH    assigned to _low
+     300              $C$DW$19        .dwtag  DW_TAG_variable
+     301                      .dwattr $C$DW$19, DW_AT_name("low")
+     302                      .dwattr $C$DW$19, DW_AT_TI_symbol_name("_low")
+     303                      .dwattr $C$DW$19, DW_AT_type(*$C$DW$T$21)
+     304                      .dwattr $C$DW$19, DW_AT_location[DW_OP_reg3]
+     305              
+     306              ;* T     assigned to _high
+     307              $C$DW$20        .dwtag  DW_TAG_variable
+     308                      .dwattr $C$DW$20, DW_AT_name("high")
+     309                      .dwattr $C$DW$20, DW_AT_TI_symbol_name("_high")
+     310                      .dwattr $C$DW$20, DW_AT_type(*$C$DW$T$21)
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    7
+
+     311                      .dwattr $C$DW$20, DW_AT_location[DW_OP_reg22]
+     312              
+     313              ;* AR2   assigned to _median
+     314              $C$DW$21        .dwtag  DW_TAG_variable
+     315                      .dwattr $C$DW$21, DW_AT_name("median")
+     316                      .dwattr $C$DW$21, DW_AT_TI_symbol_name("_median")
+     317                      .dwattr $C$DW$21, DW_AT_type(*$C$DW$T$21)
+     318                      .dwattr $C$DW$21, DW_AT_location[DW_OP_reg8]
+     319              
+     320              ;* AR7   assigned to _middle
+     321              $C$DW$22        .dwtag  DW_TAG_variable
+     322                      .dwattr $C$DW$22, DW_AT_name("middle")
+     323                      .dwattr $C$DW$22, DW_AT_TI_symbol_name("_middle")
+     324                      .dwattr $C$DW$22, DW_AT_type(*$C$DW$T$21)
+     325                      .dwattr $C$DW$22, DW_AT_location[DW_OP_reg18]
+     326              
+     327              ;* AR0   assigned to _ll
+     328              $C$DW$23        .dwtag  DW_TAG_variable
+     329                      .dwattr $C$DW$23, DW_AT_name("ll")
+     330                      .dwattr $C$DW$23, DW_AT_TI_symbol_name("_ll")
+     331                      .dwattr $C$DW$23, DW_AT_type(*$C$DW$T$21)
+     332                      .dwattr $C$DW$23, DW_AT_location[DW_OP_reg4]
+     333              
+     334              ;* AR5   assigned to _hh
+     335              $C$DW$24        .dwtag  DW_TAG_variable
+     336                      .dwattr $C$DW$24, DW_AT_name("hh")
+     337                      .dwattr $C$DW$24, DW_AT_TI_symbol_name("_hh")
+     338                      .dwattr $C$DW$24, DW_AT_type(*$C$DW$T$21)
+     339                      .dwattr $C$DW$24, DW_AT_location[DW_OP_reg14]
+     340              
+     341              ;* R0    assigned to _t
+     342              $C$DW$25        .dwtag  DW_TAG_variable
+     343                      .dwattr $C$DW$25, DW_AT_name("t")
+     344                      .dwattr $C$DW$25, DW_AT_TI_symbol_name("_t")
+     345                      .dwattr $C$DW$25, DW_AT_type(*$C$DW$T$16)
+     346                      .dwattr $C$DW$25, DW_AT_location[DW_OP_regx 0x2b]
+     347              
+     348              ;* R0    assigned to _t
+     349              $C$DW$26        .dwtag  DW_TAG_variable
+     350                      .dwattr $C$DW$26, DW_AT_name("t")
+     351                      .dwattr $C$DW$26, DW_AT_TI_symbol_name("_t")
+     352                      .dwattr $C$DW$26, DW_AT_type(*$C$DW$T$16)
+     353                      .dwattr $C$DW$26, DW_AT_location[DW_OP_regx 0x2b]
+     354              
+     355              ;* R0    assigned to _t
+     356              $C$DW$27        .dwtag  DW_TAG_variable
+     357                      .dwattr $C$DW$27, DW_AT_name("t")
+     358                      .dwattr $C$DW$27, DW_AT_TI_symbol_name("_t")
+     359                      .dwattr $C$DW$27, DW_AT_type(*$C$DW$T$16)
+     360                      .dwattr $C$DW$27, DW_AT_location[DW_OP_regx 0x2b]
+     361              
+     362              ;* R0    assigned to _t
+     363              $C$DW$28        .dwtag  DW_TAG_variable
+     364                      .dwattr $C$DW$28, DW_AT_name("t")
+     365                      .dwattr $C$DW$28, DW_AT_TI_symbol_name("_t")
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    8
+
+     366                      .dwattr $C$DW$28, DW_AT_type(*$C$DW$T$16)
+     367                      .dwattr $C$DW$28, DW_AT_location[DW_OP_regx 0x2b]
+     368              
+     369              ;* R0    assigned to _t
+     370              $C$DW$29        .dwtag  DW_TAG_variable
+     371                      .dwattr $C$DW$29, DW_AT_name("t")
+     372                      .dwattr $C$DW$29, DW_AT_TI_symbol_name("_t")
+     373                      .dwattr $C$DW$29, DW_AT_type(*$C$DW$T$16)
+     374                      .dwattr $C$DW$29, DW_AT_location[DW_OP_regx 0x2b]
+     375              
+     376              ;* R0    assigned to _t
+     377              $C$DW$30        .dwtag  DW_TAG_variable
+     378                      .dwattr $C$DW$30, DW_AT_name("t")
+     379                      .dwattr $C$DW$30, DW_AT_TI_symbol_name("_t")
+     380                      .dwattr $C$DW$30, DW_AT_type(*$C$DW$T$16)
+     381                      .dwattr $C$DW$30, DW_AT_location[DW_OP_regx 0x2b]
+     382              
+     383              ;* R0    assigned to _t
+     384              $C$DW$31        .dwtag  DW_TAG_variable
+     385                      .dwattr $C$DW$31, DW_AT_name("t")
+     386                      .dwattr $C$DW$31, DW_AT_TI_symbol_name("_t")
+     387                      .dwattr $C$DW$31, DW_AT_type(*$C$DW$T$16)
+     388                      .dwattr $C$DW$31, DW_AT_location[DW_OP_regx 0x2b]
+     389              
+     390                      .dwcfi  cfa_offset, -2
+     391                      .dwcfi  save_reg_to_mem, 26, 0
+     392 00000044 AABD          MOVL      *SP++,XAR2            ; [CPU_ALU] 
+     393                      .dwcfi  save_reg_to_mem, 9, 2
+     394                      .dwcfi  cfa_offset, -4
+     395 00000045 FE02          ADDB      SP,#2                 ; [CPU_ARAU] 
+     396                      .dwcfi  cfa_offset, -6
+     397 00000046 27A9          MOV       PL,AL                 ; [CPU_ALU] |55| 
+     398                      .dwpsn  file "../vector/median_SP_RV.c",line 64,column 5,is_stmt,isa 0
+     399 00000047 9CFF          ADDB      AL,#-1                ; [CPU_ALU] |64| 
+     400 00000048 2DA9          MOV       T,AL                  ; [CPU_ALU] |64| 
+     401                      .dwpsn  file "../vector/median_SP_RV.c",line 63,column 5,is_stmt,isa 0
+     402 00000049 2BAA          MOV       PH,#0                 ; [CPU_ALU] |63| 
+     403                      .dwpsn  file "../vector/median_SP_RV.c",line 65,column 5,is_stmt,isa 0
+     404 0000004a 93AC          MOV       AH,T                  ; [CPU_ALU] |65| 
+     405 0000004b FFD0          LSR       AH,1                  ; [CPU_ALU] |65| 
+     406 0000004c 5AA8          MOVZ      AR2,AH                ; [CPU_ALU] |65| 
+     407 0000004d 6F18          B         $C$L8,UNC             ; [CPU_ALU] 
+     408                      ; branch occurs ; [] 
+     409 0000004e       $C$L6:    
+     410 0000004e 92AA          MOV       AL,PH                 ; [CPU_ALU] 
+     411                      .dwpsn  file "../vector/median_SP_RV.c",line 124,column 9,is_stmt,isa 0
+     412 0000004f 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |124| 
+         00000050 01A9 
+     413 00000051 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |124| 
+     414 00000052 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |124| 
+     415 00000053 5603          MOV       ACC,AR5 << 1          ; [CPU_ALU] |124| 
+         00000054 01A5 
+     416 00000055 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |124| 
+     417 00000056 1EA7          MOVL      XAR7,ACC              ; [CPU_ALU] |124| 
+     418 00000057 E2AF          MOV32     R0H,*+XAR6[0]         ; [CPU_FPU] |124| 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE    9
+
+         00000058 00C6 
+     419 00000059 06C7          MOVL      ACC,*+XAR7[0]         ; [CPU_ALU] |124| 
+     420 0000005a 1EC6          MOVL      *+XAR6[0],ACC         ; [CPU_ALU] |124| 
+     421 0000005b 93A2          MOV       AH,AR2                ; [CPU_ALU] |124| 
+     422                      .dwpsn  file "../vector/median_SP_RV.c",line 127,column 9,is_stmt,isa 0
+     423 0000005c 55A5          CMP       AH,AR5                ; [CPU_ALU] |127| 
+     424                      .dwpsn  file "../vector/median_SP_RV.c",line 124,column 9,is_stmt,isa 0
+     425 0000005d E203          MOV32     *+XAR7[0],R0H         ; [CPU_FPU] |124| 
+         0000005e 00C7 
+     426                      .dwpsn  file "../vector/median_SP_RV.c",line 127,column 9,is_stmt,isa 0
+     427 0000005f 6802          B         $C$L7,LO              ; [CPU_ALU] |127| 
+     428                      ; branchcc occurs ; [] |127| 
+     429                      .dwpsn  file "../vector/median_SP_RV.c",line 127,column 27,is_stmt,isa 0
+     430 00000060 2FA0          MOV       PH,AR0                ; [CPU_ALU] |127| 
+     431 00000061       $C$L7:    
+     432                      .dwpsn  file "../vector/median_SP_RV.c",line 128,column 9,is_stmt,isa 0
+     433 00000061 55A5          CMP       AH,AR5                ; [CPU_ALU] |128| 
+     434 00000062 6603          B         $C$L8,HI              ; [CPU_ALU] |128| 
+     435                      ; branchcc occurs ; [] |128| 
+     436                      .dwpsn  file "../vector/median_SP_RV.c",line 128,column 27,is_stmt,isa 0
+     437 00000063 DD81          SUBB      XAR5,#1               ; [CPU_ARAU] |128| 
+     438 00000064 2DA5          MOV       T,AR5                 ; [CPU_ALU] |128| 
+     439 00000065       $C$L8:    
+     440 00000065 93AA          MOV       AH,PH                 ; [CPU_ALU] 
+     441                      .dwpsn  file "../vector/median_SP_RV.c",line 70,column 9,is_stmt,isa 0
+     442 00000066 55AC          CMP       AH,T                  ; [CPU_ALU] |70| 
+     443 00000067 FFE7          B         $C$L16,HIS            ; [CPU_ALU] |70| 
+         00000068 00B0 
+     444                      ; branchcc occurs ; [] |70| 
+     445                      .dwpsn  file "../vector/median_SP_RV.c",line 82,column 9,is_stmt,isa 0
+     446 00000069 93AC          MOV       AH,T                  ; [CPU_ALU] |82| 
+     447 0000006a 9FAA          SUB       AH,PH                 ; [CPU_ALU] |82| 
+     448 0000006b 5301          CMPB      AH,#1                 ; [CPU_ALU] |82| 
+     449 0000006c FFE1          B         $C$L15,EQ             ; [CPU_ALU] |82| 
+         0000006d 0096 
+     450                      ; branchcc occurs ; [] |82| 
+     451                      .dwpsn  file "../vector/median_SP_RV.c",line 99,column 9,is_stmt,isa 0
+     452 0000006e 93AC          MOV       AH,T                  ; [CPU_ALU] |99| 
+     453 0000006f 2901          CLRC      SXM                   ; [CPU_ALU] 
+     454 00000070 95AA          ADD       AH,PH                 ; [CPU_ALU] |99| 
+     455 00000071 FFD0          LSR       AH,1                  ; [CPU_ALU] |99| 
+     456 00000072 80A8          MOVZ      AR7,AH                ; [CPU_ALU] |99| 
+     457                      .dwpsn  file "../vector/median_SP_RV.c",line 100,column 9,is_stmt,isa 0
+     458 00000073 5603          MOV       ACC,T << 1            ; [CPU_ALU] |100| 
+         00000074 01AC 
+     459 00000075 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |100| 
+     460 00000076 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |100| 
+     461 00000077 5603          MOV       ACC,AR7 << 1          ; [CPU_ALU] |100| 
+         00000078 01A7 
+     462 00000079 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |100| 
+     463 0000007a 83A9          MOVL      XAR5,ACC              ; [CPU_ALU] |100| 
+     464 0000007b E2AF          MOV32     R1H,*+XAR6[0]         ; [CPU_FPU] |100| 
+         0000007c 01C6 
+     465 0000007d E2AF          MOV32     R0H,*+XAR5[0]         ; [CPU_FPU] |100| 
+         0000007e 00C5 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   10
+
+     466 0000007f E694          CMPF32    R0H,R1H               ; [CPU_FPU] |100| 
+         00000080 0008 
+     467 00000081 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |100| 
+     468 00000082 6505          B         $C$L9,LEQ             ; [CPU_ALU] |100| 
+     469                      ; branchcc occurs ; [] |100| 
+     470                      .dwpsn  file "../vector/median_SP_RV.c",line 100,column 37,is_stmt,isa 0
+     471 00000083 E203          MOV32     *+XAR5[0],R1H         ; [CPU_FPU] |100| 
+         00000084 01C5 
+     472 00000085 E203          MOV32     *+XAR6[0],R0H         ; [CPU_FPU] |100| 
+         00000086 00C6 
+     473 00000087       $C$L9:    
+     474                      .dwpsn  file "../vector/median_SP_RV.c",line 101,column 9,is_stmt,isa 0
+     475 00000087 5DAA          MOVZ      AR5,PH                ; [CPU_ALU] |101| 
+     476 00000088 5603          MOV       ACC,T << 1            ; [CPU_ALU] |101| 
+         00000089 01AC 
+     477 0000008a 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |101| 
+     478 0000008b 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |101| 
+     479 0000008c 5603          MOV       ACC,AR5 << 1          ; [CPU_ALU] |101| 
+         0000008d 01A5 
+     480 0000008e 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |101| 
+     481 0000008f 83A9          MOVL      XAR5,ACC              ; [CPU_ALU] |101| 
+     482 00000090 E2AF          MOV32     R1H,*+XAR6[0]         ; [CPU_FPU] |101| 
+         00000091 01C6 
+     483 00000092 E2AF          MOV32     R0H,*+XAR5[0]         ; [CPU_FPU] |101| 
+         00000093 00C5 
+     484 00000094 E694          CMPF32    R0H,R1H               ; [CPU_FPU] |101| 
+         00000095 0008 
+     485 00000096 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |101| 
+     486 00000097 6505          B         $C$L10,LEQ            ; [CPU_ALU] |101| 
+     487                      ; branchcc occurs ; [] |101| 
+     488                      .dwpsn  file "../vector/median_SP_RV.c",line 101,column 38,is_stmt,isa 0
+     489 00000098 E203          MOV32     *+XAR5[0],R1H         ; [CPU_FPU] |101| 
+         00000099 01C5 
+     490 0000009a E203          MOV32     *+XAR6[0],R0H         ; [CPU_FPU] |101| 
+         0000009b 00C6 
+     491 0000009c       $C$L10:    
+     492 0000009c 92AA          MOV       AL,PH                 ; [CPU_ALU] 
+     493                      .dwpsn  file "../vector/median_SP_RV.c",line 102,column 9,is_stmt,isa 0
+     494 0000009d 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |102| 
+         0000009e 01A9 
+     495 0000009f 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |102| 
+     496 000000a0 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |102| 
+     497 000000a1 5603          MOV       ACC,AR7 << 1          ; [CPU_ALU] |102| 
+         000000a2 01A7 
+     498 000000a3 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |102| 
+     499 000000a4 83A9          MOVL      XAR5,ACC              ; [CPU_ALU] |102| 
+     500 000000a5 E2AF          MOV32     R1H,*+XAR6[0]         ; [CPU_FPU] |102| 
+         000000a6 01C6 
+     501 000000a7 E2AF          MOV32     R0H,*+XAR5[0]         ; [CPU_FPU] |102| 
+         000000a8 00C5 
+     502 000000a9 E694          CMPF32    R0H,R1H               ; [CPU_FPU] |102| 
+         000000aa 0008 
+     503 000000ab AD14          MOVST0    ZF, NF                ; [CPU_FPU] |102| 
+     504 000000ac 6505          B         $C$L11,LEQ            ; [CPU_ALU] |102| 
+     505                      ; branchcc occurs ; [] |102| 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   11
+
+     506                      .dwpsn  file "../vector/median_SP_RV.c",line 102,column 40,is_stmt,isa 0
+     507 000000ad E203          MOV32     *+XAR5[0],R1H         ; [CPU_FPU] |102| 
+         000000ae 01C5 
+     508 000000af E203          MOV32     *+XAR6[0],R0H         ; [CPU_FPU] |102| 
+         000000b0 00C6 
+     509 000000b1       $C$L11:    
+     510                      .dwpsn  file "../vector/median_SP_RV.c",line 105,column 9,is_stmt,isa 0
+     511 000000b1 5603          MOV       ACC,AR7 << 1          ; [CPU_ALU] |105| 
+         000000b2 01A7 
+     512 000000b3 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |105| 
+     513 000000b4 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |105| 
+     514 000000b5 9B01          MOVB      AH,#1                 ; [CPU_ALU] |105| 
+     515 000000b6 95AA          ADD       AH,PH                 ; [CPU_ALU] |105| 
+     516 000000b7 58A8          MOVZ      AR0,AH                ; [CPU_ALU] |105| 
+     517 000000b8 5603          MOV       ACC,AR0 << 1          ; [CPU_ALU] |105| 
+         000000b9 01A0 
+     518 000000ba 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |105| 
+     519 000000bb 1EA7          MOVL      XAR7,ACC              ; [CPU_ALU] |105| 
+     520 000000bc E2AF          MOV32     R0H,*+XAR6[0]         ; [CPU_FPU] |105| 
+         000000bd 00C6 
+     521                      .dwpsn  file "../vector/median_SP_RV.c",line 109,column 9,is_stmt,isa 0
+     522 000000be 5DAC          MOVZ      AR5,T                 ; [CPU_ALU] |109| 
+     523                      .dwpsn  file "../vector/median_SP_RV.c",line 105,column 9,is_stmt,isa 0
+     524 000000bf 06C7          MOVL      ACC,*+XAR7[0]         ; [CPU_ALU] |105| 
+     525 000000c0 1EC6          MOVL      *+XAR6[0],ACC         ; [CPU_ALU] |105| 
+     526 000000c1 E203          MOV32     *+XAR7[0],R0H         ; [CPU_FPU] |105| 
+         000000c2 00C7 
+     527 000000c3       $C$L12:    
+     528                      .dwpsn  file "../vector/median_SP_RV.c",line 113,column 13,is_stmt,isa 0
+     529 000000c3 92A0          MOV       AL,AR0                ; [CPU_ALU] |113| 
+     530 000000c4 2901          CLRC      SXM                   ; [CPU_ALU] 
+     531 000000c5 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |113| 
+         000000c6 01A9 
+     532 000000c7 2901          CLRC      SXM                   ; [CPU_ALU] 
+     533 000000c8 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |113| 
+     534 000000c9 0902          ADDB      ACC,#2                ; [CPU_ALU] |113| 
+     535 000000ca 1EA7          MOVL      XAR7,ACC              ; [CPU_ALU] |113| 
+     536 000000cb       $C$L13:    
+     537 000000cb 92AA          MOV       AL,PH                 ; [CPU_ALU] 
+     538                      .dwpsn  file "../vector/median_SP_RV.c",line 114,column 29,is_stmt,isa 0
+     539 000000cc 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |114| 
+         000000cd 01A9 
+     540 000000ce 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |114| 
+     541                      .dwpsn  file "../vector/median_SP_RV.c",line 114,column 16,is_stmt,isa 0
+     542 000000cf 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |114| 
+     543 000000d0 D801          ADDB      XAR0,#1               ; [CPU_ALU] |114| 
+     544                      .dwpsn  file "../vector/median_SP_RV.c",line 114,column 29,is_stmt,isa 0
+     545 000000d1 E2AF          MOV32     R1H,*XAR7++           ; [CPU_FPU] |114| 
+         000000d2 0187 
+     546 000000d3 E2AF          MOV32     R0H,*+XAR6[0]         ; [CPU_FPU] |114| 
+         000000d4 00C6 
+     547 000000d5 E694          CMPF32    R0H,R1H               ; [CPU_FPU] |114| 
+         000000d6 0008 
+     548 000000d7 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |114| 
+     549 000000d8 62F3          B         $C$L13,GT             ; [CPU_ALU] |114| 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   12
+
+     550                      ; branchcc occurs ; [] |114| 
+     551                      .dwpsn  file "../vector/median_SP_RV.c",line 115,column 13,is_stmt,isa 0
+     552 000000d9 5603          MOV       ACC,AR5 << 1          ; [CPU_ALU] |115| 
+         000000da 01A5 
+     553 000000db 2901          CLRC      SXM                   ; [CPU_ALU] 
+     554 000000dc 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |115| 
+     555 000000dd 1902          SUBB      ACC,#2                ; [CPU_ALU] |115| 
+     556 000000de 1EA7          MOVL      XAR7,ACC              ; [CPU_ALU] |115| 
+     557 000000df       $C$L14:    
+     558 000000df 92AA          MOV       AL,PH                 ; [CPU_ALU] 
+     559                      .dwpsn  file "../vector/median_SP_RV.c",line 116,column 29,is_stmt,isa 0
+     560 000000e0 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |116| 
+         000000e1 01A9 
+     561 000000e2 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |116| 
+     562                      .dwpsn  file "../vector/median_SP_RV.c",line 116,column 16,is_stmt,isa 0
+     563 000000e3 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |116| 
+     564                      .dwpsn  file "../vector/median_SP_RV.c",line 116,column 29,is_stmt,isa 0
+     565 000000e4 DF82          SUBB      XAR7,#2               ; [CPU_ALU] |116| 
+     566 000000e5 E2AF          MOV32     R1H,*+XAR7[2]         ; [CPU_FPU] |116| 
+         000000e6 01D7 
+     567                      .dwpsn  file "../vector/median_SP_RV.c",line 116,column 16,is_stmt,isa 0
+     568 000000e7 DD81          SUBB      XAR5,#1               ; [CPU_ARAU] |116| 
+     569                      .dwpsn  file "../vector/median_SP_RV.c",line 116,column 29,is_stmt,isa 0
+     570 000000e8 E2AF          MOV32     R0H,*+XAR6[0]         ; [CPU_FPU] |116| 
+         000000e9 00C6 
+     571 000000ea E694          CMPF32    R1H,R0H               ; [CPU_FPU] |116| 
+         000000eb 0001 
+     572 000000ec AD14          MOVST0    ZF, NF                ; [CPU_FPU] |116| 
+     573 000000ed 62F2          B         $C$L14,GT             ; [CPU_ALU] |116| 
+     574                      ; branchcc occurs ; [] |116| 
+     575 000000ee 93A0          MOV       AH,AR0                ; [CPU_ALU] 
+     576                      .dwpsn  file "../vector/median_SP_RV.c",line 118,column 26,is_stmt,isa 0
+     577 000000ef 55A5          CMP       AH,AR5                ; [CPU_ALU] |118| 
+     578 000000f0 FFE6          B         $C$L6,HI              ; [CPU_ALU] |118| 
+         000000f1 FF5E 
+     579                      ; branchcc occurs ; [] |118| 
+     580                      .dwpsn  file "../vector/median_SP_RV.c",line 120,column 13,is_stmt,isa 0
+     581 000000f2 92A0          MOV       AL,AR0                ; [CPU_ALU] |120| 
+     582 000000f3 5603          MOV       ACC,AL << 1           ; [CPU_ALU] |120| 
+         000000f4 01A9 
+     583 000000f5 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |120| 
+     584 000000f6 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |120| 
+     585 000000f7 5603          MOV       ACC,AR5 << 1          ; [CPU_ALU] |120| 
+         000000f8 01A5 
+     586 000000f9 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |120| 
+     587 000000fa 1EA7          MOVL      XAR7,ACC              ; [CPU_ALU] |120| 
+     588 000000fb E2AF          MOV32     R0H,*+XAR6[0]         ; [CPU_FPU] |120| 
+         000000fc 00C6 
+     589 000000fd 06C7          MOVL      ACC,*+XAR7[0]         ; [CPU_ALU] |120| 
+     590 000000fe 1EC6          MOVL      *+XAR6[0],ACC         ; [CPU_ALU] |120| 
+     591 000000ff E203          MOV32     *+XAR7[0],R0H         ; [CPU_FPU] |120| 
+         00000100 00C7 
+     592                      .dwpsn  file "../vector/median_SP_RV.c",line 121,column 9,is_stmt,isa 0
+     593 00000101 6FC2          B         $C$L12,UNC            ; [CPU_ALU] |121| 
+     594                      ; branch occurs ; [] |121| 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   13
+
+     595 00000102       $C$L15:    
+     596 00000102 2901          CLRC      SXM                   ; [CPU_ALU] 
+     597                      .dwpsn  file "../vector/median_SP_RV.c",line 84,column 13,is_stmt,isa 0
+     598 00000103 5603          MOV       ACC,T << 1            ; [CPU_ALU] |84| 
+         00000104 01AC 
+     599 00000105 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |84| 
+     600 00000106 1EA6          MOVL      XAR6,ACC              ; [CPU_ALU] |84| 
+     601 00000107 5603          MOV       ACC,PH << 1           ; [CPU_ALU] |84| 
+         00000108 01AA 
+     602 00000109 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |84| 
+     603 0000010a 83A9          MOVL      XAR5,ACC              ; [CPU_ALU] |84| 
+     604 0000010b E2AF          MOV32     R1H,*+XAR6[0]         ; [CPU_FPU] |84| 
+         0000010c 01C6 
+     605 0000010d E2AF          MOV32     R0H,*+XAR5[0]         ; [CPU_FPU] |84| 
+         0000010e 00C5 
+     606 0000010f E694          CMPF32    R0H,R1H               ; [CPU_FPU] |84| 
+         00000110 0008 
+     607 00000111 AD14          MOVST0    ZF, NF                ; [CPU_FPU] |84| 
+     608 00000112 6505          B         $C$L16,LEQ            ; [CPU_ALU] |84| 
+     609                      ; branchcc occurs ; [] |84| 
+     610                      .dwpsn  file "../vector/median_SP_RV.c",line 84,column 35,is_stmt,isa 0
+     611 00000113 E203          MOV32     *+XAR5[0],R1H         ; [CPU_FPU] |84| 
+         00000114 01C5 
+     612 00000115 E203          MOV32     *+XAR6[0],R0H         ; [CPU_FPU] |84| 
+         00000116 00C6 
+     613 00000117       $C$L16:    
+     614                      .dwpsn  file "../vector/median_SP_RV.c",line 78,column 17,is_stmt,isa 0
+     615 00000117 40AB          TBIT      PL,#0                 ; [CPU_ALU] |78| 
+     616 00000118 6C09          B         $C$L17,NTC            ; [CPU_ALU] |78| 
+     617                      ; branchcc occurs ; [] |78| 
+     618 00000119 2901          CLRC      SXM                   ; [CPU_ALU] 
+     619 0000011a 5603          MOV       ACC,AR2 << 1          ; [CPU_ALU] |78| 
+         0000011b 01A2 
+     620 0000011c 5601          ADDL      XAR4,ACC              ; [CPU_ALU] |78| 
+         0000011d 00A4 
+     621 0000011e E2AF          MOV32     R0H,*+XAR4[0]         ; [CPU_FPU] |78| 
+         0000011f 00C4 
+     622 00000120 6F0B          B         $C$L18,UNC            ; [CPU_ALU] |78| 
+     623                      ; branch occurs ; [] |78| 
+     624 00000121       $C$L17:    
+     625 00000121 2901          CLRC      SXM                   ; [CPU_ALU] 
+     626 00000122 5603          MOV       ACC,AR2 << 1          ; [CPU_ALU] |78| 
+         00000123 01A2 
+     627 00000124 07A4          ADDL      ACC,XAR4              ; [CPU_ALU] |78| 
+     628 00000125 83A9          MOVL      XAR5,ACC              ; [CPU_ALU] |78| 
+     629 00000126 92AB          MOV       AL,PL                 ; [CPU_ALU] |78| 
+     630 00000127 E2AF          MOV32     R0H,*+XAR5[0]         ; [CPU_FPU] |78| 
+         00000128 00C5 
+     631              $C$DW$32        .dwtag  DW_TAG_TI_branch
+     632                      .dwattr $C$DW$32, DW_AT_low_pc(0x00)
+     633                      .dwattr $C$DW$32, DW_AT_name("__median_find_average_SP_RV")
+     634                      .dwattr $C$DW$32, DW_AT_TI_call
+     635              
+     636 00000129 7640'         LCR       #__median_find_average_SP_RV ; [CPU_ALU] |78| 
+         0000012a 0000 
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   14
+
+     637                      ; call occurs [#__median_find_average_SP_RV] ; [] |78| 
+     638 0000012b       $C$L18:    
+     639 0000012b FE82          SUBB      SP,#2                 ; [CPU_ARAU] 
+     640                      .dwcfi  cfa_offset, -4
+     641 0000012c 86BE          MOVL      XAR2,*--SP            ; [CPU_ALU] 
+     642                      .dwcfi  cfa_offset, -2
+     643                      .dwcfi  restore_reg, 9
+     644              $C$DW$33        .dwtag  DW_TAG_TI_branch
+     645                      .dwattr $C$DW$33, DW_AT_low_pc(0x00)
+     646                      .dwattr $C$DW$33, DW_AT_TI_return
+     647              
+     648 0000012d 0006          LRETR     ; [CPU_ALU] 
+     649                      ; return occurs ; [] 
+     650                      .dwattr $C$DW$13, DW_AT_TI_end_file("../vector/median_SP_RV.c")
+     651                      .dwattr $C$DW$13, DW_AT_TI_end_line(0x84)
+     652                      .dwattr $C$DW$13, DW_AT_TI_end_column(0x01)
+     653                      .dwendentry
+     654                      .dwendtag $C$DW$13
+     655              
+     656              
+     657              ;***************************************************************
+     658              ;* TYPE INFORMATION                                            *
+     659              ;***************************************************************
+     660              $C$DW$T$2       .dwtag  DW_TAG_unspecified_type
+     661                      .dwattr $C$DW$T$2, DW_AT_name("void")
+     662              
+     663              $C$DW$T$4       .dwtag  DW_TAG_base_type
+     664                      .dwattr $C$DW$T$4, DW_AT_encoding(DW_ATE_boolean)
+     665                      .dwattr $C$DW$T$4, DW_AT_name("bool")
+     666                      .dwattr $C$DW$T$4, DW_AT_byte_size(0x01)
+     667              
+     668              $C$DW$T$5       .dwtag  DW_TAG_base_type
+     669                      .dwattr $C$DW$T$5, DW_AT_encoding(DW_ATE_signed_char)
+     670                      .dwattr $C$DW$T$5, DW_AT_name("signed char")
+     671                      .dwattr $C$DW$T$5, DW_AT_byte_size(0x01)
+     672              
+     673              $C$DW$T$6       .dwtag  DW_TAG_base_type
+     674                      .dwattr $C$DW$T$6, DW_AT_encoding(DW_ATE_unsigned_char)
+     675                      .dwattr $C$DW$T$6, DW_AT_name("unsigned char")
+     676                      .dwattr $C$DW$T$6, DW_AT_byte_size(0x01)
+     677              
+     678              $C$DW$T$7       .dwtag  DW_TAG_base_type
+     679                      .dwattr $C$DW$T$7, DW_AT_encoding(DW_ATE_signed_char)
+     680                      .dwattr $C$DW$T$7, DW_AT_name("wchar_t")
+     681                      .dwattr $C$DW$T$7, DW_AT_byte_size(0x01)
+     682              
+     683              $C$DW$T$8       .dwtag  DW_TAG_base_type
+     684                      .dwattr $C$DW$T$8, DW_AT_encoding(DW_ATE_signed)
+     685                      .dwattr $C$DW$T$8, DW_AT_name("short")
+     686                      .dwattr $C$DW$T$8, DW_AT_byte_size(0x01)
+     687              
+     688              $C$DW$T$9       .dwtag  DW_TAG_base_type
+     689                      .dwattr $C$DW$T$9, DW_AT_encoding(DW_ATE_unsigned)
+     690                      .dwattr $C$DW$T$9, DW_AT_name("unsigned short")
+     691                      .dwattr $C$DW$T$9, DW_AT_byte_size(0x01)
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   15
+
+     692              
+     693              $C$DW$T$10      .dwtag  DW_TAG_base_type
+     694                      .dwattr $C$DW$T$10, DW_AT_encoding(DW_ATE_signed)
+     695                      .dwattr $C$DW$T$10, DW_AT_name("int")
+     696                      .dwattr $C$DW$T$10, DW_AT_byte_size(0x01)
+     697              
+     698              $C$DW$T$11      .dwtag  DW_TAG_base_type
+     699                      .dwattr $C$DW$T$11, DW_AT_encoding(DW_ATE_unsigned)
+     700                      .dwattr $C$DW$T$11, DW_AT_name("unsigned int")
+     701                      .dwattr $C$DW$T$11, DW_AT_byte_size(0x01)
+     702              
+     703              $C$DW$T$20      .dwtag  DW_TAG_typedef
+     704                      .dwattr $C$DW$T$20, DW_AT_name("__uint16_t")
+     705                      .dwattr $C$DW$T$20, DW_AT_type(*$C$DW$T$11)
+     706                      .dwattr $C$DW$T$20, DW_AT_language(DW_LANG_C)
+     707              
+     708              $C$DW$T$21      .dwtag  DW_TAG_typedef
+     709                      .dwattr $C$DW$T$21, DW_AT_name("uint16_t")
+     710                      .dwattr $C$DW$T$21, DW_AT_type(*$C$DW$T$20)
+     711                      .dwattr $C$DW$T$21, DW_AT_language(DW_LANG_C)
+     712              
+     713              $C$DW$34        .dwtag  DW_TAG_TI_far_type
+     714                      .dwattr $C$DW$34, DW_AT_type(*$C$DW$T$21)
+     715              
+     716              $C$DW$T$22      .dwtag  DW_TAG_const_type
+     717                      .dwattr $C$DW$T$22, DW_AT_type(*$C$DW$34)
+     718              
+     719              $C$DW$T$12      .dwtag  DW_TAG_base_type
+     720                      .dwattr $C$DW$T$12, DW_AT_encoding(DW_ATE_signed)
+     721                      .dwattr $C$DW$T$12, DW_AT_name("long")
+     722                      .dwattr $C$DW$T$12, DW_AT_byte_size(0x02)
+     723              
+     724              $C$DW$T$13      .dwtag  DW_TAG_base_type
+     725                      .dwattr $C$DW$T$13, DW_AT_encoding(DW_ATE_unsigned)
+     726                      .dwattr $C$DW$T$13, DW_AT_name("unsigned long")
+     727                      .dwattr $C$DW$T$13, DW_AT_byte_size(0x02)
+     728              
+     729              $C$DW$T$14      .dwtag  DW_TAG_base_type
+     730                      .dwattr $C$DW$T$14, DW_AT_encoding(DW_ATE_signed)
+     731                      .dwattr $C$DW$T$14, DW_AT_name("long long")
+     732                      .dwattr $C$DW$T$14, DW_AT_byte_size(0x04)
+     733              
+     734              $C$DW$T$15      .dwtag  DW_TAG_base_type
+     735                      .dwattr $C$DW$T$15, DW_AT_encoding(DW_ATE_unsigned)
+     736                      .dwattr $C$DW$T$15, DW_AT_name("unsigned long long")
+     737                      .dwattr $C$DW$T$15, DW_AT_byte_size(0x04)
+     738              
+     739              $C$DW$T$16      .dwtag  DW_TAG_base_type
+     740                      .dwattr $C$DW$T$16, DW_AT_encoding(DW_ATE_float)
+     741                      .dwattr $C$DW$T$16, DW_AT_name("float")
+     742                      .dwattr $C$DW$T$16, DW_AT_byte_size(0x02)
+     743              
+     744              $C$DW$T$23      .dwtag  DW_TAG_pointer_type
+     745                      .dwattr $C$DW$T$23, DW_AT_type(*$C$DW$T$16)
+     746                      .dwattr $C$DW$T$23, DW_AT_address_class(0x20)
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   16
+
+     747              
+     748              $C$DW$35        .dwtag  DW_TAG_TI_far_type
+     749                      .dwattr $C$DW$35, DW_AT_type(*$C$DW$T$23)
+     750              
+     751              $C$DW$T$24      .dwtag  DW_TAG_const_type
+     752                      .dwattr $C$DW$T$24, DW_AT_type(*$C$DW$35)
+     753              
+     754              $C$DW$36        .dwtag  DW_TAG_TI_far_type
+     755                      .dwattr $C$DW$36, DW_AT_type(*$C$DW$T$16)
+     756              
+     757              $C$DW$T$28      .dwtag  DW_TAG_const_type
+     758                      .dwattr $C$DW$T$28, DW_AT_type(*$C$DW$36)
+     759              
+     760              $C$DW$T$17      .dwtag  DW_TAG_base_type
+     761                      .dwattr $C$DW$T$17, DW_AT_encoding(DW_ATE_float)
+     762                      .dwattr $C$DW$T$17, DW_AT_name("double")
+     763                      .dwattr $C$DW$T$17, DW_AT_byte_size(0x02)
+     764              
+     765              $C$DW$T$18      .dwtag  DW_TAG_base_type
+     766                      .dwattr $C$DW$T$18, DW_AT_encoding(DW_ATE_float)
+     767                      .dwattr $C$DW$T$18, DW_AT_name("long double")
+     768                      .dwattr $C$DW$T$18, DW_AT_byte_size(0x04)
+     769              
+     770                      .dwattr $C$DW$CU, DW_AT_language(DW_LANG_C)
+     771              
+     772              ;***************************************************************
+     773              ;* DWARF CIE ENTRIES                                           *
+     774              ;***************************************************************
+     775              
+     776              $C$DW$CIE       .dwcie 26
+     777                      .dwcfi  cfa_register, 20
+     778                      .dwcfi  cfa_offset, 0
+     779                      .dwcfi  same_value, 28
+     780                      .dwcfi  same_value, 6
+     781                      .dwcfi  same_value, 7
+     782                      .dwcfi  same_value, 8
+     783                      .dwcfi  same_value, 9
+     784                      .dwcfi  same_value, 10
+     785                      .dwcfi  same_value, 11
+     786                      .dwcfi  same_value, 59
+     787                      .dwcfi  same_value, 63
+     788                      .dwcfi  same_value, 67
+     789                      .dwcfi  same_value, 71
+     790                      .dwendentry
+     791              
+     792              ;***************************************************************
+     793              ;* DWARF REGISTER MAP                                          *
+     794              ;***************************************************************
+     795              
+     796              $C$DW$37        .dwtag  DW_TAG_TI_assign_register
+     797                      .dwattr $C$DW$37, DW_AT_name("AL")
+     798                      .dwattr $C$DW$37, DW_AT_location[DW_OP_reg0]
+     799              
+     800              $C$DW$38        .dwtag  DW_TAG_TI_assign_register
+     801                      .dwattr $C$DW$38, DW_AT_name("AH")
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   17
+
+     802                      .dwattr $C$DW$38, DW_AT_location[DW_OP_reg1]
+     803              
+     804              $C$DW$39        .dwtag  DW_TAG_TI_assign_register
+     805                      .dwattr $C$DW$39, DW_AT_name("PL")
+     806                      .dwattr $C$DW$39, DW_AT_location[DW_OP_reg2]
+     807              
+     808              $C$DW$40        .dwtag  DW_TAG_TI_assign_register
+     809                      .dwattr $C$DW$40, DW_AT_name("PH")
+     810                      .dwattr $C$DW$40, DW_AT_location[DW_OP_reg3]
+     811              
+     812              $C$DW$41        .dwtag  DW_TAG_TI_assign_register
+     813                      .dwattr $C$DW$41, DW_AT_name("SP")
+     814                      .dwattr $C$DW$41, DW_AT_location[DW_OP_reg20]
+     815              
+     816              $C$DW$42        .dwtag  DW_TAG_TI_assign_register
+     817                      .dwattr $C$DW$42, DW_AT_name("XT")
+     818                      .dwattr $C$DW$42, DW_AT_location[DW_OP_reg21]
+     819              
+     820              $C$DW$43        .dwtag  DW_TAG_TI_assign_register
+     821                      .dwattr $C$DW$43, DW_AT_name("T")
+     822                      .dwattr $C$DW$43, DW_AT_location[DW_OP_reg22]
+     823              
+     824              $C$DW$44        .dwtag  DW_TAG_TI_assign_register
+     825                      .dwattr $C$DW$44, DW_AT_name("ST0")
+     826                      .dwattr $C$DW$44, DW_AT_location[DW_OP_reg23]
+     827              
+     828              $C$DW$45        .dwtag  DW_TAG_TI_assign_register
+     829                      .dwattr $C$DW$45, DW_AT_name("ST1")
+     830                      .dwattr $C$DW$45, DW_AT_location[DW_OP_reg24]
+     831              
+     832              $C$DW$46        .dwtag  DW_TAG_TI_assign_register
+     833                      .dwattr $C$DW$46, DW_AT_name("PC")
+     834                      .dwattr $C$DW$46, DW_AT_location[DW_OP_reg25]
+     835              
+     836              $C$DW$47        .dwtag  DW_TAG_TI_assign_register
+     837                      .dwattr $C$DW$47, DW_AT_name("RPC")
+     838                      .dwattr $C$DW$47, DW_AT_location[DW_OP_reg26]
+     839              
+     840              $C$DW$48        .dwtag  DW_TAG_TI_assign_register
+     841                      .dwattr $C$DW$48, DW_AT_name("FP")
+     842                      .dwattr $C$DW$48, DW_AT_location[DW_OP_reg28]
+     843              
+     844              $C$DW$49        .dwtag  DW_TAG_TI_assign_register
+     845                      .dwattr $C$DW$49, DW_AT_name("DP")
+     846                      .dwattr $C$DW$49, DW_AT_location[DW_OP_reg29]
+     847              
+     848              $C$DW$50        .dwtag  DW_TAG_TI_assign_register
+     849                      .dwattr $C$DW$50, DW_AT_name("SXM")
+     850                      .dwattr $C$DW$50, DW_AT_location[DW_OP_reg30]
+     851              
+     852              $C$DW$51        .dwtag  DW_TAG_TI_assign_register
+     853                      .dwattr $C$DW$51, DW_AT_name("PM")
+     854                      .dwattr $C$DW$51, DW_AT_location[DW_OP_reg31]
+     855              
+     856              $C$DW$52        .dwtag  DW_TAG_TI_assign_register
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   18
+
+     857                      .dwattr $C$DW$52, DW_AT_name("OVM")
+     858                      .dwattr $C$DW$52, DW_AT_location[DW_OP_regx 0x20]
+     859              
+     860              $C$DW$53        .dwtag  DW_TAG_TI_assign_register
+     861                      .dwattr $C$DW$53, DW_AT_name("PAGE0")
+     862                      .dwattr $C$DW$53, DW_AT_location[DW_OP_regx 0x21]
+     863              
+     864              $C$DW$54        .dwtag  DW_TAG_TI_assign_register
+     865                      .dwattr $C$DW$54, DW_AT_name("AMODE")
+     866                      .dwattr $C$DW$54, DW_AT_location[DW_OP_regx 0x22]
+     867              
+     868              $C$DW$55        .dwtag  DW_TAG_TI_assign_register
+     869                      .dwattr $C$DW$55, DW_AT_name("EALLOW")
+     870                      .dwattr $C$DW$55, DW_AT_location[DW_OP_regx 0x4e]
+     871              
+     872              $C$DW$56        .dwtag  DW_TAG_TI_assign_register
+     873                      .dwattr $C$DW$56, DW_AT_name("INTM")
+     874                      .dwattr $C$DW$56, DW_AT_location[DW_OP_regx 0x23]
+     875              
+     876              $C$DW$57        .dwtag  DW_TAG_TI_assign_register
+     877                      .dwattr $C$DW$57, DW_AT_name("IFR")
+     878                      .dwattr $C$DW$57, DW_AT_location[DW_OP_regx 0x24]
+     879              
+     880              $C$DW$58        .dwtag  DW_TAG_TI_assign_register
+     881                      .dwattr $C$DW$58, DW_AT_name("IER")
+     882                      .dwattr $C$DW$58, DW_AT_location[DW_OP_regx 0x25]
+     883              
+     884              $C$DW$59        .dwtag  DW_TAG_TI_assign_register
+     885                      .dwattr $C$DW$59, DW_AT_name("V")
+     886                      .dwattr $C$DW$59, DW_AT_location[DW_OP_regx 0x26]
+     887              
+     888              $C$DW$60        .dwtag  DW_TAG_TI_assign_register
+     889                      .dwattr $C$DW$60, DW_AT_name("PSEUDOH")
+     890                      .dwattr $C$DW$60, DW_AT_location[DW_OP_regx 0x4c]
+     891              
+     892              $C$DW$61        .dwtag  DW_TAG_TI_assign_register
+     893                      .dwattr $C$DW$61, DW_AT_name("VOL")
+     894                      .dwattr $C$DW$61, DW_AT_location[DW_OP_regx 0x4d]
+     895              
+     896              $C$DW$62        .dwtag  DW_TAG_TI_assign_register
+     897                      .dwattr $C$DW$62, DW_AT_name("AR0")
+     898                      .dwattr $C$DW$62, DW_AT_location[DW_OP_reg4]
+     899              
+     900              $C$DW$63        .dwtag  DW_TAG_TI_assign_register
+     901                      .dwattr $C$DW$63, DW_AT_name("XAR0")
+     902                      .dwattr $C$DW$63, DW_AT_location[DW_OP_reg5]
+     903              
+     904              $C$DW$64        .dwtag  DW_TAG_TI_assign_register
+     905                      .dwattr $C$DW$64, DW_AT_name("AR1")
+     906                      .dwattr $C$DW$64, DW_AT_location[DW_OP_reg6]
+     907              
+     908              $C$DW$65        .dwtag  DW_TAG_TI_assign_register
+     909                      .dwattr $C$DW$65, DW_AT_name("XAR1")
+     910                      .dwattr $C$DW$65, DW_AT_location[DW_OP_reg7]
+     911              
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   19
+
+     912              $C$DW$66        .dwtag  DW_TAG_TI_assign_register
+     913                      .dwattr $C$DW$66, DW_AT_name("AR2")
+     914                      .dwattr $C$DW$66, DW_AT_location[DW_OP_reg8]
+     915              
+     916              $C$DW$67        .dwtag  DW_TAG_TI_assign_register
+     917                      .dwattr $C$DW$67, DW_AT_name("XAR2")
+     918                      .dwattr $C$DW$67, DW_AT_location[DW_OP_reg9]
+     919              
+     920              $C$DW$68        .dwtag  DW_TAG_TI_assign_register
+     921                      .dwattr $C$DW$68, DW_AT_name("AR3")
+     922                      .dwattr $C$DW$68, DW_AT_location[DW_OP_reg10]
+     923              
+     924              $C$DW$69        .dwtag  DW_TAG_TI_assign_register
+     925                      .dwattr $C$DW$69, DW_AT_name("XAR3")
+     926                      .dwattr $C$DW$69, DW_AT_location[DW_OP_reg11]
+     927              
+     928              $C$DW$70        .dwtag  DW_TAG_TI_assign_register
+     929                      .dwattr $C$DW$70, DW_AT_name("AR4")
+     930                      .dwattr $C$DW$70, DW_AT_location[DW_OP_reg12]
+     931              
+     932              $C$DW$71        .dwtag  DW_TAG_TI_assign_register
+     933                      .dwattr $C$DW$71, DW_AT_name("XAR4")
+     934                      .dwattr $C$DW$71, DW_AT_location[DW_OP_reg13]
+     935              
+     936              $C$DW$72        .dwtag  DW_TAG_TI_assign_register
+     937                      .dwattr $C$DW$72, DW_AT_name("AR5")
+     938                      .dwattr $C$DW$72, DW_AT_location[DW_OP_reg14]
+     939              
+     940              $C$DW$73        .dwtag  DW_TAG_TI_assign_register
+     941                      .dwattr $C$DW$73, DW_AT_name("XAR5")
+     942                      .dwattr $C$DW$73, DW_AT_location[DW_OP_reg15]
+     943              
+     944              $C$DW$74        .dwtag  DW_TAG_TI_assign_register
+     945                      .dwattr $C$DW$74, DW_AT_name("AR6")
+     946                      .dwattr $C$DW$74, DW_AT_location[DW_OP_reg16]
+     947              
+     948              $C$DW$75        .dwtag  DW_TAG_TI_assign_register
+     949                      .dwattr $C$DW$75, DW_AT_name("XAR6")
+     950                      .dwattr $C$DW$75, DW_AT_location[DW_OP_reg17]
+     951              
+     952              $C$DW$76        .dwtag  DW_TAG_TI_assign_register
+     953                      .dwattr $C$DW$76, DW_AT_name("AR7")
+     954                      .dwattr $C$DW$76, DW_AT_location[DW_OP_reg18]
+     955              
+     956              $C$DW$77        .dwtag  DW_TAG_TI_assign_register
+     957                      .dwattr $C$DW$77, DW_AT_name("XAR7")
+     958                      .dwattr $C$DW$77, DW_AT_location[DW_OP_reg19]
+     959              
+     960              $C$DW$78        .dwtag  DW_TAG_TI_assign_register
+     961                      .dwattr $C$DW$78, DW_AT_name("R0H")
+     962                      .dwattr $C$DW$78, DW_AT_location[DW_OP_regx 0x2b]
+     963              
+     964              $C$DW$79        .dwtag  DW_TAG_TI_assign_register
+     965                      .dwattr $C$DW$79, DW_AT_name("R1H")
+     966                      .dwattr $C$DW$79, DW_AT_location[DW_OP_regx 0x2f]
+TMS320C2000 Assembler PC v20.2.5 Thu Feb  2 17:04:22 2023
+
+Copyright (c) 1996-2018 Texas Instruments Incorporated
+median_SP_RV.asm                                                     PAGE   20
+
+     967              
+     968              $C$DW$80        .dwtag  DW_TAG_TI_assign_register
+     969                      .dwattr $C$DW$80, DW_AT_name("R2H")
+     970                      .dwattr $C$DW$80, DW_AT_location[DW_OP_regx 0x33]
+     971              
+     972              $C$DW$81        .dwtag  DW_TAG_TI_assign_register
+     973                      .dwattr $C$DW$81, DW_AT_name("R3H")
+     974                      .dwattr $C$DW$81, DW_AT_location[DW_OP_regx 0x37]
+     975              
+     976              $C$DW$82        .dwtag  DW_TAG_TI_assign_register
+     977                      .dwattr $C$DW$82, DW_AT_name("R4H")
+     978                      .dwattr $C$DW$82, DW_AT_location[DW_OP_regx 0x3b]
+     979              
+     980              $C$DW$83        .dwtag  DW_TAG_TI_assign_register
+     981                      .dwattr $C$DW$83, DW_AT_name("R5H")
+     982                      .dwattr $C$DW$83, DW_AT_location[DW_OP_regx 0x3f]
+     983              
+     984              $C$DW$84        .dwtag  DW_TAG_TI_assign_register
+     985                      .dwattr $C$DW$84, DW_AT_name("R6H")
+     986                      .dwattr $C$DW$84, DW_AT_location[DW_OP_regx 0x43]
+     987              
+     988              $C$DW$85        .dwtag  DW_TAG_TI_assign_register
+     989                      .dwattr $C$DW$85, DW_AT_name("R7H")
+     990                      .dwattr $C$DW$85, DW_AT_location[DW_OP_regx 0x47]
+     991              
+     992              $C$DW$86        .dwtag  DW_TAG_TI_assign_register
+     993                      .dwattr $C$DW$86, DW_AT_name("RB")
+     994                      .dwattr $C$DW$86, DW_AT_location[DW_OP_regx 0x4a]
+     995              
+     996              $C$DW$87        .dwtag  DW_TAG_TI_assign_register
+     997                      .dwattr $C$DW$87, DW_AT_name("STF")
+     998                      .dwattr $C$DW$87, DW_AT_location[DW_OP_regx 0x28]
+     999              
+    1000              $C$DW$88        .dwtag  DW_TAG_TI_assign_register
+    1001                      .dwattr $C$DW$88, DW_AT_name("FPUHAZ")
+    1002                      .dwattr $C$DW$88, DW_AT_location[DW_OP_reg27]
+    1003              
+    1004              $C$DW$89        .dwtag  DW_TAG_TI_assign_register
+    1005                      .dwattr $C$DW$89, DW_AT_name("STF_HWDIV")
+    1006                      .dwattr $C$DW$89, DW_AT_location[DW_OP_regx 0x4f]
+    1007              
+    1008              $C$DW$90        .dwtag  DW_TAG_TI_assign_register
+    1009                      .dwattr $C$DW$90, DW_AT_name("VCRC")
+    1010                      .dwattr $C$DW$90, DW_AT_location[DW_OP_regx 0x50]
+    1011              
+    1012              $C$DW$91        .dwtag  DW_TAG_TI_assign_register
+    1013                      .dwattr $C$DW$91, DW_AT_name("VSTATUS")
+    1014                      .dwattr $C$DW$91, DW_AT_location[DW_OP_regx 0x51]
+    1015              
+    1016                      .dwendtag $C$DW$CU
+    1017              
+
+No Assembly Errors, No Assembly Warnings
