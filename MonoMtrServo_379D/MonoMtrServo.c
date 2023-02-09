@@ -132,9 +132,19 @@ int16	SerialCommsTimer;
 //****************************************************************************
 // Global variables used in this system
 //****************************************************************************
+char Speed_CMD_Switch = 1;
 char DAC_Switch = 4;
 char Angle_Switch = 0;
+
+//Trapezoidal Speed CMD
+float Speed_CMD_Data[2] = {0.005 , 0.01};
+char Speed_CMD_Index = 0;
+uint32_t Speed_CMD_Cnt = 0;
+uint32_t Trapezoidal_Width = 20000;
+
+
 int Initial_Cnt = 0;
+int32 SpeedFBK_Cnt = 0;
 
 int DAC_Gain_A = 60;
 int DAC_Gain_B = 60;
@@ -144,7 +154,6 @@ float test = 0;
 
 float Speed_Est_BW = 50 * 2 * PI;
 float Acc_Est_BW = 50 * 2 * PI;
-int32 SpeedFBK_Cnt = 0;
 
 Matrix test1;
 Matrix test2;
@@ -172,7 +181,8 @@ float CurrentCmd_Sin_Frequency_pu = 0.2;
 #if BUILDLEVEL == LEVEL4
 
 /*******************Speed Loop Bandwidth Test at Level 4*******************/
-RMPCNTL rc_SpeedCmd_Control_Variation_Rate = RMPCNTL_DEFAULTS;
+RMPCNTL rc_SpeedCmd_SinFrequency_Variation_Rate = RMPCNTL_DEFAULTS;
+RMPCNTL rc_SpeedCmd_Trapezoidal = RMPCNTL_DEFAULTS;
 RAMPGEN rg_SpeedCmd_Generate_Sin = RAMPGEN_DEFAULTS;
 LOW_PASS_FILTER Estimated_Acc = LOW_PASS_FILTER_DEFAULTS ;
 float SpeedCmd_Sin_Frequency_pu = 0.001;
@@ -898,8 +908,8 @@ void main(void)
 #endif
 
 //	//Initialize the PI Speed Controller
-	motor1.pi_spd.param.Kp       = _IQ(J*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
-	motor1.pi_spd.param.Ki       = _IQ(BM*2*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
+	motor1.pi_spd.param.Kp       = _IQ(J*10*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
+	motor1.pi_spd.param.Ki       = _IQ(BM*10*2*PI*BASE_FREQ/BASE_CURRENT*2*PI);
 //    motor1.pi_spd.param.Kp       = _IQ(J*10*2*PI);
 //    motor1.pi_spd.param.Ki       = _IQ(B*10*2*PI);
 	motor1.pi_spd.param.Kr       = _IQ(1.0);
@@ -1837,18 +1847,39 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 // ------------------------------------------------------------------------------
 //    Connect inputs of the PI module and call the PID speed controller macro
 // ------------------------------------------------------------------------------
-    rc_SpeedCmd_Control_Variation_Rate.TargetValue = SpeedCmd_Sin_Frequency_pu;
-    RC_MACRO(rc_SpeedCmd_Control_Variation_Rate);
+	//Sin Speed CMD Calculation
+    rc_SpeedCmd_SinFrequency_Variation_Rate.TargetValue = SpeedCmd_Sin_Frequency_pu;
+    RC_MACRO(rc_SpeedCmd_SinFrequency_Variation_Rate);
 
-    rg_SpeedCmd_Generate_Sin.Freq = rc_SpeedCmd_Control_Variation_Rate.SetpointValue;
+    rg_SpeedCmd_Generate_Sin.Freq = rc_SpeedCmd_SinFrequency_Variation_Rate.SetpointValue;
     RG_MACRO(rg_SpeedCmd_Generate_Sin);
+
+    //Trapezoidal Speed CMD Calculation
+    if(!rc_SpeedCmd_Trapezoidal.EqualFlag)
+        rc_SpeedCmd_Trapezoidal.TargetValue = Speed_CMD_Data[Speed_CMD_Index];
+    else
+    {
+        if(++Speed_CMD_Cnt >= Trapezoidal_Width)   //Trapezoidal_Width(Time) =  Seconds * PWM Frequency
+        {
+            Speed_CMD_Cnt = 0;
+            Speed_CMD_Index = (Speed_CMD_Index + 1) % 2;
+            rc_SpeedCmd_Trapezoidal.TargetValue = Speed_CMD_Data[Speed_CMD_Index];
+        }
+    }
+    RAMP_SPEED_MACRO(rc_SpeedCmd_Trapezoidal);
 
 
    if (++motor->SpeedLoopCount >= motor->SpeedLoopPrescaler)
      {
         motor->SpeedLoopCount = 0;
 
-        motor->pi_spd.term.Ref = motor->rc.SetpointValue + SpeedCmd_Sin_Magnitude_pu * __sinpuf32(rg_SpeedCmd_Generate_Sin.Out);  //motor->SpeedRef;
+        if(Speed_CMD_Switch == 1)        // Step Speed CMD
+            motor->pi_spd.term.Ref = motor->rc.SetpointValue;  //motor->SpeedRef;
+        else if(Speed_CMD_Switch == 2)   // Sin Speed CMD + Offset
+            motor->pi_spd.term.Ref = motor->rc.SetpointValue + SpeedCmd_Sin_Magnitude_pu * __sinpuf32(rg_SpeedCmd_Generate_Sin.Out);  //motor->SpeedRef;
+        else if(Speed_CMD_Switch == 3)   // Trapezoidal Speed CMD
+            motor->pi_spd.term.Ref = rc_SpeedCmd_Trapezoidal.SetpointValue;
+
         if(SpeedFBK_Cnt >= 5000) {
             motor->pi_spd.term.Fbk = motor->speed_est.term.Enhanced_SpeedEst_pu;
         }

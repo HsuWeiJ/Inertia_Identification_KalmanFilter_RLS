@@ -10,6 +10,8 @@
 #ifndef SPEEDLOOP_H_
 #define SPEEDLOOP_H_
 
+#include "rmp_cntl.h"
+
 typedef struct {  _iq  Ref;             // Input: MechThetaerence set-point
                   _iq  Fbk;             // Input: feedback
                   _iq  Out;             // Output: controller output
@@ -96,6 +98,30 @@ Default initialization values for the PI objects
     v.data.w1 = (v.term.Out == v.data.v1) ? _IQ(1.0) : _IQ(0.0);                                    \
 
 /*------------------------------------------------------------------------------
+    Ramp Speed CMD Macro Definition
+------------------------------------------------------------------------------*/
+
+#define RAMP_SPEED_MACRO(v)                                                                 \
+    v.Tmp = v.TargetValue - v.SetpointValue;                                        \
+/*  0.0000305 is resolution of Q15 */                                               \
+if (_IQabs(v.Tmp) >= _IQ(0.0000166667))                                             \
+{                                                                                   \
+    v.RampDelayCount++  ;                                                           \
+    v.EqualFlag = 0;                                                                \
+        if (v.RampDelayCount >= v.RampDelayMax)                                     \
+        {                                                                           \
+            if (v.TargetValue >= v.SetpointValue)                                   \
+                v.SetpointValue += _IQ(0.0000166667);                               \
+            else                                                                    \
+                v.SetpointValue -= _IQ(0.0000166667);                               \
+                                                                                    \
+            v.SetpointValue=_IQsat(v.SetpointValue,v.RampHighLimit,v.RampLowLimit); \
+            v.RampDelayCount = 0;                                                   \
+                                                                                    \
+        }                                                                           \
+}                                                                                   \
+else v.EqualFlag = 1;
+/*------------------------------------------------------------------------------
  Velocity Estimator Struct Definition
  ------------------------------------------------------------------------------*/
 typedef struct
@@ -109,7 +135,7 @@ typedef struct
     float TorqueCmd;              // Internal: CurrentCmd * Kt
     float D_est;                  // Internal: Estimated disturbance
     float CurrentCmd;             // Input : pi_iq.Ref * BASE_CURRENT;
-    float AccEst;       // Internal: Estimted Acc
+    float AccEst;                 // Internal: Estimted Acc
     float Enhanced_SpeedEst;      // Internal: Enhanced estimted speed
     float Enhanced_SpeedEst_pu;   // Output: Enhanced estimted speed (pu)
     float SpeedEst;               // Internal: Estimted speed (Hz)
