@@ -97,6 +97,19 @@ Default initialization values for the PI objects
     v.term.Out= _IQsat(v.data.v1, v.param.Umax, v.param.Umin);                                      \
     v.data.w1 = (v.term.Out == v.data.v1) ? _IQ(1.0) : _IQ(0.0);                                    \
 
+
+/*-----------------------------------------------------------------------------
+Default initalizer for the RMPCNTL object.
+-----------------------------------------------------------------------------*/
+#define RAMP_SPEED_DEFAULTS {  0,       \
+                            1,       \
+                           _IQ(-1),  \
+                           _IQ(1),   \
+                            0,       \
+                            0,       \
+                            0,       \
+                            0,       \
+                          }
 /*------------------------------------------------------------------------------
     Ramp Speed CMD Macro Definition
 ------------------------------------------------------------------------------*/
@@ -104,16 +117,16 @@ Default initialization values for the PI objects
 #define RAMP_SPEED_MACRO(v)                                                                 \
     v.Tmp = v.TargetValue - v.SetpointValue;                                        \
 /*  0.0000305 is resolution of Q15 */                                               \
-if (_IQabs(v.Tmp) >= _IQ(0.0000166667))                                             \
+if (_IQabs(v.Tmp) >= _IQ(0.00000333334))                                             \
 {                                                                                   \
     v.RampDelayCount++  ;                                                           \
     v.EqualFlag = 0;                                                                \
         if (v.RampDelayCount >= v.RampDelayMax)                                     \
         {                                                                           \
             if (v.TargetValue >= v.SetpointValue)                                   \
-                v.SetpointValue += _IQ(0.0000166667);                               \
+                v.SetpointValue += _IQ(0.00000333334);                               \
             else                                                                    \
-                v.SetpointValue -= _IQ(0.0000166667);                               \
+                v.SetpointValue -= _IQ(0.00000333334);                               \
                                                                                     \
             v.SetpointValue=_IQsat(v.SetpointValue,v.RampHighLimit,v.RampLowLimit); \
             v.RampDelayCount = 0;                                                   \

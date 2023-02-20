@@ -27,6 +27,7 @@ typedef struct Kalman{
     float e_threshold;
     float e;
     float tem;
+    float KalmanToRls_TL;
     Matrix A;
     Matrix B;
     Matrix X_Priori;
@@ -68,6 +69,7 @@ typedef struct RLS{
     float F_min;
     float acc;
     float speed[2];
+    float Te_TL[2];
     float tem;
     Matrix Fai;
     Matrix Theda;
@@ -161,6 +163,7 @@ void Kalman_Ini_2X2(Kalman* k)
     k->e_threshold = 0.08;
     k->e = 0;
     k->tem = 0;
+    k->KalmanToRls_TL = 0;
 
     //Matrix initialization
     float A_data[4] = {(1-BM/J*TS),0,(-TS/J),1};
@@ -196,8 +199,12 @@ void Kalman_Ini_2X2(Kalman* k)
 
 }
 
-inline void Kalman2X2_Calculate(Kalman* k ,float speed , float u)
+inline void Kalman2X2_Calculate(Kalman* k, float speed, float u, float RLS_J)
 {
+    //Update Inertia in A
+    k->A[0] = (1-BM/RLS_J*TS);
+    k->A[2] = (-TS/RLS_J);
+
     //X_Priori=A*X+B.*u;
     mpy_SP_RMxRM(k->Tem_nX1_1, k->A, k->X_Posteriori, 2, 2, 1);   // Tem_nX1_1 : A*X
     Matrix_Dot_Product(k->B, u, k->Tem_nX1_2, 2);                 // Tem_nX1_2 : B.*u
@@ -243,6 +250,7 @@ void Kalman_Ini_3X3(Kalman* k)
     k->e_threshold = 0.0001;
     k->e = 0;
     k->tem = 0;
+    k->KalmanToRls_TL = 0;
 
     //Matrix initialization
     float A_data[9] = {1,0,0,TS,(1-BM/J*TS),0,0,(-TS/J),1};
@@ -279,8 +287,12 @@ void Kalman_Ini_3X3(Kalman* k)
 }
 
 
-inline void Kalman3X3_Calculate(Kalman* k ,float theda , float u)
+inline void Kalman3X3_Calculate(Kalman* k ,float theda , float u, float RLS_J)
 {
+    //Update Inertia in A
+    k->A[4] = (1-BM/RLS_J*TS);
+    k->A[7] = (-TS/RLS_J);
+
     //X_Priori=A*X+B.*u;
     mpy_SP_RMxRM(k->Tem_nX1_1, k->A, k->X_Posteriori, 3, 3, 1);   // Tem_nX1_1 : A*X
     Matrix_Dot_Product(k->B, u, k->Tem_nX1_2, 3);                 // Tem_nX1_2 : B.*u
@@ -377,13 +389,17 @@ void RLS_Ini(RLS* r)
 
 }
 
-inline void RLS_Calculate(RLS* r ,Kalman* k_2X2, Kalman* k_3X3, float speed, float Te_TL, float acc)
+inline void RLS_Calculate(RLS* r, float speed, float Te_TL, float acc)
 {
     //Update Speed in RLS Handler
     r->speed[1] = r->speed[0];
     r->speed[0] = speed;
 
-    if (fabsf(acc) > 10)
+    //Update Te-TL in RLS Handler
+    r->Te_TL[1] = r->Te_TL[0];
+    r->Te_TL[0] = Te_TL;
+
+    if (fabsf(acc) > 30)
     {
         /******************IVFF*******************/
         //q=Fai'*P*Fai;
@@ -405,7 +421,7 @@ inline void RLS_Calculate(RLS* r ,Kalman* k_2X2, Kalman* k_3X3, float speed, flo
             r->F = r->F_min;
 
         /******************RLS*******************/
-        r->Fai[0] = -r->speed[1];  r->Fai[1] = Te_TL;
+        r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
 
         //K=(P*Fai)./(F+Fai'*P*Fai);
         mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);                // Tem_1Xn : Fai'*P
@@ -427,9 +443,13 @@ inline void RLS_Calculate(RLS* r ,Kalman* k_2X2, Kalman* k_3X3, float speed, flo
 
         r->Terminal.Friction = (1 + r->Theda[0])/r->Theda[1];
         if(r->Theda[0] < -1e-06)
-            r->Terminal.Inertia = TS/r->Theda[1];
+        {
+//            r->Terminal.Inertia = TS/r->Theda[1];
+            r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-r->Theda[0]);
+        }
+
         else
-            r->Terminal.Inertia = TS * r->Terminal.Friction /(0.999999);
+            r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-0.999999);
     }
     else
     {
