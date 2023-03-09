@@ -58,6 +58,9 @@ Peripheral Assignments:
 // Prototypes for local functions within this file
 // **********************************************************
 
+#define RLS_TEST
+#define KALMAN3X3_OR_2X2 1
+
 // INTERRUPT FUNCTIONS
 // ---------------------
 #ifdef _FLASH
@@ -137,10 +140,10 @@ char DAC_Switch = 6;
 char Angle_Switch = 0;
 
 //Trapezoidal Speed CMD
-float Speed_CMD_Data[2] = {0.005 , 0.01};
+float Speed_CMD_Data[2] = {0.0 , 0.01};
 char Speed_CMD_Index = 0;
 uint32_t Speed_CMD_Cnt = 0;
-uint32_t Trapezoidal_Width = 20000;
+uint32_t Trapezoidal_Width = 10000;
 float Speed_CMD;
 
 
@@ -149,8 +152,8 @@ int32 SpeedFBK_Cnt = 0;
 
 int DAC_Gain_A = 60;
 int DAC_Gain_B = 60;
-int DAC_Gain_C = 20;
-int DAC_Gain_D = 20;
+int DAC_Gain_C = 10;
+int DAC_Gain_D = 10;
 float Speed_Kp_Gain = 1.0;
 float Speed_Ki_Gain = 1.0;
 float test = 0;
@@ -165,6 +168,8 @@ Kalman Kalman2X2_Handler;
 RLS RLS_Handler;
 LOW_PASS_FILTER Estimated_Acc = LOW_PASS_FILTER_DEFAULTS ;
 LOW_PASS_FILTER RLS_Inertia = LOW_PASS_FILTER_DEFAULTS ;
+LOW_PASS_FILTER Iq_FBK = LOW_PASS_FILTER_DEFAULTS;
+LOW_PASS_FILTER Id_FBK = LOW_PASS_FILTER_DEFAULTS;
 
 float SpeedCmd[2] = {0.0};
 float Kalman3X3_TL[2] = {0.0};
@@ -522,6 +527,7 @@ void GPIO_TogglePin(Uint16 pin)
 //*****************************************************************************
 
 
+
 void main(void)
 {
 
@@ -865,6 +871,12 @@ void main(void)
 
     RLS_Inertia.BW = 2 * PI * 10;
     RLS_Inertia.T = TS;
+
+    Iq_FBK.BW = 2 * PI * 1000;
+    Iq_FBK.T = TS;
+
+    Id_FBK.BW = 2 * PI * 1000;
+    Id_FBK.T = TS;
 #endif
 
     // Initialize the PID module for Speed Estimation
@@ -1881,7 +1893,9 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 
     //Trapezoidal Speed CMD Calculation
     if(!rc_SpeedCmd_Trapezoidal.EqualFlag)
-        rc_SpeedCmd_Trapezoidal.TargetValue = Speed_CMD_Data[Speed_CMD_Index];
+    {
+        //Speed_CMD_Cnt = 0;
+    }
     else
     {
         if(++Speed_CMD_Cnt >= Trapezoidal_Width)   //Trapezoidal_Width(Time) =  Seconds * PWM Frequency
@@ -1891,6 +1905,28 @@ inline void BuildLevel4(MOTOR_VARS * motor)
             rc_SpeedCmd_Trapezoidal.TargetValue = Speed_CMD_Data[Speed_CMD_Index];
         }
     }
+
+#ifdef RLS_TEST
+    if(SpeedFBK_Cnt >= 2000 && Speed_CMD_Switch != 3)
+    {
+        if(SpeedFBK_Cnt <= 16500)
+        {
+            SpeedFBK_Cnt++;
+            Speed_CMD_Switch = 1;
+            motor->SpeedRef = 0;
+        }
+        else
+        {
+            Speed_CMD_Switch = 3;
+            rc_SpeedCmd_Trapezoidal.TargetValue = 0;
+            rc_SpeedCmd_Trapezoidal.SetpointValue = 0;
+            Speed_CMD_Index = 0;
+            RLS_Flag = 1;
+        }
+    }
+
+#endif
+
     RAMP_SPEED_MACRO(rc_SpeedCmd_Trapezoidal);
 
     //Update Speed_CMD
@@ -1916,16 +1952,21 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 //        Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
 //        Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
     }
-
     else
     {
         Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
         Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
     }
 
-
-    Te_TL_Fbk = motor->park.Qs * BASE_CURRENT * KT - Kalman2X2_Handler.Terminal.TL;
+    /*   Need be revised with different Kalman Filter for RLS Test*/
+#if KALMAN3X3_OR_2X2
+    Te_TL_Fbk = Iq_FBK.Out * BASE_CURRENT * KT - Kalman3X3_Handler.Terminal.TL;
+    Te_TL_Cmd = motor->pi_iq.Ref * BASE_CURRENT * KT - Kalman3X3_Handler.Terminal.TL;
+#else
+    Te_TL_Fbk = Iq_FBK.Out * BASE_CURRENT * KT - Kalman2X2_Handler.Terminal.TL;
     Te_TL_Cmd = motor->pi_iq.Ref * BASE_CURRENT * KT - Kalman2X2_Handler.Terminal.TL;
+#endif
+
 
     Kalman3X3_TL[1] = Kalman3X3_TL[0];
     Kalman3X3_TL[0] = Kalman3X3_Handler.Terminal.TL;
@@ -1948,7 +1989,19 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     }
 //    if(RLS_Flag)
 //        RLS_Calculate(&RLS_Handler, Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+//    GPIO_WritePin(GPIO25,FALSE);
+
+    /*   Need be revised with different Kalman Filter for RLS Test*/
+#if KALMAN3X3_OR_2X2
+
+    RLS_Calculate(&RLS_Handler, Kalman3X3_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+
+#else
+
     RLS_Calculate(&RLS_Handler, Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+#endif
+//    GPIO_WritePin(GPIO25,TRUE);
+
     RLS_Inertia.Input = RLS_Handler.Terminal.Inertia;
     LPF_MARCRO(RLS_Inertia)
 
@@ -1961,8 +2014,9 @@ inline void BuildLevel4(MOTOR_VARS * motor)
         motor->pi_spd.term.Ref = Speed_CMD;
 
 
-        if(SpeedFBK_Cnt >= 5000) {
-            motor->pi_spd.term.Fbk = motor->speed_est.term.Enhanced_SpeedEst_pu;
+        if(SpeedFBK_Cnt >= 2000) {
+//            motor->pi_spd.term.Fbk = motor->speed_est.term.Enhanced_SpeedEst_pu;
+            motor->pi_spd.term.Fbk = Kalman3X3_Handler.Terminal.speed / TWO_PI / BASE_FREQ;;
             motor1.pi_spd.param.Kp = _IQ(1.2 * Speed_Kp_Gain);   //1.2 * Speed_Kp_Gain(1.0)  for speed bw = 30 HZ
             motor1.pi_spd.param.Ki = _IQ(0.5 * Speed_Ki_Gain);   //0.5 * Speed_Ki_Gain(1.0)  for speed bw = 30 HZ
         }
@@ -1991,14 +2045,20 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 	else if(motor->lsw==1) motor->pi_iq.Ref = motor->IqRef;
 //	else motor->pi_iq.Ref = motor->IqRef ;
 	else motor->pi_iq.Ref = motor->pi_spd.term.Out / 0.169 ;
-	motor->pi_iq.Fbk = motor->park.Qs;
+
+	Iq_FBK.Input = motor->park.Qs;
+	LPF_MARCRO(Iq_FBK)
+	motor->pi_iq.Fbk = Iq_FBK.Out;
 	PI_MACRO(motor->pi_iq)
 
 // ------------------------------------------------------------------------------
 //    Connect inputs of the PI module and call the PID ID controller macro
 // ------------------------------------------------------------------------------
 	motor->pi_id.Ref=ramper(motor->IdRef, motor->pi_id.Ref, _IQ(0.0001));
-	motor->pi_id.Fbk = motor->park.Ds;
+
+    Id_FBK.Input = motor->park.Ds;
+    LPF_MARCRO(Id_FBK)
+	motor->pi_id.Fbk = Id_FBK.Out;
 	PI_MACRO(motor->pi_id)
 
 // ------------------------------------------------------------------------------
@@ -2042,9 +2102,10 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 //        SPIDAC_write_dac_channel(3, (motor->pi_id.Fbk)*2047 * DAC_Gain_D + 2048);
 //    }
 //    else if(DAC_Switch == 3){
+//        DAC_Gain_A = 60; DAC_Gain_B = 60;
 //        SPIDAC_write_dac_channel(0, (motor->pi_spd.term.Ref)*2047 * DAC_Gain_A + 2048);
 //        SPIDAC_write_dac_channel(1, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_B + 2048);
-//        SPIDAC_write_dac_channel(2, (Estimated_Acc.Out/(2*PI)/(2*PI*BASE_FREQ))*2047 * DAC_Gain_C + 2048);
+//        SPIDAC_write_dac_channel(2, (Estimated_Acc.Out/(2*PI*BASE_FREQ))*2047 * DAC_Gain_C + 2048);
 //        SPIDAC_write_dac_channel(3, (motor->speed_est.term.AccEst/(2*PI)/(2*PI*BASE_FREQ))*2047 * DAC_Gain_D + 2048);
 //    }
     else if(DAC_Switch == 4){
@@ -2064,7 +2125,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     else if(DAC_Switch == 6){
         DAC_Gain_A = 60; DAC_Gain_B = 3; DAC_Gain_C = 5000; DAC_Gain_D = 5000;
         SPIDAC_write_dac_channel(0, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_A + 2048);
-        SPIDAC_write_dac_channel(1, (Kalman2X2_Handler.Terminal.TL)*2047 * DAC_Gain_B + 2048);
+        SPIDAC_write_dac_channel(1, (Kalman3X3_Handler.Terminal.TL)*2047 * DAC_Gain_B + 2048);
         SPIDAC_write_dac_channel(2, (J)*2047 * DAC_Gain_C + 2048);
         SPIDAC_write_dac_channel(3, (RLS_Inertia.Out)*2047 * DAC_Gain_D + 2048);
     }
@@ -2654,6 +2715,7 @@ interrupt void MotorControlISR(void)
 //  Measure phase currents and obtain position encoder (QEP) feedback
 // ------------------------------------------------------------------------------
     GPIO_WritePin(GPIO25,TRUE);
+//    GPIO_WritePin(GPIO25,FALSE);
     motorCurrentSense();    //  Measure normalised phase currents (-1,+1)
     motorVoltageSense();    //  Measure normalised phase voltages (-1,+1)
     posEncoder(&motor1);    //  Motor 1 Position encoder

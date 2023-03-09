@@ -236,6 +236,18 @@ inline void Kalman2X2_Calculate(Kalman* k, float speed, float u, float RLS_J)
     mpy_SP_RMxRM(k->Tem_nXn_1, k->Tem_nXn_2, k->P, 2, 2, 2);      // Tem_nXn_1 : (eye(2)-K*H)*P;
     Matrix_Add(k->Tem_nXn_1, k->Zero, k->P, 4);
 
+    //Update Q Matrix
+    if(fabs(k->e) > k->e_threshold)
+    {
+        k->Q[0] = 0.1;
+        k->Q[3] = 0.01;
+    }
+    else
+    {
+        k->Q[0] = 0.01;
+        k->Q[3] = 0.0001;
+    }
+
     //Update Terminal
     k->Terminal.speed = k->X_Posteriori[0];
     k->Terminal.TL = k->X_Posteriori[1];
@@ -336,6 +348,20 @@ inline void Kalman3X3_Calculate(Kalman* k ,float theda , float u, float RLS_J)
     mpy_SP_RMxRM(k->Tem_nXn_1, k->Tem_nXn_2, k->P, 3, 3, 3);     // Tem_nXn_1 : (eye(3)-K*H)*P;
     Matrix_Add(k->Tem_nXn_1, k->Zero, k->P, 9);
 
+    //Update Q Matrix
+    if(fabs(k->e) > k->e_threshold)
+    {
+        k->Q[0] = 0.01;
+        k->Q[4] = 0.01;
+        k->Q[8] = 1;
+    }
+    else
+    {
+        k->Q[0] = 0.001;
+        k->Q[4] = 0.001;
+        k->Q[8] = 0.01;
+    }
+
     //Update Terminal
     k->Terminal.theda = k->X_Posteriori[0];
     k->Terminal.speed = k->X_Posteriori[1];
@@ -356,9 +382,9 @@ void RLS_Ini(RLS* r)
     r->Alpha = 1-1/(r->Ka * 2);
     r->Beta = 1-1/(r->Kb * 2);
     r->Gamma = 1.05;
-    r->F_max = 0.99999;
+    r->F_max = 0.9998;
     r->F_min = 0.9995;
-    r->F = 0.9999;
+    r->F = 0.9998;
     r->acc = 0;
     r->speed[0] = 0;
     r->tem = 0;
@@ -366,7 +392,7 @@ void RLS_Ini(RLS* r)
     //Matrix initialization
     float Fai_data[2] = {0};
     Matrix_Generate(&(r->Fai),2,Fai_data);
-    float Theda_data[2] = {-0.1,0.1};
+    float Theda_data[2] = {-0.5,0.1};
     Matrix_Generate(&(r->Theda),2,Theda_data);
     float P_data[4] = {10000,0,0,10000};
     Matrix_Generate(&(r->P),4,P_data);
@@ -414,9 +440,15 @@ inline void RLS_Calculate(RLS* r, float speed, float Te_TL, float acc)
         r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
 
         if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
+        {
             r->F = r->F_max;
+            //GPIO_WritePin(GPIO25,TRUE);
+        }
         else
+        {
             r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
+            //GPIO_WritePin(GPIO25,FALSE);
+        }
         if(r->F < r->F_min)
             r->F = r->F_min;
 
