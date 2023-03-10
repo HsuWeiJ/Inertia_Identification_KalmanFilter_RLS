@@ -1,6 +1,6 @@
 ;***************************************************************
 ;* TMS320C2000 G3 C/C++ Codegen                               PC v20.2.5.LTS *
-;* Date/Time created: Mon Feb 20 15:12:50 2023                 *
+;* Date/Time created: Fri Mar 10 15:49:39 2023                 *
 ;***************************************************************
 	.compiler_opts --abi=coffabi --cla_support=cla0 --float_support=fpu32 --hll_source=on --mem_model:code=flat --mem_model:data=large --object_format=coff --quiet --silicon_errata_fpu1_workaround=off --silicon_version=28 --symdebug:dwarf --symdebug:dwarf_version=3 --tmu_support=tmu0 --vcu_support=vcu2 
 	.asg	XAR2, FP
@@ -40,8 +40,8 @@ $C$DW$6	.dwtag  DW_TAG_formal_parameter
 
 	.dwendtag $C$DW$4
 
-;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\opt2000.exe C:\\Users\\jason\\AppData\\Local\\Temp\\{2132EE97-0FCD-4A05-9653-45D54AD87C14} C:\\Users\\jason\\AppData\\Local\\Temp\\{CC4C21BF-7924-44A0-9CD1-D9606ADCA46A} 
-;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\ac2000.exe -@C:\\Users\\jason\\AppData\\Local\\Temp\\{1AAAF965-7DD1-4B8C-A399-849C0A5A8A21} 
+;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\opt2000.exe C:\\Users\\jason\\AppData\\Local\\Temp\\{FA19DB28-2B4C-458D-AD7B-32E99C4320E9} C:\\Users\\jason\\AppData\\Local\\Temp\\{7221A625-9963-42C6-89EB-C6827100C41A} 
+;	C:\ti\ccs1040\ccs\tools\compiler\ti-cgt-c2000_20.2.5.LTS\bin\ac2000.exe -@C:\\Users\\jason\\AppData\\Local\\Temp\\{45B74BC5-9D99-45E5-9F0D-9493D0CF85D3} 
 	.sect	".text"
 	.clink
 	.global	_InitDRV8305Regs

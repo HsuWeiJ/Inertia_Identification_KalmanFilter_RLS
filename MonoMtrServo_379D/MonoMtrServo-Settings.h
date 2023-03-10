@@ -118,7 +118,7 @@ set the motor parameters to the one available
 // Define the Mechanical motor parametes
 
 #define J       0.000087                //Inertia     (kg*m^2)
-#define DIV_J   11494.25287             // 1/J
+#define DIV_J   11494.25287             // 1/J,11494.25287
 #define BM       0.000087                //Friction   (kg*m^2/s)
 
 // Define the electrical motor parametes (Estun Servomotor)
