@@ -240,7 +240,7 @@ inline void Kalman2X2_Calculate(Kalman* k, float speed, float u, float RLS_J)
     if(fabs(k->e) > k->e_threshold)
     {
         k->Q[0] = 0.1;
-        k->Q[3] = 0.01;
+        k->Q[3] = 10;
     }
     else
     {
@@ -353,7 +353,7 @@ inline void Kalman3X3_Calculate(Kalman* k ,float theda , float u, float RLS_J)
     {
         k->Q[0] = 0.01;
         k->Q[4] = 0.01;
-        k->Q[8] = 1;
+        k->Q[8] = 0.1;
     }
     else
     {
@@ -425,33 +425,33 @@ inline void RLS_Calculate(RLS* r, float speed, float Te_TL, float acc)
     r->Te_TL[1] = r->Te_TL[0];
     r->Te_TL[0] = Te_TL;
 
-    if (fabsf(acc) > 30)
+    if (fabsf(acc) > 20)
     {
         /******************IVFF*******************/
-        //q=Fai'*P*Fai;
-        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
-        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
-        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
-
-        //e=speed-(Fai')*Theda
+//        //q=Fai'*P*Fai;
+//        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
+//        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
+//        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
+//
+//        //e=speed-(Fai')*Theda
         mpy_SP_RMxRM(r->Tem_1X1, r->Fai, r->Theda, 1, 2, 1);        // Tem_1X1 : (Fai')*Theda
         r->e = r->speed[0] - r->Tem_1X1[0];
-        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
-        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
-
-        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
-        {
-            r->F = r->F_max;
-            //GPIO_WritePin(GPIO25,TRUE);
-        }
-        else
-        {
-            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
-            //GPIO_WritePin(GPIO25,FALSE);
-        }
-        if(r->F < r->F_min)
-            r->F = r->F_min;
-
+//        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
+//        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
+//
+//        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
+//        {
+//            r->F = r->F_max;
+//            //GPIO_WritePin(GPIO25,TRUE);
+//        }
+//        else
+//        {
+//            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
+//            //GPIO_WritePin(GPIO25,FALSE);
+//        }
+//        if(r->F < r->F_min)
+//            r->F = r->F_min;
+        r->F = r->F_min;
         /******************RLS*******************/
         r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
 
@@ -489,5 +489,6 @@ inline void RLS_Calculate(RLS* r, float speed, float Te_TL, float acc)
     }
 
 }
+
 
 #endif /* KALMANFILTER_RLS_H_ */
