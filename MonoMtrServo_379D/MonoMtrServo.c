@@ -145,10 +145,10 @@ float Vq_Decoupling = 0;
 float Vd_Decoupling = 0;
 
 //Trapezoidal Speed CMD
-float Speed_CMD_Data[2] = {0.005 , 0.01};
+float Speed_CMD_Data[2] = {0.0 , 0.01};
 char Speed_CMD_Index = 0;
 uint32_t Speed_CMD_Cnt = 0;
-uint32_t Trapezoidal_Width = 20000;
+uint32_t Trapezoidal_Width = 8000;
 float Speed_CMD;
 
 
@@ -162,11 +162,13 @@ int DAC_Gain_B = 10;
 int DAC_Gain_C = 2;
 int DAC_Gain_D = 2;
 #if WI_GEARBOX
-float Speed_Kp_Gain = 0.5;
+float Speed_Kp_Gain = 4;
+float Speed_Ki_Gain = 1;
 #else
 float Speed_Kp_Gain = 5;
-#endif
 float Speed_Ki_Gain = 30;
+#endif
+
 float test = 0;
 
 //Observer Bandwidth
@@ -190,7 +192,11 @@ float Kalman2X2_TL[2] = {0.0};
 float SpeedCmd0_1=0;
 char RLS_Flag = 0;
 float RLS_Gain = 1;
-char Hybrid_flag = 1;
+char Hybrid_flag = 0;
+int RLS_cnt = 0;
+int RLS_prescaler = 1;
+float RLS_To_Kalman_J = J;
+
 //Adaptive
 char Adaptive_On = 0;
 
@@ -571,6 +577,7 @@ void main(void)
 
 	// Initialize System Control:
 	// PLL, WatchDog, enable Peripheral Clocks
+
 	// This function derived from the one found in F2837x_SysCtrl.c file
 	InitSysCtrl1();
 
@@ -1966,7 +1973,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
             rc_SpeedCmd_Trapezoidal.TargetValue = 0;
             rc_SpeedCmd_Trapezoidal.SetpointValue = 0;
             Speed_CMD_Index = 0;
-            RLS_Flag = 1;
+            RLS_Flag = 0;
         }
     }
 
@@ -1992,8 +1999,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 // -----------------------------------------------------------------------------------
     if(RLS_Flag)
     {
-        Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->pi_iq.Ref * BASE_CURRENT * KT, fminf(fmaxf(RLS_Inertia.Out,0.1*J),1.5*J));
-        Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->pi_iq.Ref * BASE_CURRENT * KT, fminf(fmaxf(RLS_Inertia.Out,0.1*J),1.5*J));
+        if(++RLS_cnt >= RLS_prescaler)
+        {
+            RLS_cnt = 0;
+            RLS_To_Kalman_J = fminf(fmaxf(RLS_Inertia.Out,0.1*J),1.5*J);
+        }
+        Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->pi_iq.Ref * BASE_CURRENT * KT, RLS_To_Kalman_J );
+        Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->pi_iq.Ref * BASE_CURRENT * KT, RLS_To_Kalman_J);
 //        Kalman3X3_Calculate(&Kalman3X3_Handler , motor->MechTheta * TWO_PI ,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
 //        Kalman2X2_Calculate(&Kalman2X2_Handler , motor->speed.Speed / (POLES/2) * BASE_FREQ * TWO_PI,  motor->pi_iq.Ref * BASE_CURRENT * KT, J);
     }
@@ -2076,13 +2088,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     /*   Need be revised with different Kalman Filter for RLS Test*/
 #if KALMAN3X3_OR_2X2
 
+    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, Kalman3X3_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
 
-    RLS_Calculate(&RLS_Handler, Kalman3X3_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
-//    RLS_Calculate(&RLS_Handler, motor->speed_est.term.Enhanced_SpeedEst_pu *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
-//    RLS_Calculate(&RLS_Handler, motor->speed.Speed / (POLES/2) *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
+//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed_est.term.Enhanced_SpeedEst_pu *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
+//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed.Speed / (POLES/2) *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
 #else
 
-    RLS_Calculate(&RLS_Handler, Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler,Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
 #endif
 //    GPIO_WritePin(GPIO25,TRUE);
 
@@ -2090,8 +2102,11 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     LPF_MARCRO(RLS_Inertia)
 
 #if WI_GEARBOX
-    Speed_Kp_Gain = RLS_Inertia.Out / J;
-    Speed_Kp_Gain = fminf(fmaxf(Speed_Kp_Gain ,0.5) , 5.5);
+    if(Adaptive_On)
+    {
+        Speed_Kp_Gain = 4 * RLS_Inertia.Out / J;
+        Speed_Kp_Gain = fminf(fmaxf(Speed_Kp_Gain ,0.5) , 5.5);
+    }
 #else
     if(Adaptive_On)
     {
@@ -2163,13 +2178,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
 //	Connect inputs of the INV_PARK module and call the inverse park trans. macro
 // ------------------------------------------------------------------------------
 
-    Vq_Decoupling = motor->pi_spd.term.Ref * BASE_FREQ * TWO_PI * (POLES/2) * (LS * motor->pi_id.Ref * BASE_CURRENT + 0.0225) / BASE_VOLTAGE;
-	Vd_Decoupling = -motor->pi_spd.term.Ref * BASE_FREQ * TWO_PI * (POLES/2) * LS * motor->pi_iq.Ref * BASE_CURRENT / BASE_VOLTAGE;
+//    Vq_Decoupling = motor->pi_spd.term.Ref * BASE_FREQ * TWO_PI * (POLES/2) * (LS * motor->pi_id.Ref * BASE_CURRENT + 0.0225) / BASE_VOLTAGE;
+//	Vd_Decoupling = -motor->pi_spd.term.Ref * BASE_FREQ * TWO_PI * (POLES/2) * LS * motor->pi_iq.Ref * BASE_CURRENT / BASE_VOLTAGE;
 
-//	motor->ipark.Ds = motor->pi_id.Out + Vd_Decoupling;
-//	motor->ipark.Qs = motor->pi_iq.Out + Vq_Decoupling;
-    motor->ipark.Ds = motor->pi_id.Out;
-    motor->ipark.Qs = motor->pi_iq.Out;
+	motor->ipark.Ds = motor->pi_id.Out + Vd_Decoupling;
+	motor->ipark.Qs = motor->pi_iq.Out + Vq_Decoupling;
+//    motor->ipark.Ds = motor->pi_id.Out;
+//    motor->ipark.Qs = motor->pi_iq.Out;
 	motor->ipark.Sine   = motor->park.Sine;
 	motor->ipark.Cosine = motor->park.Cosine;
 	IPARK_MACRO(motor->ipark)
