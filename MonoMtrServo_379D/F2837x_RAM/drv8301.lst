@@ -1,11 +1,11 @@
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    1
 
        1              ;***************************************************************
        2              ;* TMS320C2000 G3 C/C++ Codegen                               PC v20.2.5.LTS *
-       3              ;* Date/Time created: Tue Mar 14 16:43:35 2023                 *
+       3              ;* Date/Time created: Tue Mar 14 17:11:56 2023                 *
        4              ;***************************************************************
        5                      .compiler_opts --abi=coffabi --cla_support=cla0 --float_support=fpu32 --hll_source=on --mem_model:cod
        6                      .asg    XAR2, FP
@@ -58,7 +58,7 @@ drv8301.asm                                                          PAGE    1
       53                      .dwattr $C$DW$7, DW_AT_TI_symbol_name("_InitDRV8301Regs")
       54                      .dwattr $C$DW$7, DW_AT_external
       55                      .dwattr $C$DW$7, DW_AT_TI_begin_file("../drv8301.c")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    2
@@ -118,7 +118,7 @@ drv8301.asm                                                          PAGE    2
      104                      .dwpsn  file "../drv8301.c",line 32,column 2,is_stmt,isa 0
      105 0000000c 8D00          MOVL      XAR0,#475             ; [CPU_ALU] |32| 
          0000000d 01DB 
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    3
@@ -178,7 +178,7 @@ drv8301.asm                                                          PAGE    3
      157              ;***************************************************************
      158              
      159              _InitDRV8301:
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    4
@@ -238,7 +238,7 @@ drv8301.asm                                                          PAGE    4
      210 0000001d 8AA1          MOVL      XAR4,XAR1             ; [CPU_ALU] |96| 
      211 0000001e 9A03          MOVB      AL,#3                 ; [CPU_ALU] |96| 
      212              $C$DW$18        .dwtag  DW_TAG_TI_branch
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    5
@@ -298,7 +298,7 @@ drv8301.asm                                                          PAGE    5
      258              
      259 00000037 7640!         LCR       #_DRV8301_SPI_Read    ; [CPU_ALU] |100| 
          00000038 0000 
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    6
@@ -358,7 +358,7 @@ drv8301.asm                                                          PAGE    6
      306 0000005a 8884          MOVZ      AR6,*XAR4++           ; [CPU_ALU] |119| 
      307 0000005b 9285          MOV       AL,*XAR5++            ; [CPU_ALU] |119| 
      308 0000005c 0EA9          MOVU      ACC,AL                ; [CPU_ALU] |119| 
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    7
@@ -418,7 +418,7 @@ drv8301.asm                                                          PAGE    7
      360              $C$DW$24        .dwtag  DW_TAG_formal_parameter
      361                      .dwattr $C$DW$24, DW_AT_name("motor")
      362                      .dwattr $C$DW$24, DW_AT_TI_symbol_name("_motor")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    8
@@ -478,7 +478,7 @@ drv8301.asm                                                          PAGE    8
      412                      ; call occurs [#_DRV8301_SPI_Read] ; [] |137| 
      413 00000079 8D00          MOVL      XAR0,#473             ; [CPU_ALU] |137| 
          0000007a 01D9 
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE    9
@@ -538,7 +538,7 @@ drv8301.asm                                                          PAGE    9
      466                      .dwattr $C$DW$32, DW_AT_name("Alpha")
      467                      .dwattr $C$DW$32, DW_AT_TI_symbol_name("_Alpha")
      468                      .dwattr $C$DW$32, DW_AT_data_member_location[DW_OP_plus_uconst 0x6]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   10
@@ -598,7 +598,7 @@ drv8301.asm                                                          PAGE   10
      521                      .dwattr $C$DW$38, DW_AT_accessibility(DW_ACCESS_public)
      522              
      523              $C$DW$39        .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   11
@@ -658,7 +658,7 @@ drv8301.asm                                                          PAGE   11
      576                      .dwattr $C$DW$45, DW_AT_type(*$C$DW$T$19)
      577                      .dwattr $C$DW$45, DW_AT_name("Qs")
      578                      .dwattr $C$DW$45, DW_AT_TI_symbol_name("_Qs")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   12
@@ -718,7 +718,7 @@ drv8301.asm                                                          PAGE   12
      631                      .dwattr $C$DW$51, DW_AT_data_member_location[DW_OP_plus_uconst 0x6]
      632                      .dwattr $C$DW$51, DW_AT_accessibility(DW_ACCESS_public)
      633              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   13
@@ -778,7 +778,7 @@ drv8301.asm                                                          PAGE   13
      686                      .dwattr $C$DW$59, DW_AT_TI_symbol_name("_w1")
      687                      .dwattr $C$DW$59, DW_AT_data_member_location[DW_OP_plus_uconst 0x16]
      688                      .dwattr $C$DW$59, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   14
@@ -838,7 +838,7 @@ drv8301.asm                                                          PAGE   14
      741              
      742              
      743              $C$DW$T$25      .dwtag  DW_TAG_structure_type
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   15
@@ -898,7 +898,7 @@ drv8301.asm                                                          PAGE   15
      796              $C$DW$T$28      .dwtag  DW_TAG_typedef
      797                      .dwattr $C$DW$T$28, DW_AT_name("PID_PARAMETERS")
      798                      .dwattr $C$DW$T$28, DW_AT_type(*$C$DW$T$25)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   16
@@ -958,7 +958,7 @@ drv8301.asm                                                          PAGE   16
      851                      .dwattr $C$DW$78, DW_AT_accessibility(DW_ACCESS_public)
      852              
      853              $C$DW$79        .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   17
@@ -1018,7 +1018,7 @@ drv8301.asm                                                          PAGE   17
      906                      .dwattr $C$DW$83, DW_AT_accessibility(DW_ACCESS_public)
      907              
      908              $C$DW$84        .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   18
@@ -1078,7 +1078,7 @@ drv8301.asm                                                          PAGE   18
      961                      .dwattr $C$DW$90, DW_AT_type(*$C$DW$T$19)
      962                      .dwattr $C$DW$90, DW_AT_name("Ki")
      963                      .dwattr $C$DW$90, DW_AT_TI_symbol_name("_Ki")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   19
@@ -1138,7 +1138,7 @@ drv8301.asm                                                          PAGE   19
     1016                      .dwendtag $C$DW$T$32
     1017              
     1018              $C$DW$T$35      .dwtag  DW_TAG_typedef
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   20
@@ -1198,7 +1198,7 @@ drv8301.asm                                                          PAGE   20
     1071              $C$DW$103       .dwtag  DW_TAG_member
     1072                      .dwattr $C$DW$103, DW_AT_type(*$C$DW$T$34)
     1073                      .dwattr $C$DW$103, DW_AT_name("term")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   21
@@ -1258,7 +1258,7 @@ drv8301.asm                                                          PAGE   21
     1126                      .dwattr $C$DW$109, DW_AT_TI_symbol_name("_PosErrorKdDivJest")
     1127                      .dwattr $C$DW$109, DW_AT_data_member_location[DW_OP_plus_uconst 0x6]
     1128                      .dwattr $C$DW$109, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   22
@@ -1318,7 +1318,7 @@ drv8301.asm                                                          PAGE   22
     1181                      .dwattr $C$DW$117, DW_AT_name("Enhanced_SpeedEst_pu")
     1182                      .dwattr $C$DW$117, DW_AT_TI_symbol_name("_Enhanced_SpeedEst_pu")
     1183                      .dwattr $C$DW$117, DW_AT_data_member_location[DW_OP_plus_uconst 0x16]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   23
@@ -1378,7 +1378,7 @@ drv8301.asm                                                          PAGE   23
     1236                      .dwattr $C$DW$123, DW_AT_accessibility(DW_ACCESS_public)
     1237              
     1238              $C$DW$124       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   24
@@ -1438,7 +1438,7 @@ drv8301.asm                                                          PAGE   24
     1291                      .dwattr $C$DW$130, DW_AT_type(*$C$DW$T$42)
     1292                      .dwattr $C$DW$130, DW_AT_name("term")
     1293                      .dwattr $C$DW$130, DW_AT_TI_symbol_name("_term")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   25
@@ -1498,7 +1498,7 @@ drv8301.asm                                                          PAGE   25
     1346                      .dwattr $C$DW$136, DW_AT_data_member_location[DW_OP_plus_uconst 0x8]
     1347                      .dwattr $C$DW$136, DW_AT_accessibility(DW_ACCESS_public)
     1348              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   26
@@ -1558,7 +1558,7 @@ drv8301.asm                                                          PAGE   26
     1401              $C$DW$143       .dwtag  DW_TAG_member
     1402                      .dwattr $C$DW$143, DW_AT_type(*$C$DW$T$19)
     1403                      .dwattr $C$DW$143, DW_AT_name("RampLowLimit")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   27
@@ -1618,7 +1618,7 @@ drv8301.asm                                                          PAGE   27
     1456                      .dwattr $C$DW$149, DW_AT_TI_symbol_name("_Freq")
     1457                      .dwattr $C$DW$149, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     1458                      .dwattr $C$DW$149, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   28
@@ -1678,7 +1678,7 @@ drv8301.asm                                                          PAGE   28
     1511              
     1512              $C$DW$156       .dwtag  DW_TAG_member
     1513                      .dwattr $C$DW$156, DW_AT_type(*$C$DW$T$19)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   29
@@ -1738,7 +1738,7 @@ drv8301.asm                                                          PAGE   29
     1566                      .dwattr $C$DW$163, DW_AT_accessibility(DW_ACCESS_public)
     1567              
     1568              $C$DW$164       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   30
@@ -1798,7 +1798,7 @@ drv8301.asm                                                          PAGE   30
     1621                      .dwattr $C$DW$170, DW_AT_type(*$C$DW$T$50)
     1622                      .dwattr $C$DW$170, DW_AT_name("Ts")
     1623                      .dwattr $C$DW$170, DW_AT_TI_symbol_name("_Ts")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   31
@@ -1858,7 +1858,7 @@ drv8301.asm                                                          PAGE   31
     1676                      .dwattr $C$DW$176, DW_AT_data_member_location[DW_OP_plus_uconst 0x6]
     1677                      .dwattr $C$DW$176, DW_AT_accessibility(DW_ACCESS_public)
     1678              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   32
@@ -1918,7 +1918,7 @@ drv8301.asm                                                          PAGE   32
     1731                      .dwattr $C$DW$184, DW_AT_TI_symbol_name("_IalphaError")
     1732                      .dwattr $C$DW$184, DW_AT_data_member_location[DW_OP_plus_uconst 0x16]
     1733                      .dwattr $C$DW$184, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   33
@@ -1978,7 +1978,7 @@ drv8301.asm                                                          PAGE   33
     1786                      .dwattr $C$DW$T$54, DW_AT_byte_size(0x12)
     1787              $C$DW$191       .dwtag  DW_TAG_member
     1788                      .dwattr $C$DW$191, DW_AT_type(*$C$DW$T$19)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   34
@@ -2038,7 +2038,7 @@ drv8301.asm                                                          PAGE   34
     1841                      .dwattr $C$DW$198, DW_AT_accessibility(DW_ACCESS_public)
     1842              
     1843              $C$DW$199       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   35
@@ -2098,7 +2098,7 @@ drv8301.asm                                                          PAGE   35
     1896                      .dwattr $C$DW$205, DW_AT_type(*$C$DW$T$53)
     1897                      .dwattr $C$DW$205, DW_AT_name("K1")
     1898                      .dwattr $C$DW$205, DW_AT_TI_symbol_name("_K1")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   36
@@ -2158,7 +2158,7 @@ drv8301.asm                                                          PAGE   36
     1951                      .dwattr $C$DW$211, DW_AT_data_member_location[DW_OP_plus_uconst 0x2]
     1952                      .dwattr $C$DW$211, DW_AT_accessibility(DW_ACCESS_public)
     1953              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   37
@@ -2218,7 +2218,7 @@ drv8301.asm                                                          PAGE   37
     2006                      .dwattr $C$DW$219, DW_AT_TI_symbol_name("_CalibratedAngle")
     2007                      .dwattr $C$DW$219, DW_AT_data_member_location[DW_OP_plus_uconst 0xe]
     2008                      .dwattr $C$DW$219, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   38
@@ -2278,7 +2278,7 @@ drv8301.asm                                                          PAGE   38
     2061              
     2062              $C$DW$226       .dwtag  DW_TAG_member
     2063                      .dwattr $C$DW$226, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   39
@@ -2338,7 +2338,7 @@ drv8301.asm                                                          PAGE   39
     2116                      .dwattr $C$DW$232, DW_AT_name("status4_gd_Vgs")
     2117                      .dwattr $C$DW$232, DW_AT_TI_symbol_name("_status4_gd_Vgs")
     2118                      .dwattr $C$DW$232, DW_AT_data_member_location[DW_OP_plus_uconst 0x4]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   40
@@ -2398,7 +2398,7 @@ drv8301.asm                                                          PAGE   40
     2171                      .dwattr $C$DW$240, DW_AT_type(*$C$DW$T$72)
     2172                      .dwattr $C$DW$240, DW_AT_name("cntrlC_Vds_SNS")
     2173                      .dwattr $C$DW$240, DW_AT_TI_symbol_name("_cntrlC_Vds_SNS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   41
@@ -2458,7 +2458,7 @@ drv8301.asm                                                          PAGE   41
     2226              $C$DW$248       .dwtag  DW_TAG_member
     2227                      .dwattr $C$DW$248, DW_AT_type(*$C$DW$T$45)
     2228                      .dwattr $C$DW$248, DW_AT_name("DRV_fault")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   42
@@ -2518,7 +2518,7 @@ drv8301.asm                                                          PAGE   42
     2281                      .dwattr $C$DW$254, DW_AT_TI_symbol_name("_drvScsPin")
     2282                      .dwattr $C$DW$254, DW_AT_data_member_location[DW_OP_plus_uconst 0xa]
     2283                      .dwattr $C$DW$254, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   43
@@ -2578,7 +2578,7 @@ drv8301.asm                                                          PAGE   43
     2336                      .dwattr $C$DW$262, DW_AT_name("SpeedRef")
     2337                      .dwattr $C$DW$262, DW_AT_TI_symbol_name("_SpeedRef")
     2338                      .dwattr $C$DW$262, DW_AT_data_member_location[DW_OP_plus_uconst 0x1a]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   44
@@ -2638,7 +2638,7 @@ drv8301.asm                                                          PAGE   44
     2391                      .dwattr $C$DW$270, DW_AT_type(*$C$DW$T$50)
     2392                      .dwattr $C$DW$270, DW_AT_name("voltageCs")
     2393                      .dwattr $C$DW$270, DW_AT_TI_symbol_name("_voltageCs")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   45
@@ -2698,7 +2698,7 @@ drv8301.asm                                                          PAGE   45
     2446              $C$DW$278       .dwtag  DW_TAG_member
     2447                      .dwattr $C$DW$278, DW_AT_type(*$C$DW$T$45)
     2448                      .dwattr $C$DW$278, DW_AT_name("SpeedLoopPrescaler")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   46
@@ -2758,7 +2758,7 @@ drv8301.asm                                                          PAGE   46
     2501              
     2502              $C$DW$286       .dwtag  DW_TAG_member
     2503                      .dwattr $C$DW$286, DW_AT_type(*$C$DW$T$83)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   47
@@ -2818,7 +2818,7 @@ drv8301.asm                                                          PAGE   47
     2556                      .dwattr $C$DW$293, DW_AT_accessibility(DW_ACCESS_public)
     2557              
     2558              $C$DW$294       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   48
@@ -2878,7 +2878,7 @@ drv8301.asm                                                          PAGE   48
     2611                      .dwattr $C$DW$301, DW_AT_data_member_location[DW_OP_plus_uconst 0x1d8]
     2612                      .dwattr $C$DW$301, DW_AT_accessibility(DW_ACCESS_public)
     2613              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   49
@@ -2938,7 +2938,7 @@ drv8301.asm                                                          PAGE   49
     2666                      .dwattr $C$DW$306, DW_AT_type(*$C$DW$T$45)
     2667                      .dwattr $C$DW$306, DW_AT_name("all")
     2668                      .dwattr $C$DW$306, DW_AT_TI_symbol_name("_all")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   50
@@ -2998,7 +2998,7 @@ drv8301.asm                                                          PAGE   50
     2721                      .dwattr $C$DW$311, DW_AT_type(*$C$DW$T$169)
     2722                      .dwattr $C$DW$311, DW_AT_name("bit")
     2723                      .dwattr $C$DW$311, DW_AT_TI_symbol_name("_bit")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   51
@@ -3058,7 +3058,7 @@ drv8301.asm                                                          PAGE   51
     2776              
     2777              $C$DW$T$63      .dwtag  DW_TAG_typedef
     2778                      .dwattr $C$DW$T$63, DW_AT_name("DRV8305_OV_VDS_FAULTS_REG")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   52
@@ -3118,7 +3118,7 @@ drv8301.asm                                                          PAGE   52
     2831              $C$DW$T$107     .dwtag  DW_TAG_union_type
     2832                      .dwattr $C$DW$T$107, DW_AT_byte_size(0x01)
     2833              $C$DW$320       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   53
@@ -3178,7 +3178,7 @@ drv8301.asm                                                          PAGE   53
     2886                      .dwattr $C$DW$324, DW_AT_accessibility(DW_ACCESS_public)
     2887              
     2888              $C$DW$325       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   54
@@ -3238,7 +3238,7 @@ drv8301.asm                                                          PAGE   54
     2941                      .dwattr $C$DW$329, DW_AT_accessibility(DW_ACCESS_public)
     2942              
     2943                      .dwendtag $C$DW$T$111
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   55
@@ -3298,7 +3298,7 @@ drv8301.asm                                                          PAGE   55
     2996                      .dwattr $C$DW$T$72, DW_AT_language(DW_LANG_C)
     2997              
     2998              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   56
@@ -3358,7 +3358,7 @@ drv8301.asm                                                          PAGE   56
     3051              
     3052              $C$DW$T$116     .dwtag  DW_TAG_structure_type
     3053                      .dwattr $C$DW$T$116, DW_AT_name("AQCTLA2_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   57
@@ -3418,7 +3418,7 @@ drv8301.asm                                                          PAGE   57
     3106              $C$DW$344       .dwtag  DW_TAG_member
     3107                      .dwattr $C$DW$344, DW_AT_type(*$C$DW$T$45)
     3108                      .dwattr $C$DW$344, DW_AT_name("all")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   58
@@ -3478,7 +3478,7 @@ drv8301.asm                                                          PAGE   58
     3161              
     3162              $C$DW$350       .dwtag  DW_TAG_member
     3163                      .dwattr $C$DW$350, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   59
@@ -3538,7 +3538,7 @@ drv8301.asm                                                          PAGE   59
     3216                      .dwattr $C$DW$355, DW_AT_type(*$C$DW$T$45)
     3217                      .dwattr $C$DW$355, DW_AT_name("T1U")
     3218                      .dwattr $C$DW$355, DW_AT_TI_symbol_name("_T1U")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   60
@@ -3598,7 +3598,7 @@ drv8301.asm                                                          PAGE   60
     3271                      .dwattr $C$DW$360, DW_AT_accessibility(DW_ACCESS_public)
     3272              
     3273              $C$DW$361       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   61
@@ -3658,7 +3658,7 @@ drv8301.asm                                                          PAGE   61
     3326                      .dwattr $C$DW$366, DW_AT_bit_offset(0x06)
     3327                      .dwattr $C$DW$366, DW_AT_bit_size(0x02)
     3328                      .dwattr $C$DW$366, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   62
@@ -3718,7 +3718,7 @@ drv8301.asm                                                          PAGE   62
     3381                      .dwattr $C$DW$371, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     3382                      .dwattr $C$DW$371, DW_AT_accessibility(DW_ACCESS_public)
     3383              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   63
@@ -3778,7 +3778,7 @@ drv8301.asm                                                          PAGE   63
     3436                      .dwattr $C$DW$377, DW_AT_accessibility(DW_ACCESS_public)
     3437              
     3438              $C$DW$378       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   64
@@ -3838,7 +3838,7 @@ drv8301.asm                                                          PAGE   64
     3491              $C$DW$383       .dwtag  DW_TAG_member
     3492                      .dwattr $C$DW$383, DW_AT_type(*$C$DW$T$45)
     3493                      .dwattr $C$DW$383, DW_AT_name("OTSFA")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   65
@@ -3898,7 +3898,7 @@ drv8301.asm                                                          PAGE   65
     3546                      .dwattr $C$DW$388, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     3547                      .dwattr $C$DW$388, DW_AT_accessibility(DW_ACCESS_public)
     3548              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   66
@@ -3958,7 +3958,7 @@ drv8301.asm                                                          PAGE   66
     3601              
     3602              $C$DW$394       .dwtag  DW_TAG_member
     3603                      .dwattr $C$DW$394, DW_AT_type(*$C$DW$T$128)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   67
@@ -4018,7 +4018,7 @@ drv8301.asm                                                          PAGE   67
     3656              $C$DW$T$132     .dwtag  DW_TAG_structure_type
     3657                      .dwattr $C$DW$T$132, DW_AT_name("CMPB_BITS")
     3658                      .dwattr $C$DW$T$132, DW_AT_byte_size(0x02)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   68
@@ -4078,7 +4078,7 @@ drv8301.asm                                                          PAGE   68
     3711              
     3712              $C$DW$404       .dwtag  DW_TAG_member
     3713                      .dwattr $C$DW$404, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   69
@@ -4138,7 +4138,7 @@ drv8301.asm                                                          PAGE   69
     3766              $C$DW$410       .dwtag  DW_TAG_member
     3767                      .dwattr $C$DW$410, DW_AT_type(*$C$DW$T$45)
     3768                      .dwattr $C$DW$410, DW_AT_name("LOADDSYNC")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   70
@@ -4198,7 +4198,7 @@ drv8301.asm                                                          PAGE   70
     3821                      .dwattr $C$DW$415, DW_AT_name("LOADBMODE")
     3822                      .dwattr $C$DW$415, DW_AT_TI_symbol_name("_LOADBMODE")
     3823                      .dwattr $C$DW$415, DW_AT_bit_offset(0x0c)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   71
@@ -4258,7 +4258,7 @@ drv8301.asm                                                          PAGE   71
     3876                      .dwattr $C$DW$421, DW_AT_TI_symbol_name("_SHDWBFULL")
     3877                      .dwattr $C$DW$421, DW_AT_bit_offset(0x06)
     3878                      .dwattr $C$DW$421, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   72
@@ -4318,7 +4318,7 @@ drv8301.asm                                                          PAGE   72
     3931              
     3932              $C$DW$T$138     .dwtag  DW_TAG_structure_type
     3933                      .dwattr $C$DW$T$138, DW_AT_name("DBCTL2_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   73
@@ -4378,7 +4378,7 @@ drv8301.asm                                                          PAGE   73
     3986                      .dwattr $C$DW$T$140, DW_AT_name("DBCTL_BITS")
     3987                      .dwattr $C$DW$T$140, DW_AT_byte_size(0x01)
     3988              $C$DW$432       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   74
@@ -4438,7 +4438,7 @@ drv8301.asm                                                          PAGE   74
     4041              
     4042              $C$DW$438       .dwtag  DW_TAG_member
     4043                      .dwattr $C$DW$438, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   75
@@ -4498,7 +4498,7 @@ drv8301.asm                                                          PAGE   75
     4096                      .dwattr $C$DW$443, DW_AT_accessibility(DW_ACCESS_public)
     4097              
     4098                      .dwendtag $C$DW$T$141
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   76
@@ -4558,7 +4558,7 @@ drv8301.asm                                                          PAGE   76
     4151                      .dwattr $C$DW$448, DW_AT_accessibility(DW_ACCESS_public)
     4152              
     4153              $C$DW$449       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   77
@@ -4618,7 +4618,7 @@ drv8301.asm                                                          PAGE   77
     4206              
     4207              $C$DW$T$146     .dwtag  DW_TAG_structure_type
     4208                      .dwattr $C$DW$T$146, DW_AT_name("DBREDHR_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   78
@@ -4678,7 +4678,7 @@ drv8301.asm                                                          PAGE   78
     4261                      .dwattr $C$DW$459, DW_AT_name("bit")
     4262                      .dwattr $C$DW$459, DW_AT_TI_symbol_name("_bit")
     4263                      .dwattr $C$DW$459, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   79
@@ -4738,7 +4738,7 @@ drv8301.asm                                                          PAGE   79
     4316              $C$DW$464       .dwtag  DW_TAG_member
     4317                      .dwattr $C$DW$464, DW_AT_type(*$C$DW$T$45)
     4318                      .dwattr $C$DW$464, DW_AT_name("EVT1SRCSEL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   80
@@ -4798,7 +4798,7 @@ drv8301.asm                                                          PAGE   80
     4371                      .dwattr $C$DW$470, DW_AT_type(*$C$DW$T$45)
     4372                      .dwattr $C$DW$470, DW_AT_name("EVT2FRCSYNCSEL")
     4373                      .dwattr $C$DW$470, DW_AT_TI_symbol_name("_EVT2FRCSYNCSEL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   81
@@ -4858,7 +4858,7 @@ drv8301.asm                                                          PAGE   81
     4426                      .dwattr $C$DW$475, DW_AT_TI_symbol_name("_TRIPINPUT2")
     4427                      .dwattr $C$DW$475, DW_AT_bit_offset(0x0e)
     4428                      .dwattr $C$DW$475, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   82
@@ -4918,7 +4918,7 @@ drv8301.asm                                                          PAGE   82
     4481                      .dwattr $C$DW$481, DW_AT_bit_offset(0x08)
     4482                      .dwattr $C$DW$481, DW_AT_bit_size(0x01)
     4483                      .dwattr $C$DW$481, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   83
@@ -4978,7 +4978,7 @@ drv8301.asm                                                          PAGE   83
     4536                      .dwattr $C$DW$487, DW_AT_bit_size(0x01)
     4537                      .dwattr $C$DW$487, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     4538                      .dwattr $C$DW$487, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   84
@@ -5038,7 +5038,7 @@ drv8301.asm                                                          PAGE   84
     4591                      .dwattr $C$DW$492, DW_AT_accessibility(DW_ACCESS_public)
     4592              
     4593              $C$DW$493       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   85
@@ -5098,7 +5098,7 @@ drv8301.asm                                                          PAGE   85
     4646              
     4647              $C$DW$499       .dwtag  DW_TAG_member
     4648                      .dwattr $C$DW$499, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   86
@@ -5158,7 +5158,7 @@ drv8301.asm                                                          PAGE   86
     4701              $C$DW$505       .dwtag  DW_TAG_member
     4702                      .dwattr $C$DW$505, DW_AT_type(*$C$DW$T$45)
     4703                      .dwattr $C$DW$505, DW_AT_name("TRIPINPUT14")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   87
@@ -5218,7 +5218,7 @@ drv8301.asm                                                          PAGE   87
     4756                      .dwattr $C$DW$510, DW_AT_name("EVT1SRCSEL")
     4757                      .dwattr $C$DW$510, DW_AT_TI_symbol_name("_EVT1SRCSEL")
     4758                      .dwattr $C$DW$510, DW_AT_bit_offset(0x0f)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   88
@@ -5278,7 +5278,7 @@ drv8301.asm                                                          PAGE   88
     4811                      .dwattr $C$DW$516, DW_AT_TI_symbol_name("_EVT2FRCSYNCSEL")
     4812                      .dwattr $C$DW$516, DW_AT_bit_offset(0x06)
     4813                      .dwattr $C$DW$516, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   89
@@ -5338,7 +5338,7 @@ drv8301.asm                                                          PAGE   89
     4866                      .dwattr $C$DW$521, DW_AT_bit_size(0x01)
     4867                      .dwattr $C$DW$521, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     4868                      .dwattr $C$DW$521, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   90
@@ -5398,7 +5398,7 @@ drv8301.asm                                                          PAGE   90
     4921                      .dwattr $C$DW$527, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     4922                      .dwattr $C$DW$527, DW_AT_accessibility(DW_ACCESS_public)
     4923              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   91
@@ -5458,7 +5458,7 @@ drv8301.asm                                                          PAGE   91
     4976                      .dwattr $C$DW$533, DW_AT_accessibility(DW_ACCESS_public)
     4977              
     4978              $C$DW$534       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   92
@@ -5518,7 +5518,7 @@ drv8301.asm                                                          PAGE   92
     5031              $C$DW$539       .dwtag  DW_TAG_member
     5032                      .dwattr $C$DW$539, DW_AT_type(*$C$DW$T$45)
     5033                      .dwattr $C$DW$539, DW_AT_name("TRIPINPUT2")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   93
@@ -5578,7 +5578,7 @@ drv8301.asm                                                          PAGE   93
     5086                      .dwattr $C$DW$545, DW_AT_type(*$C$DW$T$45)
     5087                      .dwattr $C$DW$545, DW_AT_name("TRIPINPUT8")
     5088                      .dwattr $C$DW$545, DW_AT_TI_symbol_name("_TRIPINPUT8")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   94
@@ -5638,7 +5638,7 @@ drv8301.asm                                                          PAGE   94
     5141                      .dwattr $C$DW$551, DW_AT_name("TRIPINPUT14")
     5142                      .dwattr $C$DW$551, DW_AT_TI_symbol_name("_TRIPINPUT14")
     5143                      .dwattr $C$DW$551, DW_AT_bit_offset(0x02)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   95
@@ -5698,7 +5698,7 @@ drv8301.asm                                                          PAGE   95
     5196                      .dwattr $C$DW$556, DW_AT_bit_offset(0x0f)
     5197                      .dwattr $C$DW$556, DW_AT_bit_size(0x01)
     5198                      .dwattr $C$DW$556, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   96
@@ -5758,7 +5758,7 @@ drv8301.asm                                                          PAGE   96
     5251                      .dwattr $C$DW$T$163, DW_AT_byte_size(0x01)
     5252              $C$DW$562       .dwtag  DW_TAG_member
     5253                      .dwattr $C$DW$562, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   97
@@ -5818,7 +5818,7 @@ drv8301.asm                                                          PAGE   97
     5306                      .dwattr $C$DW$567, DW_AT_accessibility(DW_ACCESS_public)
     5307              
     5308              $C$DW$568       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   98
@@ -5878,7 +5878,7 @@ drv8301.asm                                                          PAGE   98
     5361                      .dwattr $C$DW$573, DW_AT_name("all")
     5362                      .dwattr $C$DW$573, DW_AT_TI_symbol_name("_all")
     5363                      .dwattr $C$DW$573, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE   99
@@ -5938,7 +5938,7 @@ drv8301.asm                                                          PAGE   99
     5416              
     5417              
     5418              $C$DW$T$167     .dwtag  DW_TAG_union_type
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  100
@@ -5998,7 +5998,7 @@ drv8301.asm                                                          PAGE  100
     5471                      .dwattr $C$DW$584, DW_AT_TI_symbol_name("_OC_MODE")
     5472                      .dwattr $C$DW$584, DW_AT_bit_offset(0x0a)
     5473                      .dwattr $C$DW$584, DW_AT_bit_size(0x02)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  101
@@ -6058,7 +6058,7 @@ drv8301.asm                                                          PAGE  101
     5526                      .dwattr $C$DW$589, DW_AT_accessibility(DW_ACCESS_public)
     5527              
     5528              $C$DW$590       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  102
@@ -6118,7 +6118,7 @@ drv8301.asm                                                          PAGE  102
     5581                      .dwattr $C$DW$595, DW_AT_name("FETLB_OC")
     5582                      .dwattr $C$DW$595, DW_AT_TI_symbol_name("_FETLB_OC")
     5583                      .dwattr $C$DW$595, DW_AT_bit_offset(0x0d)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  103
@@ -6178,7 +6178,7 @@ drv8301.asm                                                          PAGE  103
     5636                      .dwattr $C$DW$601, DW_AT_TI_symbol_name("_PVDD_UV")
     5637                      .dwattr $C$DW$601, DW_AT_bit_offset(0x07)
     5638                      .dwattr $C$DW$601, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  104
@@ -6238,7 +6238,7 @@ drv8301.asm                                                          PAGE  104
     5691                      .dwattr $C$DW$606, DW_AT_accessibility(DW_ACCESS_public)
     5692              
     5693              $C$DW$607       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  105
@@ -6298,7 +6298,7 @@ drv8301.asm                                                          PAGE  105
     5746                      .dwattr $C$DW$612, DW_AT_name("PWM_MODE")
     5747                      .dwattr $C$DW$612, DW_AT_TI_symbol_name("_PWM_MODE")
     5748                      .dwattr $C$DW$612, DW_AT_bit_offset(0x07)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  106
@@ -6358,7 +6358,7 @@ drv8301.asm                                                          PAGE  106
     5801                      .dwattr $C$DW$617, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     5802                      .dwattr $C$DW$617, DW_AT_accessibility(DW_ACCESS_public)
     5803              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  107
@@ -6418,7 +6418,7 @@ drv8301.asm                                                          PAGE  107
     5856                      .dwattr $C$DW$623, DW_AT_accessibility(DW_ACCESS_public)
     5857              
     5858                      .dwendtag $C$DW$T$173
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  108
@@ -6478,7 +6478,7 @@ drv8301.asm                                                          PAGE  108
     5911              
     5912              $C$DW$T$175     .dwtag  DW_TAG_structure_type
     5913                      .dwattr $C$DW$T$175, DW_AT_name("DRV8305_IC_FAULTS_REG_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  109
@@ -6538,7 +6538,7 @@ drv8301.asm                                                          PAGE  109
     5966                      .dwattr $C$DW$634, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     5967                      .dwattr $C$DW$634, DW_AT_accessibility(DW_ACCESS_public)
     5968              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  110
@@ -6598,7 +6598,7 @@ drv8301.asm                                                          PAGE  110
     6021                      .dwattr $C$DW$640, DW_AT_accessibility(DW_ACCESS_public)
     6022              
     6023                      .dwendtag $C$DW$T$175
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  111
@@ -6658,7 +6658,7 @@ drv8301.asm                                                          PAGE  111
     6076                      .dwattr $C$DW$646, DW_AT_name("WD_DLY")
     6077                      .dwattr $C$DW$646, DW_AT_TI_symbol_name("_WD_DLY")
     6078                      .dwattr $C$DW$646, DW_AT_bit_offset(0x09)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  112
@@ -6718,7 +6718,7 @@ drv8301.asm                                                          PAGE  112
     6131              $C$DW$T$177     .dwtag  DW_TAG_structure_type
     6132                      .dwattr $C$DW$T$177, DW_AT_name("DRV8305_LS_GATE_DRIVER_CNTRL_REG_BITS")
     6133                      .dwattr $C$DW$T$177, DW_AT_byte_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  113
@@ -6778,7 +6778,7 @@ drv8301.asm                                                          PAGE  113
     6186                      .dwattr $C$DW$657, DW_AT_type(*$C$DW$T$45)
     6187                      .dwattr $C$DW$657, DW_AT_name("SNS_A_OCP")
     6188                      .dwattr $C$DW$657, DW_AT_TI_symbol_name("_SNS_A_OCP")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  114
@@ -6838,7 +6838,7 @@ drv8301.asm                                                          PAGE  114
     6241                      .dwattr $C$DW$663, DW_AT_name("FETLB_VDS")
     6242                      .dwattr $C$DW$663, DW_AT_TI_symbol_name("_FETLB_VDS")
     6243                      .dwattr $C$DW$663, DW_AT_bit_offset(0x08)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  115
@@ -6898,7 +6898,7 @@ drv8301.asm                                                          PAGE  115
     6296                      .dwattr $C$DW$668, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     6297                      .dwattr $C$DW$668, DW_AT_accessibility(DW_ACCESS_public)
     6298              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  116
@@ -6958,7 +6958,7 @@ drv8301.asm                                                          PAGE  116
     6351                      .dwattr $C$DW$674, DW_AT_accessibility(DW_ACCESS_public)
     6352              
     6353              $C$DW$675       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  117
@@ -7018,7 +7018,7 @@ drv8301.asm                                                          PAGE  117
     6406              
     6407              $C$DW$T$181     .dwtag  DW_TAG_structure_type
     6408                      .dwattr $C$DW$T$181, DW_AT_name("DRV8305_VREG_CNTRL_REG_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  118
@@ -7078,7 +7078,7 @@ drv8301.asm                                                          PAGE  118
     6461                      .dwattr $C$DW$685, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     6462                      .dwattr $C$DW$685, DW_AT_accessibility(DW_ACCESS_public)
     6463              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  119
@@ -7138,7 +7138,7 @@ drv8301.asm                                                          PAGE  119
     6516                      .dwattr $C$DW$691, DW_AT_type(*$C$DW$T$45)
     6517                      .dwattr $C$DW$691, DW_AT_name("VCHP_UVFL")
     6518                      .dwattr $C$DW$691, DW_AT_TI_symbol_name("_VCHP_UVFL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  120
@@ -7198,7 +7198,7 @@ drv8301.asm                                                          PAGE  120
     6571                      .dwattr $C$DW$697, DW_AT_name("FAULT")
     6572                      .dwattr $C$DW$697, DW_AT_TI_symbol_name("_FAULT")
     6573                      .dwattr $C$DW$697, DW_AT_bit_offset(0x05)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  121
@@ -7258,7 +7258,7 @@ drv8301.asm                                                          PAGE  121
     6626                      .dwattr $C$DW$702, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     6627                      .dwattr $C$DW$702, DW_AT_accessibility(DW_ACCESS_public)
     6628              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  122
@@ -7318,7 +7318,7 @@ drv8301.asm                                                          PAGE  122
     6681                      .dwattr $C$DW$T$194, DW_AT_byte_size(0x100)
     6682              $C$DW$708       .dwtag  DW_TAG_member
     6683                      .dwattr $C$DW$708, DW_AT_type(*$C$DW$T$270)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  123
@@ -7378,7 +7378,7 @@ drv8301.asm                                                          PAGE  123
     6736                      .dwattr $C$DW$715, DW_AT_accessibility(DW_ACCESS_public)
     6737              
     6738              $C$DW$716       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  124
@@ -7438,7 +7438,7 @@ drv8301.asm                                                          PAGE  124
     6791                      .dwattr $C$DW$723, DW_AT_data_member_location[DW_OP_plus_uconst 0x14]
     6792                      .dwattr $C$DW$723, DW_AT_accessibility(DW_ACCESS_public)
     6793              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  125
@@ -7498,7 +7498,7 @@ drv8301.asm                                                          PAGE  125
     6846                      .dwattr $C$DW$731, DW_AT_TI_symbol_name("_HRPCTL")
     6847                      .dwattr $C$DW$731, DW_AT_data_member_location[DW_OP_plus_uconst 0x2d]
     6848                      .dwattr $C$DW$731, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  126
@@ -7558,7 +7558,7 @@ drv8301.asm                                                          PAGE  126
     6901                      .dwattr $C$DW$739, DW_AT_name("AQCTLA")
     6902                      .dwattr $C$DW$739, DW_AT_TI_symbol_name("_AQCTLA")
     6903                      .dwattr $C$DW$739, DW_AT_data_member_location[DW_OP_plus_uconst 0x40]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  127
@@ -7618,7 +7618,7 @@ drv8301.asm                                                          PAGE  127
     6956                      .dwattr $C$DW$747, DW_AT_type(*$C$DW$T$189)
     6957                      .dwattr $C$DW$747, DW_AT_name("rsvd14")
     6958                      .dwattr $C$DW$747, DW_AT_TI_symbol_name("_rsvd14")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  128
@@ -7678,7 +7678,7 @@ drv8301.asm                                                          PAGE  128
     7011              $C$DW$755       .dwtag  DW_TAG_member
     7012                      .dwattr $C$DW$755, DW_AT_type(*$C$DW$T$45)
     7013                      .dwattr $C$DW$755, DW_AT_name("TBPRD")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  129
@@ -7738,7 +7738,7 @@ drv8301.asm                                                          PAGE  129
     7066              
     7067              $C$DW$763       .dwtag  DW_TAG_member
     7068                      .dwattr $C$DW$763, DW_AT_type(*$C$DW$T$185)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  130
@@ -7798,7 +7798,7 @@ drv8301.asm                                                          PAGE  130
     7121                      .dwattr $C$DW$770, DW_AT_accessibility(DW_ACCESS_public)
     7122              
     7123              $C$DW$771       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  131
@@ -7858,7 +7858,7 @@ drv8301.asm                                                          PAGE  131
     7176                      .dwattr $C$DW$778, DW_AT_data_member_location[DW_OP_plus_uconst 0x94]
     7177                      .dwattr $C$DW$778, DW_AT_accessibility(DW_ACCESS_public)
     7178              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  132
@@ -7918,7 +7918,7 @@ drv8301.asm                                                          PAGE  132
     7231                      .dwattr $C$DW$786, DW_AT_TI_symbol_name("_rsvd27")
     7232                      .dwattr $C$DW$786, DW_AT_data_member_location[DW_OP_plus_uconst 0x9c]
     7233                      .dwattr $C$DW$786, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  133
@@ -7978,7 +7978,7 @@ drv8301.asm                                                          PAGE  133
     7286                      .dwattr $C$DW$794, DW_AT_name("rsvd31")
     7287                      .dwattr $C$DW$794, DW_AT_TI_symbol_name("_rsvd31")
     7288                      .dwattr $C$DW$794, DW_AT_data_member_location[DW_OP_plus_uconst 0xab]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  134
@@ -8038,7 +8038,7 @@ drv8301.asm                                                          PAGE  134
     7341                      .dwattr $C$DW$802, DW_AT_type(*$C$DW$T$45)
     7342                      .dwattr $C$DW$802, DW_AT_name("rsvd35")
     7343                      .dwattr $C$DW$802, DW_AT_TI_symbol_name("_rsvd35")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  135
@@ -8098,7 +8098,7 @@ drv8301.asm                                                          PAGE  135
     7396              $C$DW$810       .dwtag  DW_TAG_member
     7397                      .dwattr $C$DW$810, DW_AT_type(*$C$DW$T$165)
     7398                      .dwattr $C$DW$810, DW_AT_name("DCFCTL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  136
@@ -8158,7 +8158,7 @@ drv8301.asm                                                          PAGE  136
     7451              
     7452              $C$DW$818       .dwtag  DW_TAG_member
     7453                      .dwattr $C$DW$818, DW_AT_type(*$C$DW$T$185)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  137
@@ -8218,7 +8218,7 @@ drv8301.asm                                                          PAGE  137
     7506              
     7507              $C$DW$T$195     .dwtag  DW_TAG_structure_type
     7508                      .dwattr $C$DW$T$195, DW_AT_name("EQEP_REGS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  138
@@ -8278,7 +8278,7 @@ drv8301.asm                                                          PAGE  138
     7561                      .dwattr $C$DW$832, DW_AT_name("QUTMR")
     7562                      .dwattr $C$DW$832, DW_AT_TI_symbol_name("_QUTMR")
     7563                      .dwattr $C$DW$832, DW_AT_data_member_location[DW_OP_plus_uconst 0xe]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  139
@@ -8338,7 +8338,7 @@ drv8301.asm                                                          PAGE  139
     7616                      .dwattr $C$DW$840, DW_AT_type(*$C$DW$T$239)
     7617                      .dwattr $C$DW$840, DW_AT_name("QEINT")
     7618                      .dwattr $C$DW$840, DW_AT_TI_symbol_name("_QEINT")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  140
@@ -8398,7 +8398,7 @@ drv8301.asm                                                          PAGE  140
     7671              $C$DW$848       .dwtag  DW_TAG_member
     7672                      .dwattr $C$DW$848, DW_AT_type(*$C$DW$T$45)
     7673                      .dwattr $C$DW$848, DW_AT_name("QCPRDLAT")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  141
@@ -8458,7 +8458,7 @@ drv8301.asm                                                          PAGE  141
     7726                      .dwattr $C$DW$853, DW_AT_accessibility(DW_ACCESS_public)
     7727              
     7728              $C$DW$854       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  142
@@ -8518,7 +8518,7 @@ drv8301.asm                                                          PAGE  142
     7781              $C$DW$859       .dwtag  DW_TAG_member
     7782                      .dwattr $C$DW$859, DW_AT_type(*$C$DW$T$45)
     7783                      .dwattr $C$DW$859, DW_AT_name("INTINITFRC")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  143
@@ -8578,7 +8578,7 @@ drv8301.asm                                                          PAGE  143
     7836              
     7837              
     7838              $C$DW$T$199     .dwtag  DW_TAG_union_type
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  144
@@ -8638,7 +8638,7 @@ drv8301.asm                                                          PAGE  144
     7891                      .dwattr $C$DW$870, DW_AT_TI_symbol_name("_rsvd1")
     7892                      .dwattr $C$DW$870, DW_AT_bit_offset(0x00)
     7893                      .dwattr $C$DW$870, DW_AT_bit_size(0x04)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  145
@@ -8698,7 +8698,7 @@ drv8301.asm                                                          PAGE  145
     7946                      .dwattr $C$DW$875, DW_AT_bit_size(0x01)
     7947                      .dwattr $C$DW$875, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     7948                      .dwattr $C$DW$875, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  146
@@ -8758,7 +8758,7 @@ drv8301.asm                                                          PAGE  146
     8001                      .dwattr $C$DW$880, DW_AT_accessibility(DW_ACCESS_public)
     8002              
     8003              $C$DW$881       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  147
@@ -8818,7 +8818,7 @@ drv8301.asm                                                          PAGE  147
     8056                      .dwattr $C$DW$886, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8057                      .dwattr $C$DW$886, DW_AT_accessibility(DW_ACCESS_public)
     8058              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  148
@@ -8878,7 +8878,7 @@ drv8301.asm                                                          PAGE  148
     8111              
     8112                      .dwendtag $C$DW$T$207
     8113              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  149
@@ -8938,7 +8938,7 @@ drv8301.asm                                                          PAGE  149
     8166                      .dwattr $C$DW$897, DW_AT_TI_symbol_name("_SOCAPRD")
     8167                      .dwattr $C$DW$897, DW_AT_bit_offset(0x06)
     8168                      .dwattr $C$DW$897, DW_AT_bit_size(0x02)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  150
@@ -8998,7 +8998,7 @@ drv8301.asm                                                          PAGE  150
     8221              
     8222              $C$DW$T$210     .dwtag  DW_TAG_structure_type
     8223                      .dwattr $C$DW$T$210, DW_AT_name("ETSEL_BITS")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  151
@@ -9058,7 +9058,7 @@ drv8301.asm                                                          PAGE  151
     8276                      .dwattr $C$DW$908, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8277                      .dwattr $C$DW$908, DW_AT_accessibility(DW_ACCESS_public)
     8278              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  152
@@ -9118,7 +9118,7 @@ drv8301.asm                                                          PAGE  152
     8331                      .dwattr $C$DW$914, DW_AT_TI_symbol_name("_bit")
     8332                      .dwattr $C$DW$914, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8333                      .dwattr $C$DW$914, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  153
@@ -9178,7 +9178,7 @@ drv8301.asm                                                          PAGE  153
     8386                      .dwattr $C$DW$919, DW_AT_TI_symbol_name("_all")
     8387                      .dwattr $C$DW$919, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8388                      .dwattr $C$DW$919, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  154
@@ -9238,7 +9238,7 @@ drv8301.asm                                                          PAGE  154
     8441                      .dwattr $C$DW$925, DW_AT_name("CMPD")
     8442                      .dwattr $C$DW$925, DW_AT_TI_symbol_name("_CMPD")
     8443                      .dwattr $C$DW$925, DW_AT_bit_offset(0x0b)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  155
@@ -9298,7 +9298,7 @@ drv8301.asm                                                          PAGE  155
     8496                      .dwattr $C$DW$931, DW_AT_TI_symbol_name("_AQCSFRC")
     8497                      .dwattr $C$DW$931, DW_AT_bit_offset(0x05)
     8498                      .dwattr $C$DW$931, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  156
@@ -9358,7 +9358,7 @@ drv8301.asm                                                          PAGE  156
     8551                      .dwattr $C$DW$936, DW_AT_bit_size(0x01)
     8552                      .dwattr $C$DW$936, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8553                      .dwattr $C$DW$936, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  157
@@ -9418,7 +9418,7 @@ drv8301.asm                                                          PAGE  157
     8606                      .dwattr $C$DW$941, DW_AT_accessibility(DW_ACCESS_public)
     8607              
     8608              $C$DW$942       .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  158
@@ -9478,7 +9478,7 @@ drv8301.asm                                                          PAGE  158
     8661                      .dwattr $C$DW$947, DW_AT_name("all")
     8662                      .dwattr $C$DW$947, DW_AT_TI_symbol_name("_all")
     8663                      .dwattr $C$DW$947, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  159
@@ -9538,7 +9538,7 @@ drv8301.asm                                                          PAGE  159
     8716                      .dwattr $C$DW$953, DW_AT_type(*$C$DW$T$45)
     8717                      .dwattr $C$DW$953, DW_AT_name("rsvd2")
     8718                      .dwattr $C$DW$953, DW_AT_TI_symbol_name("_rsvd2")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  160
@@ -9598,7 +9598,7 @@ drv8301.asm                                                          PAGE  160
     8771                      .dwattr $C$DW$958, DW_AT_TI_symbol_name("_CTLMODE")
     8772                      .dwattr $C$DW$958, DW_AT_bit_offset(0x0d)
     8773                      .dwattr $C$DW$958, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  161
@@ -9658,7 +9658,7 @@ drv8301.asm                                                          PAGE  161
     8826                      .dwattr $C$DW$964, DW_AT_bit_offset(0x05)
     8827                      .dwattr $C$DW$964, DW_AT_bit_size(0x01)
     8828                      .dwattr $C$DW$964, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  162
@@ -9718,7 +9718,7 @@ drv8301.asm                                                          PAGE  162
     8881              $C$DW$T$224     .dwtag  DW_TAG_structure_type
     8882                      .dwattr $C$DW$T$224, DW_AT_name("HRMSTEP_BITS")
     8883                      .dwattr $C$DW$T$224, DW_AT_byte_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  163
@@ -9778,7 +9778,7 @@ drv8301.asm                                                          PAGE  163
     8936              
     8937              $C$DW$975       .dwtag  DW_TAG_member
     8938                      .dwattr $C$DW$975, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  164
@@ -9838,7 +9838,7 @@ drv8301.asm                                                          PAGE  164
     8991                      .dwattr $C$DW$980, DW_AT_TI_symbol_name("_all")
     8992                      .dwattr $C$DW$980, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     8993                      .dwattr $C$DW$980, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  165
@@ -9898,7 +9898,7 @@ drv8301.asm                                                          PAGE  165
     9046                      .dwattr $C$DW$986, DW_AT_name("rsvd5")
     9047                      .dwattr $C$DW$986, DW_AT_TI_symbol_name("_rsvd5")
     9048                      .dwattr $C$DW$986, DW_AT_bit_offset(0x0a)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  166
@@ -9958,7 +9958,7 @@ drv8301.asm                                                          PAGE  166
     9101              
     9102              
     9103              $C$DW$T$230     .dwtag  DW_TAG_structure_type
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  167
@@ -10018,7 +10018,7 @@ drv8301.asm                                                          PAGE  167
     9156                      .dwattr $C$DW$T$231, DW_AT_byte_size(0x01)
     9157              $C$DW$997       .dwtag  DW_TAG_member
     9158                      .dwattr $C$DW$997, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  168
@@ -10078,7 +10078,7 @@ drv8301.asm                                                          PAGE  168
     9211                      .dwattr $C$DW$1002, DW_AT_accessibility(DW_ACCESS_public)
     9212              
     9213                      .dwendtag $C$DW$T$232
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  169
@@ -10138,7 +10138,7 @@ drv8301.asm                                                          PAGE  169
     9266              $C$DW$1008      .dwtag  DW_TAG_member
     9267                      .dwattr $C$DW$1008, DW_AT_type(*$C$DW$T$45)
     9268                      .dwattr $C$DW$1008, DW_AT_name("QDC")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  170
@@ -10198,7 +10198,7 @@ drv8301.asm                                                          PAGE  170
     9321                      .dwattr $C$DW$1014, DW_AT_type(*$C$DW$T$45)
     9322                      .dwattr $C$DW$1014, DW_AT_name("SEL")
     9323                      .dwattr $C$DW$1014, DW_AT_TI_symbol_name("_SEL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  171
@@ -10258,7 +10258,7 @@ drv8301.asm                                                          PAGE  171
     9376                      .dwendtag $C$DW$T$235
     9377              
     9378              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  172
@@ -10318,7 +10318,7 @@ drv8301.asm                                                          PAGE  172
     9431                      .dwattr $C$DW$1025, DW_AT_bit_offset(0x06)
     9432                      .dwattr $C$DW$1025, DW_AT_bit_size(0x01)
     9433                      .dwattr $C$DW$1025, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  173
@@ -10378,7 +10378,7 @@ drv8301.asm                                                          PAGE  173
     9486                      .dwattr $C$DW$T$237, DW_AT_byte_size(0x01)
     9487              $C$DW$1031      .dwtag  DW_TAG_member
     9488                      .dwattr $C$DW$1031, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  174
@@ -10438,7 +10438,7 @@ drv8301.asm                                                          PAGE  174
     9541                      .dwattr $C$DW$1036, DW_AT_accessibility(DW_ACCESS_public)
     9542              
     9543              $C$DW$1037      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  175
@@ -10498,7 +10498,7 @@ drv8301.asm                                                          PAGE  175
     9596              
     9597              $C$DW$1043      .dwtag  DW_TAG_member
     9598                      .dwattr $C$DW$1043, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  176
@@ -10558,7 +10558,7 @@ drv8301.asm                                                          PAGE  176
     9651                      .dwattr $C$DW$1048, DW_AT_type(*$C$DW$T$45)
     9652                      .dwattr $C$DW$1048, DW_AT_name("WDE")
     9653                      .dwattr $C$DW$1048, DW_AT_TI_symbol_name("_WDE")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  177
@@ -10618,7 +10618,7 @@ drv8301.asm                                                          PAGE  177
     9706                      .dwattr $C$DW$1054, DW_AT_name("SWI")
     9707                      .dwattr $C$DW$1054, DW_AT_TI_symbol_name("_SWI")
     9708                      .dwattr $C$DW$1054, DW_AT_bit_offset(0x08)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  178
@@ -10678,7 +10678,7 @@ drv8301.asm                                                          PAGE  178
     9761              
     9762              $C$DW$1060      .dwtag  DW_TAG_member
     9763                      .dwattr $C$DW$1060, DW_AT_type(*$C$DW$T$240)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  179
@@ -10738,7 +10738,7 @@ drv8301.asm                                                          PAGE  179
     9816                      .dwattr $C$DW$1065, DW_AT_bit_size(0x01)
     9817                      .dwattr $C$DW$1065, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
     9818                      .dwattr $C$DW$1065, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  180
@@ -10798,7 +10798,7 @@ drv8301.asm                                                          PAGE  180
     9871                      .dwattr $C$DW$1071, DW_AT_name("bit")
     9872                      .dwattr $C$DW$1071, DW_AT_TI_symbol_name("_bit")
     9873                      .dwattr $C$DW$1071, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  181
@@ -10858,7 +10858,7 @@ drv8301.asm                                                          PAGE  181
     9926              
     9927              $C$DW$1077      .dwtag  DW_TAG_member
     9928                      .dwattr $C$DW$1077, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  182
@@ -10918,7 +10918,7 @@ drv8301.asm                                                          PAGE  182
     9981              $C$DW$1083      .dwtag  DW_TAG_member
     9982                      .dwattr $C$DW$1083, DW_AT_type(*$C$DW$T$45)
     9983                      .dwattr $C$DW$1083, DW_AT_name("UTO")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  183
@@ -10978,7 +10978,7 @@ drv8301.asm                                                          PAGE  183
    10036                      .dwattr $C$DW$1088, DW_AT_name("PCE")
    10037                      .dwattr $C$DW$1088, DW_AT_TI_symbol_name("_PCE")
    10038                      .dwattr $C$DW$1088, DW_AT_bit_offset(0x0e)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  184
@@ -11038,7 +11038,7 @@ drv8301.asm                                                          PAGE  184
    10091                      .dwattr $C$DW$1094, DW_AT_TI_symbol_name("_PCR")
    10092                      .dwattr $C$DW$1094, DW_AT_bit_offset(0x08)
    10093                      .dwattr $C$DW$1094, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  185
@@ -11098,7 +11098,7 @@ drv8301.asm                                                          PAGE  185
    10146                      .dwattr $C$DW$T$247, DW_AT_name("QFRC_REG")
    10147                      .dwattr $C$DW$T$247, DW_AT_byte_size(0x01)
    10148              $C$DW$1100      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  186
@@ -11158,7 +11158,7 @@ drv8301.asm                                                          PAGE  186
    10201                      .dwattr $C$DW$1105, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    10202                      .dwattr $C$DW$1105, DW_AT_accessibility(DW_ACCESS_public)
    10203              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  187
@@ -11218,7 +11218,7 @@ drv8301.asm                                                          PAGE  187
    10256              
    10257                      .dwendtag $C$DW$T$250
    10258              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  188
@@ -11278,7 +11278,7 @@ drv8301.asm                                                          PAGE  188
    10311                      .dwattr $C$DW$1116, DW_AT_type(*$C$DW$T$45)
    10312                      .dwattr $C$DW$1116, DW_AT_name("CLKPOLARITY")
    10313                      .dwattr $C$DW$1116, DW_AT_TI_symbol_name("_CLKPOLARITY")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  189
@@ -11338,7 +11338,7 @@ drv8301.asm                                                          PAGE  189
    10366                      .dwattr $C$DW$1121, DW_AT_TI_symbol_name("_SPIINTENA")
    10367                      .dwattr $C$DW$1121, DW_AT_bit_offset(0x0f)
    10368                      .dwattr $C$DW$1121, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  190
@@ -11398,7 +11398,7 @@ drv8301.asm                                                          PAGE  190
    10421                      .dwattr $C$DW$T$255, DW_AT_name("SPICTL_REG")
    10422                      .dwattr $C$DW$T$255, DW_AT_byte_size(0x01)
    10423              $C$DW$1127      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  191
@@ -11458,7 +11458,7 @@ drv8301.asm                                                          PAGE  191
    10476                      .dwattr $C$DW$1132, DW_AT_name("bit")
    10477                      .dwattr $C$DW$1132, DW_AT_TI_symbol_name("_bit")
    10478                      .dwattr $C$DW$1132, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  192
@@ -11518,7 +11518,7 @@ drv8301.asm                                                          PAGE  192
    10531              
    10532              $C$DW$1138      .dwtag  DW_TAG_member
    10533                      .dwattr $C$DW$1138, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  193
@@ -11578,7 +11578,7 @@ drv8301.asm                                                          PAGE  193
    10586                      .dwattr $C$DW$1143, DW_AT_type(*$C$DW$T$45)
    10587                      .dwattr $C$DW$1143, DW_AT_name("TXFFIL")
    10588                      .dwattr $C$DW$1143, DW_AT_TI_symbol_name("_TXFFIL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  194
@@ -11638,7 +11638,7 @@ drv8301.asm                                                          PAGE  194
    10641                      .dwattr $C$DW$1149, DW_AT_name("SPIFFENA")
    10642                      .dwattr $C$DW$1149, DW_AT_TI_symbol_name("_SPIFFENA")
    10643                      .dwattr $C$DW$1149, DW_AT_bit_offset(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  195
@@ -11698,7 +11698,7 @@ drv8301.asm                                                          PAGE  195
    10696                      .dwattr $C$DW$1154, DW_AT_bit_offset(0x0e)
    10697                      .dwattr $C$DW$1154, DW_AT_bit_size(0x01)
    10698                      .dwattr $C$DW$1154, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  196
@@ -11758,7 +11758,7 @@ drv8301.asm                                                          PAGE  196
    10751                      .dwattr $C$DW$T$263, DW_AT_byte_size(0x01)
    10752              $C$DW$1160      .dwtag  DW_TAG_member
    10753                      .dwattr $C$DW$1160, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  197
@@ -11818,7 +11818,7 @@ drv8301.asm                                                          PAGE  197
    10806                      .dwattr $C$DW$1165, DW_AT_accessibility(DW_ACCESS_public)
    10807              
    10808              $C$DW$1166      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  198
@@ -11878,7 +11878,7 @@ drv8301.asm                                                          PAGE  198
    10861                      .dwattr $C$DW$1171, DW_AT_data_member_location[DW_OP_plus_uconst 0x2]
    10862                      .dwattr $C$DW$1171, DW_AT_accessibility(DW_ACCESS_public)
    10863              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  199
@@ -11938,7 +11938,7 @@ drv8301.asm                                                          PAGE  199
    10916                      .dwattr $C$DW$1179, DW_AT_TI_symbol_name("_SPIFFTX")
    10917                      .dwattr $C$DW$1179, DW_AT_data_member_location[DW_OP_plus_uconst 0xa]
    10918                      .dwattr $C$DW$1179, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  200
@@ -11998,7 +11998,7 @@ drv8301.asm                                                          PAGE  200
    10971                      .dwattr $C$DW$1185, DW_AT_accessibility(DW_ACCESS_public)
    10972              
    10973              $C$DW$1186      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  201
@@ -12058,7 +12058,7 @@ drv8301.asm                                                          PAGE  201
    11026              
    11027                      .dwendtag $C$DW$T$267
    11028              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  202
@@ -12118,7 +12118,7 @@ drv8301.asm                                                          PAGE  202
    11081                      .dwattr $C$DW$1197, DW_AT_type(*$C$DW$T$45)
    11082                      .dwattr $C$DW$1197, DW_AT_name("SYNCOSEL")
    11083                      .dwattr $C$DW$1197, DW_AT_TI_symbol_name("_SYNCOSEL")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  203
@@ -12178,7 +12178,7 @@ drv8301.asm                                                          PAGE  203
    11136              
    11137              $C$DW$T$270     .dwtag  DW_TAG_union_type
    11138                      .dwattr $C$DW$T$270, DW_AT_name("TBCTL_REG")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  204
@@ -12238,7 +12238,7 @@ drv8301.asm                                                          PAGE  204
    11191              $C$DW$1208      .dwtag  DW_TAG_member
    11192                      .dwattr $C$DW$1208, DW_AT_type(*$C$DW$T$271)
    11193                      .dwattr $C$DW$1208, DW_AT_name("bit")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  205
@@ -12298,7 +12298,7 @@ drv8301.asm                                                          PAGE  205
    11246              $C$DW$1213      .dwtag  DW_TAG_member
    11247                      .dwattr $C$DW$1213, DW_AT_type(*$C$DW$T$45)
    11248                      .dwattr $C$DW$1213, DW_AT_name("all")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  206
@@ -12358,7 +12358,7 @@ drv8301.asm                                                          PAGE  206
    11301                      .dwattr $C$DW$1218, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    11302                      .dwattr $C$DW$1218, DW_AT_accessibility(DW_ACCESS_public)
    11303              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  207
@@ -12418,7 +12418,7 @@ drv8301.asm                                                          PAGE  207
    11356                      .dwattr $C$DW$1224, DW_AT_type(*$C$DW$T$45)
    11357                      .dwattr $C$DW$1224, DW_AT_name("CBC6")
    11358                      .dwattr $C$DW$1224, DW_AT_TI_symbol_name("_CBC6")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  208
@@ -12478,7 +12478,7 @@ drv8301.asm                                                          PAGE  208
    11411                      .dwendtag $C$DW$T$278
    11412              
    11413              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  209
@@ -12538,7 +12538,7 @@ drv8301.asm                                                          PAGE  209
    11466                      .dwattr $C$DW$1235, DW_AT_bit_offset(0x0a)
    11467                      .dwattr $C$DW$1235, DW_AT_bit_size(0x01)
    11468                      .dwattr $C$DW$1235, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  210
@@ -12598,7 +12598,7 @@ drv8301.asm                                                          PAGE  210
    11521              $C$DW$T$281     .dwtag  DW_TAG_structure_type
    11522                      .dwattr $C$DW$T$281, DW_AT_name("TZCLR_BITS")
    11523                      .dwattr $C$DW$T$281, DW_AT_byte_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  211
@@ -12658,7 +12658,7 @@ drv8301.asm                                                          PAGE  211
    11576                      .dwattr $C$DW$1246, DW_AT_accessibility(DW_ACCESS_public)
    11577              
    11578              $C$DW$1247      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  212
@@ -12718,7 +12718,7 @@ drv8301.asm                                                          PAGE  212
    11631              $C$DW$1252      .dwtag  DW_TAG_member
    11632                      .dwattr $C$DW$1252, DW_AT_type(*$C$DW$T$45)
    11633                      .dwattr $C$DW$1252, DW_AT_name("TZAU")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  213
@@ -12778,7 +12778,7 @@ drv8301.asm                                                          PAGE  213
    11686              
    11687              
    11688              $C$DW$T$284     .dwtag  DW_TAG_union_type
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  214
@@ -12838,7 +12838,7 @@ drv8301.asm                                                          PAGE  214
    11741                      .dwattr $C$DW$1263, DW_AT_TI_symbol_name("_DCAEVT2D")
    11742                      .dwattr $C$DW$1263, DW_AT_bit_offset(0x04)
    11743                      .dwattr $C$DW$1263, DW_AT_bit_size(0x03)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  215
@@ -12898,7 +12898,7 @@ drv8301.asm                                                          PAGE  215
    11796                      .dwattr $C$DW$1268, DW_AT_bit_size(0x03)
    11797                      .dwattr $C$DW$1268, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    11798                      .dwattr $C$DW$1268, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  216
@@ -12958,7 +12958,7 @@ drv8301.asm                                                          PAGE  216
    11851                      .dwattr $C$DW$T$289, DW_AT_name("TZCTL_BITS")
    11852                      .dwattr $C$DW$T$289, DW_AT_byte_size(0x01)
    11853              $C$DW$1274      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  217
@@ -13018,7 +13018,7 @@ drv8301.asm                                                          PAGE  217
    11906              
    11907              $C$DW$1280      .dwtag  DW_TAG_member
    11908                      .dwattr $C$DW$1280, DW_AT_type(*$C$DW$T$45)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  218
@@ -13078,7 +13078,7 @@ drv8301.asm                                                          PAGE  218
    11961                      .dwattr $C$DW$1285, DW_AT_type(*$C$DW$T$45)
    11962                      .dwattr $C$DW$1285, DW_AT_name("DCBEVT1")
    11963                      .dwattr $C$DW$1285, DW_AT_TI_symbol_name("_DCBEVT1")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  219
@@ -13138,7 +13138,7 @@ drv8301.asm                                                          PAGE  219
    12016                      .dwattr $C$DW$1290, DW_AT_TI_symbol_name("_rsvd1")
    12017                      .dwattr $C$DW$1290, DW_AT_bit_offset(0x0f)
    12018                      .dwattr $C$DW$1290, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  220
@@ -13198,7 +13198,7 @@ drv8301.asm                                                          PAGE  220
    12071                      .dwattr $C$DW$1296, DW_AT_bit_offset(0x09)
    12072                      .dwattr $C$DW$1296, DW_AT_bit_size(0x01)
    12073                      .dwattr $C$DW$1296, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  221
@@ -13258,7 +13258,7 @@ drv8301.asm                                                          PAGE  221
    12126                      .dwattr $C$DW$1301, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    12127                      .dwattr $C$DW$1301, DW_AT_accessibility(DW_ACCESS_public)
    12128              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  222
@@ -13318,7 +13318,7 @@ drv8301.asm                                                          PAGE  222
    12181                      .dwattr $C$DW$1307, DW_AT_accessibility(DW_ACCESS_public)
    12182              
    12183                      .dwendtag $C$DW$T$295
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  223
@@ -13378,7 +13378,7 @@ drv8301.asm                                                          PAGE  223
    12236              $C$DW$1313      .dwtag  DW_TAG_member
    12237                      .dwattr $C$DW$1313, DW_AT_type(*$C$DW$T$45)
    12238                      .dwattr $C$DW$1313, DW_AT_name("DCAEVT1")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  224
@@ -13438,7 +13438,7 @@ drv8301.asm                                                          PAGE  224
    12291                      .dwattr $C$DW$1318, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    12292                      .dwattr $C$DW$1318, DW_AT_accessibility(DW_ACCESS_public)
    12293              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  225
@@ -13498,7 +13498,7 @@ drv8301.asm                                                          PAGE  225
    12346                      .dwattr $C$DW$1324, DW_AT_TI_symbol_name("_OST5")
    12347                      .dwattr $C$DW$1324, DW_AT_bit_offset(0x0b)
    12348                      .dwattr $C$DW$1324, DW_AT_bit_size(0x01)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  226
@@ -13558,7 +13558,7 @@ drv8301.asm                                                          PAGE  226
    12401              $C$DW$1330      .dwtag  DW_TAG_member
    12402                      .dwattr $C$DW$1330, DW_AT_type(*$C$DW$T$299)
    12403                      .dwattr $C$DW$1330, DW_AT_name("bit")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  227
@@ -13618,7 +13618,7 @@ drv8301.asm                                                          PAGE  227
    12456                      .dwattr $C$DW$1335, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    12457                      .dwattr $C$DW$1335, DW_AT_accessibility(DW_ACCESS_public)
    12458              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  228
@@ -13678,7 +13678,7 @@ drv8301.asm                                                          PAGE  228
    12511                      .dwattr $C$DW$1341, DW_AT_TI_symbol_name("_bit")
    12512                      .dwattr $C$DW$1341, DW_AT_data_member_location[DW_OP_plus_uconst 0x0]
    12513                      .dwattr $C$DW$1341, DW_AT_accessibility(DW_ACCESS_public)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  229
@@ -13738,7 +13738,7 @@ drv8301.asm                                                          PAGE  229
    12566              $C$DW$1347      .dwtag  DW_TAG_member
    12567                      .dwattr $C$DW$1347, DW_AT_type(*$C$DW$T$45)
    12568                      .dwattr $C$DW$1347, DW_AT_name("CBC6")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  230
@@ -13798,7 +13798,7 @@ drv8301.asm                                                          PAGE  230
    12621                      .dwattr $C$DW$1353, DW_AT_type(*$C$DW$T$45)
    12622                      .dwattr $C$DW$1353, DW_AT_name("OSHT4")
    12623                      .dwattr $C$DW$1353, DW_AT_TI_symbol_name("_OSHT4")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  231
@@ -13858,7 +13858,7 @@ drv8301.asm                                                          PAGE  231
    12676                      .dwattr $C$DW$1358, DW_AT_accessibility(DW_ACCESS_public)
    12677              
    12678              $C$DW$1359      .dwtag  DW_TAG_member
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  232
@@ -13918,7 +13918,7 @@ drv8301.asm                                                          PAGE  232
    12731                      .dwattr $C$DW$T$45, DW_AT_name("Uint16")
    12732                      .dwattr $C$DW$T$45, DW_AT_type(*$C$DW$T$11)
    12733                      .dwattr $C$DW$T$45, DW_AT_language(DW_LANG_C)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  233
@@ -13978,7 +13978,7 @@ drv8301.asm                                                          PAGE  233
    12786              $C$DW$T$190     .dwtag  DW_TAG_array_type
    12787                      .dwattr $C$DW$T$190, DW_AT_type(*$C$DW$T$45)
    12788                      .dwattr $C$DW$T$190, DW_AT_language(DW_LANG_C)
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  234
@@ -14038,7 +14038,7 @@ drv8301.asm                                                          PAGE  234
    12841                      .dwattr $C$DW$T$13, DW_AT_name("unsigned long")
    12842                      .dwattr $C$DW$T$13, DW_AT_byte_size(0x02)
    12843              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  235
@@ -14098,7 +14098,7 @@ drv8301.asm                                                          PAGE  235
    12896                      .dwcfi  cfa_register, 20
    12897                      .dwcfi  cfa_offset, 0
    12898                      .dwcfi  same_value, 28
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  236
@@ -14158,7 +14158,7 @@ drv8301.asm                                                          PAGE  236
    12951              $C$DW$1378      .dwtag  DW_TAG_TI_assign_register
    12952                      .dwattr $C$DW$1378, DW_AT_name("PC")
    12953                      .dwattr $C$DW$1378, DW_AT_location[DW_OP_reg25]
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  237
@@ -14218,7 +14218,7 @@ drv8301.asm                                                          PAGE  237
    13006              
    13007              $C$DW$1392      .dwtag  DW_TAG_TI_assign_register
    13008                      .dwattr $C$DW$1392, DW_AT_name("PSEUDOH")
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  238
@@ -14278,7 +14278,7 @@ drv8301.asm                                                          PAGE  238
    13061                      .dwattr $C$DW$1405, DW_AT_location[DW_OP_reg15]
    13062              
    13063              $C$DW$1406      .dwtag  DW_TAG_TI_assign_register
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  239
@@ -14338,7 +14338,7 @@ drv8301.asm                                                          PAGE  239
    13116                      .dwattr $C$DW$1419, DW_AT_name("STF")
    13117                      .dwattr $C$DW$1419, DW_AT_location[DW_OP_regx 0x28]
    13118              
-TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 16:43:35 2023
+TMS320C2000 Assembler PC v20.2.5 Tue Mar 14 17:11:56 2023
 
 Copyright (c) 1996-2018 Texas Instruments Incorporated
 drv8301.asm                                                          PAGE  240

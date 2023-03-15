@@ -137,7 +137,7 @@ int16	SerialCommsTimer;
 // Global variables used in this system
 //****************************************************************************
 char Speed_CMD_Switch = 1;
-char DAC_Switch = 6;
+char DAC_Switch = 7;
 char Angle_Switch = 0;
 
 //Back EMF Decoupling
@@ -145,10 +145,11 @@ float Vq_Decoupling = 0;
 float Vd_Decoupling = 0;
 
 //Trapezoidal Speed CMD
-float Speed_CMD_Data[2] = {0.0 , 0.01};
+float Speed_CMD_Data[2] = {0.005 , 0.01};
+
 char Speed_CMD_Index = 0;
 uint32_t Speed_CMD_Cnt = 0;
-uint32_t Trapezoidal_Width = 8000;
+uint32_t Trapezoidal_Width = 30000;
 float Speed_CMD;
 
 
@@ -191,11 +192,13 @@ float Kalman3X3_TL[2] = {0.0};
 float Kalman2X2_TL[2] = {0.0};
 float SpeedCmd0_1=0;
 char RLS_Flag = 0;
+char RLS_Start_Flag = 0;
 float RLS_Gain = 1;
 char Hybrid_flag = 0;
 int RLS_cnt = 0;
 int RLS_prescaler = 1;
 float RLS_To_Kalman_J = J;
+float Speed_err_threshold = 1e-07;
 
 //Adaptive
 char Adaptive_On = 0;
@@ -922,7 +925,7 @@ void main(void)
     Id_FBK.BW = 2 * PI * 500;
     Id_FBK.T = TS;
 
-    Kalman_e.BW = 2 * PI * 300;
+    Kalman_e.BW = 2 * PI * 30;
     Kalman_e.T = TS;
 
     Iq_test_Kt.BW = 2 * PI * 1;
@@ -1966,6 +1969,7 @@ inline void BuildLevel4(MOTOR_VARS * motor)
             SpeedFBK_Cnt++;
             Speed_CMD_Switch = 1;
             motor->SpeedRef = 0;
+            RLS_Start_Flag = 1;
         }
         else
         {
@@ -1973,7 +1977,8 @@ inline void BuildLevel4(MOTOR_VARS * motor)
             rc_SpeedCmd_Trapezoidal.TargetValue = 0;
             rc_SpeedCmd_Trapezoidal.SetpointValue = 0;
             Speed_CMD_Index = 0;
-            RLS_Flag = 0;
+            RLS_Flag = 1;
+
         }
     }
 
@@ -2020,17 +2025,18 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     Kalman_e.Input = Kalman3X3_Handler.e;
     LPF_MARCRO(Kalman_e)
 
-
-
     Kalman3X3_TL[1] = Kalman3X3_TL[0];
     Kalman3X3_TL[0] = Kalman3X3_Handler.Terminal.TL;
     Kalman2X2_TL[1] = Kalman2X2_TL[0];
     Kalman2X2_TL[0] = Kalman2X2_Handler.Terminal.TL;
 
-    SpeedCmd0_1 = fabsf(SpeedCmd[0] - SpeedCmd[1]);
 
+
+    SpeedCmd0_1 = fabsf(SpeedCmd[0] - SpeedCmd[1]);
+//if(fabsf(Speed_CMD - Kalman3X3_Handler.Terminal.speed / TWO_PI / BASE_FREQ) < Speed_err_threshold)
     if(fabsf(SpeedCmd[0] - SpeedCmd[1]) < 0.000001)
     {
+
 //        GPIO_WritePin(GPIO25,TRUE);
         if(Hybrid_flag)
         {
@@ -2088,13 +2094,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
     /*   Need be revised with different Kalman Filter for RLS Test*/
 #if KALMAN3X3_OR_2X2
 
-    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, Kalman3X3_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, Kalman3X3_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out, RLS_Start_Flag);
 
-//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed_est.term.Enhanced_SpeedEst_pu *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
-//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed.Speed / (POLES/2) *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out);
+//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed_est.term.Enhanced_SpeedEst_pu *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out,RLS_Start_Flag);
+//    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler, motor->speed.Speed / (POLES/2) *BASE_FREQ * TWO_PI, Te_TL_Cmd, Estimated_Acc.Out, RLS_Start_Flag);
 #else
 
-    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler,Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out);
+    RLS_Calculate(&RLS_Handler, &Kalman3X3_Handler,Kalman2X2_Handler.Terminal.speed, Te_TL_Cmd, Estimated_Acc.Out, RLS_Start_Flag);
 #endif
 //    GPIO_WritePin(GPIO25,TRUE);
 
@@ -2257,6 +2263,13 @@ inline void BuildLevel4(MOTOR_VARS * motor)
         SPIDAC_write_dac_channel(2, (J)*2047 * DAC_Gain_C + 2048);
         SPIDAC_write_dac_channel(3, (RLS_Inertia.Out)*2047 * DAC_Gain_D + 2048);
 #endif
+    }
+    else if(DAC_Switch == 7){
+        DAC_Gain_A = 50; DAC_Gain_B = 2; DAC_Gain_C = 100; DAC_Gain_D = 570;
+        SPIDAC_write_dac_channel(0, (motor->speed_est.term.Enhanced_SpeedEst_pu)*2047 * DAC_Gain_A + 2048);             //VoutA on SPIDAC Chip
+        SPIDAC_write_dac_channel(1, (Kalman3X3_Handler.KalmanToRls_TL *0.1)*2047 * DAC_Gain_B + 2048);    //VoutB on SPIDAC Chip
+        SPIDAC_write_dac_channel(2, (Kalman_e.Out)*2047 * DAC_Gain_C + 2048);
+        SPIDAC_write_dac_channel(3, (RLS_Inertia.Out)*2047 * DAC_Gain_D + 2048);
     }
 
 

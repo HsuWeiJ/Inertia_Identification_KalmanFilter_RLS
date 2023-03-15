@@ -59,6 +59,7 @@ typedef struct RLS{
     float Kb;
     float q_bar;
     float e;
+    float e_threshold;
     float omega_e;
     float omega_v;
     float Alpha;
@@ -377,12 +378,13 @@ void RLS_Ini(RLS* r)
     r->Kb = 3.0;
     r->q_bar = 0;
     r->e = 0;
+    r->e_threshold = 1e-04;
     r->omega_e = 0;
     r->omega_v = 0;
     r->Alpha = 1-1/(r->Ka * 2);
     r->Beta = 1-1/(r->Kb * 2);
     r->Gamma = 1.05;
-    r->F_max = 0.9998;
+    r->F_max = 0.99999;
     r->F_min = 0.9995;
     r->F = 0.9998;
     r->acc = 0;
@@ -392,7 +394,7 @@ void RLS_Ini(RLS* r)
     //Matrix initialization
     float Fai_data[2] = {0};
     Matrix_Generate(&(r->Fai),2,Fai_data);
-    float Theda_data[2] = {-0.999,11.49};
+    float Theda_data[2] = {-0.999,3.72};
     Matrix_Generate(&(r->Theda),2,Theda_data);
     float P_data[4] = {10000,0,0,10000};
     Matrix_Generate(&(r->P),4,P_data);
@@ -415,7 +417,7 @@ void RLS_Ini(RLS* r)
 
 }
 
-//inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc)      //for Free Shaft Motor
+//inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)      //for Free Shaft Motor
 //{
 //    //Update Speed in RLS Handler
 //    r->speed[1] = r->speed[0];
@@ -489,7 +491,7 @@ void RLS_Ini(RLS* r)
 //    }
 //
 //}
-inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc)            //for motor+Gearbox
+inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)            //for motor+Gearbox
 {
     //Update Speed in RLS Handler
     r->speed[1] = r->speed[0];
@@ -500,33 +502,33 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
     r->Te_TL[0] = Te_TL;
 
     r->F = r->F_max;
-    if (fabsf(acc) > 30)
+    if (fabsf(acc) > 30 && start == 1 && fabsf(k->e) < r->e_threshold )
     {
         r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
-//        /******************IVFF*******************/
-//        //q=Fai'*P*Fai;
-//        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
-//        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
-//        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
+        /******************IVFF*******************/
+        //q=Fai'*P*Fai;
+        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
+        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
+        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
 
         //e=speed-(Fai')*Theda
         mpy_SP_RMxRM(r->Tem_1X1, r->Fai, r->Theda, 1, 2, 1);        // Tem_1X1 : (Fai')*Theda
         r->e = r->speed[0] - r->Tem_1X1[0];
-//        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
-//        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
-//
-//        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
-//        {
-//            r->F = r->F_max;
-//            //GPIO_WritePin(GPIO25,TRUE);
-//        }
-//        else
-//        {
-//            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
-//            //GPIO_WritePin(GPIO25,FALSE);
-//        }
-//        if(r->F < r->F_min)
-//            r->F = r->F_min;
+        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
+        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
+
+        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
+        {
+            r->F = r->F_max;
+            //GPIO_WritePin(GPIO25,TRUE);
+        }
+        else
+        {
+            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
+            //GPIO_WritePin(GPIO25,FALSE);
+        }
+        if(r->F < r->F_min)
+            r->F = r->F_min;
 
         /******************RLS*******************/
 
