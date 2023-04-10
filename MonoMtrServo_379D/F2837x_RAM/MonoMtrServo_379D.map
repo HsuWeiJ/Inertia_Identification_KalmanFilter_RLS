@@ -1,10 +1,10 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Wed Mar 15 13:07:47 2023
+>> Linked Mon Apr 10 14:53:09 2023
 
 OUTPUT FILE NAME:   <MonoMtrServo_379D.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00008f2a
+ENTRY POINT SYMBOL: "_c_int00"  address: 00008f22
 
 
 MEMORY CONFIGURATION
@@ -15,11 +15,11 @@ PAGE 0:
   BEGIN                 00000000   00000002  00000002  00000000  RWIX
   RAMM0                 00000122   000002de  000002de  00000000  RWIX
   RAMLS0                00008000   00000800  00000800  00000000  RWIX
-  RAMLS1_LS2            00008800   00001000  00000bed  00000413  RWIX
+  RAMLS1_LS2            00008800   00001000  00000be5  0000041b  RWIX
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   RAMD0                 0000b000   00000800  000007ff  00000001  RWIX
   RAMGS9                00015000   00001000  00000000  00001000  RWIX
-  RAMGS10_GS11_GS12     00016000   00003000  00002464  00000b9c  RWIX
+  RAMGS10_GS11_GS12     00016000   00003000  0000246e  00000b92  RWIX
   RAMGS13               00019000   00001000  00000000  00001000  RWIX
   RAMGS14               0001a000   00001000  00000000  00001000  RWIX
   RAMGS15               0001b000   00001000  00000439  00000bc7  RWIX
@@ -683,61 +683,61 @@ CpuSysRegsFile
                   00008543    000001ac     rts2800_fpu32.lib : ti_fmax.c.obj (.text)
                   000086ef    00000111                       : e_expf.c.obj (.text)
 
-.text.3    0    00008800    00000bed     
+.text.3    0    00008800    00000be5     
                   00008800    0000012b     rts2800_fpu32.lib : e_logf.c.obj (.text)
                   0000892b    00000120     drv8305.obj (.text)
-                  00008a4b    000000f4     MonoMtrServo.obj (.text:retain)
-                  00008b3f    000000e8     F2837xD_Adc.obj (.text)
-                  00008c27    00000001     --HOLE-- [fill = 0]
-                  00008c28    000000b6     iabs_SP_CV_TMU0.obj (.text)
-                  00008cde    00000093     abs_SP_CV_TMU0.obj (.text)
-                  00008d71    00000087     DLOG_4CH_F.obj (.text)
-                  00008df8    0000007e     DRV830x_SPI.obj (.text)
-                  00008e76    0000005b     abs_SP_CV_2.obj (.text)
-                  00008ed1    00000059     rts2800_fpu32.lib : s_floorf.c.obj (.text)
-                  00008f2a    00000056                       : boot28.asm.obj (.text)
-                  00008f80    00000043     mpy_SP_RMxRM_2.obj (.text)
-                  00008fc3    00000001     --HOLE-- [fill = 0]
-                  00008fc4    00000042     mac_SP_i16RVxCV.obj (.text)
-                  00009006    0000003f     mac_SP_RVxCV.obj (.text)
-                  00009045    00000001     --HOLE-- [fill = 0]
-                  00009046    00000039     mac_SP_CVxCV.obj (.text)
-                  0000907f    00000001     --HOLE-- [fill = 0]
-                  00009080    00000038     mean_SP_CV_2.obj (.text)
-                  000090b8    00000032     mpy_SP_RMxRM.obj (.text)
-                  000090ea    00000031     abs_SP_CV.obj (.text)
-                  0000911b    00000001     --HOLE-- [fill = 0]
-                  0000911c    0000002c     iabs_SP_CV.obj (.text)
-                  00009148    0000002c     mpy_SP_RSxRVxRV_2.obj (.text)
-                  00009174    0000002a     rts2800_fpu32.lib : fd_cmp28.asm.obj (.text)
-                  0000919e    00000029                       : exit.c.obj (.text)
-                  000091c7    00000028     F2837xD_PieCtrl.obj (.text)
-                  000091ef    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
-                  00009213    00000001     --HOLE-- [fill = 0]
-                  00009214    00000021     mpy_SP_RVxRV_2.obj (.text)
-                  00009235    00000001     --HOLE-- [fill = 0]
-                  00009236    0000001f     add_SP_CVxCV.obj (.text)
-                  00009255    00000001     --HOLE-- [fill = 0]
-                  00009256    0000001f     mpy_SP_CVxCVC.obj (.text)
-                  00009275    00000001     --HOLE-- [fill = 0]
-                  00009276    0000001f     sub_SP_CVxCV.obj (.text)
-                  00009295    00000001     --HOLE-- [fill = 0]
-                  00009296    0000001e     add_SP_CSxCV.obj (.text)
-                  000092b4    0000001e     rts2800_fpu32.lib : ll_cmp28.asm.obj (.text)
-                  000092d2    0000001e     sub_SP_CSxCV.obj (.text)
-                  000092f0    0000001d     mpy_SP_CVxCV.obj (.text)
-                  0000930d    0000001d     rts2800_fpu32.lib : memcpy.c.obj (.text)
-                  0000932a    0000001c     maxidx_SP_RV_2.obj (.text)
-                  00009346    0000001b     mpy_SP_RVxCV.obj (.text)
-                  00009361    00000001     --HOLE-- [fill = 0]
-                  00009362    00000018     mpy_SP_RSxRV_2.obj (.text)
-                  0000937a    00000017     F2837xD_Dac_setting.obj (.text)
-                  00009391    00000017     mpy_SP_CSxCS.obj (.text)
-                  000093a8    00000016     rnd_SP_RS.obj (.text)
-                  000093be    00000012     F2837xD_PieVect.obj (.text)
-                  000093d0    00000012     rts2800_fpu32.lib : args_main.c.obj (.text)
-                  000093e2    00000009                       : _lock.c.obj (.text)
-                  000093eb    00000002                       : pre_init.c.obj (.text)
+                  00008a4b    000000ec     MonoMtrServo.obj (.text:retain)
+                  00008b37    000000e8     F2837xD_Adc.obj (.text)
+                  00008c1f    00000001     --HOLE-- [fill = 0]
+                  00008c20    000000b6     iabs_SP_CV_TMU0.obj (.text)
+                  00008cd6    00000093     abs_SP_CV_TMU0.obj (.text)
+                  00008d69    00000087     DLOG_4CH_F.obj (.text)
+                  00008df0    0000007e     DRV830x_SPI.obj (.text)
+                  00008e6e    0000005b     abs_SP_CV_2.obj (.text)
+                  00008ec9    00000059     rts2800_fpu32.lib : s_floorf.c.obj (.text)
+                  00008f22    00000056                       : boot28.asm.obj (.text)
+                  00008f78    00000043     mpy_SP_RMxRM_2.obj (.text)
+                  00008fbb    00000001     --HOLE-- [fill = 0]
+                  00008fbc    00000042     mac_SP_i16RVxCV.obj (.text)
+                  00008ffe    0000003f     mac_SP_RVxCV.obj (.text)
+                  0000903d    00000001     --HOLE-- [fill = 0]
+                  0000903e    00000039     mac_SP_CVxCV.obj (.text)
+                  00009077    00000001     --HOLE-- [fill = 0]
+                  00009078    00000038     mean_SP_CV_2.obj (.text)
+                  000090b0    00000032     mpy_SP_RMxRM.obj (.text)
+                  000090e2    00000031     abs_SP_CV.obj (.text)
+                  00009113    00000001     --HOLE-- [fill = 0]
+                  00009114    0000002c     iabs_SP_CV.obj (.text)
+                  00009140    0000002c     mpy_SP_RSxRVxRV_2.obj (.text)
+                  0000916c    0000002a     rts2800_fpu32.lib : fd_cmp28.asm.obj (.text)
+                  00009196    00000029                       : exit.c.obj (.text)
+                  000091bf    00000028     F2837xD_PieCtrl.obj (.text)
+                  000091e7    00000024     rts2800_fpu32.lib : cpy_tbl.c.obj (.text)
+                  0000920b    00000001     --HOLE-- [fill = 0]
+                  0000920c    00000021     mpy_SP_RVxRV_2.obj (.text)
+                  0000922d    00000001     --HOLE-- [fill = 0]
+                  0000922e    0000001f     add_SP_CVxCV.obj (.text)
+                  0000924d    00000001     --HOLE-- [fill = 0]
+                  0000924e    0000001f     mpy_SP_CVxCVC.obj (.text)
+                  0000926d    00000001     --HOLE-- [fill = 0]
+                  0000926e    0000001f     sub_SP_CVxCV.obj (.text)
+                  0000928d    00000001     --HOLE-- [fill = 0]
+                  0000928e    0000001e     add_SP_CSxCV.obj (.text)
+                  000092ac    0000001e     rts2800_fpu32.lib : ll_cmp28.asm.obj (.text)
+                  000092ca    0000001e     sub_SP_CSxCV.obj (.text)
+                  000092e8    0000001d     mpy_SP_CVxCV.obj (.text)
+                  00009305    0000001d     rts2800_fpu32.lib : memcpy.c.obj (.text)
+                  00009322    0000001c     maxidx_SP_RV_2.obj (.text)
+                  0000933e    0000001b     mpy_SP_RVxCV.obj (.text)
+                  00009359    00000001     --HOLE-- [fill = 0]
+                  0000935a    00000018     mpy_SP_RSxRV_2.obj (.text)
+                  00009372    00000017     F2837xD_Dac_setting.obj (.text)
+                  00009389    00000017     mpy_SP_CSxCS.obj (.text)
+                  000093a0    00000016     rnd_SP_RS.obj (.text)
+                  000093b6    00000012     F2837xD_PieVect.obj (.text)
+                  000093c8    00000012     rts2800_fpu32.lib : args_main.c.obj (.text)
+                  000093da    00000009                       : _lock.c.obj (.text)
+                  000093e3    00000002                       : pre_init.c.obj (.text)
 
 .text.4    0    0000b000    000007ff     
                   0000b000    00000585     F2837xD_DefaultISR.obj (.text:retain)
@@ -745,15 +745,15 @@ CpuSysRegsFile
                   0000b770    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
                   0000b7f8    00000007                       : memset.c.obj (.text)
 
-.text.5    0    00016000    00002464     
-                  00016000    00002464     MonoMtrServo.obj (.text)
+.text.5    0    00016000    0000246e     
+                  00016000    0000246e     MonoMtrServo.obj (.text)
 
 MODULE SUMMARY
 
        Module                           code    initialized data   uninitialized data
        ------                           ----    ----------------   ------------------
     .\
-       MonoMtrServo.obj                 9560    1304               2774              
+       MonoMtrServo.obj                 9562    1304               2774              
        F2837xD_GlobalVariableDefs.obj   0       0                  8759              
        F2837xD_DefaultISR.obj           1413    0                  0                 
        F2837xD_SysCtrl.obj              886     0                  0                 
@@ -768,7 +768,7 @@ MODULE SUMMARY
        F2837xD_usDelay.obj              4       0                  0                 
        F2837xD_CodeStartBranch.obj      2       0                  0                 
     +--+--------------------------------+-------+------------------+--------------------+
-       Total:                           13544   1775               11544             
+       Total:                           13546   1775               11544             
                                                                                      
     .\utility Src Files\
        DLOG_4CH_F.obj                   135     0                  0                 
@@ -829,7 +829,7 @@ MODULE SUMMARY
        Heap:                            0       0                  2048              
        Stack:                           0       0                  896               
     +--+--------------------------------+-------+------------------+--------------------+
-       Grand Total:                     17193   1853               14503             
+       Grand Total:                     17195   1853               14503             
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -1150,15 +1150,15 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 page  address   name                                    
 ----  -------   ----                                    
 abs   ffffffff  .text                                   
-0     0000919e  C$$EXIT                                 
-0     00009174  FD$$CMP                                 
+0     00009196  C$$EXIT                                 
+0     0000916c  FD$$CMP                                 
 0     0000b770  FS$$DIV                                 
-0     000092b4  LL$$CMP                                 
-0     000092c6  ULL$$CMP                                
-0     000167c2  _A0                                     
-0     0001678c  _A1                                     
-0     00016762  _A2                                     
-0     0001675c  _A3                                     
+0     000092ac  LL$$CMP                                 
+0     000092be  ULL$$CMP                                
+0     000167d6  _A0                                     
+0     000167a0  _A1                                     
+0     00016776  _A2                                     
+0     00016770  _A3                                     
 0     0000b57b  _ADCA1_ISR                              
 0     0000b571  _ADCA2_ISR                              
 0     0000b567  _ADCA3_ISR                              
@@ -1185,7 +1185,7 @@ abs   ffffffff  .text
 1     00012054  _Acc_Threshold                          
 1     0005f4c0  _AccessProtectionRegs                   
 1     00012011  _Adaptive_On                            
-0     00008b77  _AdcSetMode                             
+0     00008b6f  _AdcSetMode                             
 1     00007400  _AdcaRegs                               
 1     00000b00  _AdcaResultRegs                         
 1     00007480  _AdcbRegs                               
@@ -1200,16 +1200,16 @@ abs   ffffffff  .text
 0     00008209  _AuxAuxClkSel                           
 0     00008224  _AuxIntOsc2Sel                          
 0     00008213  _AuxXtalOscSel                          
-0     000167da  _B0                                     
-0     00016786  _B1                                     
-0     00016756  _B2                                     
-0     00016750  _B3                                     
+0     000167ee  _B0                                     
+0     0001679a  _B1                                     
+0     0001676a  _B2                                     
+0     00016764  _B3                                     
 1     00012024  _B_Task_Ptr                             
 1     00012013  _BackTicker                             
-0     000167ef  _C0                                     
-0     00016768  _C1                                     
-0     00016746  _C2                                     
-0     00016738  _C3                                     
+0     00016803  _C0                                     
+0     0001677c  _C1                                     
+0     0001675a  _C2                                     
+0     0001674c  _C3                                     
 0     0000b4a9  _CANA0_ISR                              
 0     0000b49f  _CANA1_ISR                              
 0     0000b495  _CANB0_ISR                              
@@ -1225,7 +1225,7 @@ abs   ffffffff  .text
 0     0000b431  _CLA_OVERFLOW_ISR                       
 0     0000b427  _CLA_UNDERFLOW_ISR                      
 1     00012026  _C_Task_Ptr                             
-0     00008b3f  _CalAdcINL                              
+0     00008b37  _CalAdcINL                              
 1     00048000  _CanaRegs                               
 1     0004a000  _CanbRegs                               
 1     00001400  _Cla1Regs                               
@@ -1256,19 +1256,19 @@ abs   ffffffff  .text
 1     00012600  _DBUFF_4CH2                             
 1     000127c0  _DBUFF_4CH3                             
 1     00012980  _DBUFF_4CH4                             
-0     00008d98  _DLOG_4CH_F_FUNC                        
-0     00008d71  _DLOG_4CH_F_init                        
+0     00008d90  _DLOG_4CH_F_FUNC                        
+0     00008d69  _DLOG_4CH_F_init                        
 0     0000b413  _DMA_CH1_ISR                            
 0     0000b409  _DMA_CH2_ISR                            
 0     0000b3ff  _DMA_CH3_ISR                            
 0     0000b3f5  _DMA_CH4_ISR                            
 0     0000b3eb  _DMA_CH5_ISR                            
 0     0000b3e1  _DMA_CH6_ISR                            
-0     000166f2  _DMC1_Protection                        
-0     00008e58  _DRV8301_SPI_Read                       
-0     00008e3c  _DRV8301_SPI_Write                      
-0     00008e2c  _DRV8305_SPI_Read                       
-0     00008e10  _DRV8305_SPI_Write                      
+0     00016706  _DMC1_Protection                        
+0     00008e50  _DRV8301_SPI_Read                       
+0     00008e34  _DRV8301_SPI_Write                      
+0     00008e24  _DRV8305_SPI_Read                       
+0     00008e08  _DRV8305_SPI_Write                      
 0     00008a24  _DRV8305_diagnostics                    
 1     00012018  _DRV_RESET                              
 1     00005c00  _DacaRegs                               
@@ -1353,7 +1353,7 @@ abs   ffffffff  .text
 1     00000d01  _EmuBMode                               
 1     00000d00  _EmuKey                                 
 1     00012012  _EnableFlag                             
-0     000091e6  _EnableInterrupts                       
+0     000091de  _EnableInterrupts                       
 1     0001208c  _Estimated_Acc                          
 0     0001b435  _F28x_usDelay                           
 0     0000b26c  _FLASH_CORRECTABLE_ERROR_ISR            
@@ -1374,7 +1374,7 @@ abs   ffffffff  .text
 0     000083d9  _GPIO_SetupXINT3Gpio                    
 0     000083d2  _GPIO_SetupXINT4Gpio                    
 0     000083cb  _GPIO_SetupXINT5Gpio                    
-0     00016724  _GPIO_TogglePin                         
+0     00016738  _GPIO_TogglePin                         
 0     000083b1  _GPIO_WritePin                          
 1     00007c00  _GpioCtrlRegs                           
 1     00007f00  _GpioDataRegs                           
@@ -1406,8 +1406,8 @@ abs   ffffffff  .text
 0     0000b69d  _InitMotor1SpiGpio                      
 0     0000b680  _InitMotor1_DRV_Gpio                    
 0     00008121  _InitPeripheralClocks                   
-0     000091c7  _InitPieCtrl                            
-0     000093be  _InitPieVectTable                       
+0     000091bf  _InitPieCtrl                            
+0     000093b6  _InitPieVectTable                       
 0     0000b657  _InitSpiDacGpio                         
 0     0000b63e  _InitSpiRegs_DRV830x                    
 0     000081d2  _InitSysCtrl                            
@@ -1425,7 +1425,7 @@ abs   ffffffff  .text
 1     0001243c  _Kalman2X2_TL                           
 1     00012140  _Kalman3X3_Handler                      
 1     000125fa  _Kalman3X3_TL                           
-0     000162d8  _Kalman_Ini_2X2                         
+0     000162df  _Kalman_Ini_2X2                         
 0     000160ba  _Kalman_Ini_3X3                         
 1     000120d0  _Kalman_e                               
 1     00012014  _LedCnt                                 
@@ -1453,14 +1453,14 @@ abs   ffffffff  .text
 1     0001201a  _PwmDacCh2                              
 1     0001201b  _PwmDacCh3                              
 1     0001201c  _PwmDacCh4                              
-0     000166b5  _PwmTripConfig                          
+0     000166c9  _PwmTripConfig                          
 0     0000b1ae  _RAM_ACCESS_VIOLATION_ISR               
 0     0000b1a4  _RAM_CORRECTABLE_ERROR_ISR              
 1     0001200c  _RLS_Flag                               
 1     00012042  _RLS_Gain                               
 1     000121c0  _RLS_Handler                            
 1     0001209c  _RLS_Inertia                            
-0     000164df  _RLS_Ini                                
+0     000164e6  _RLS_Ini                                
 1     0001200d  _RLS_Start_Flag                         
 1     00012044  _RLS_To_Kalman_J                        
 1     0001200f  _RLS_cnt                                
@@ -1486,10 +1486,10 @@ abs   ffffffff  .text
 0     0000b104  _SPIC_RX_ISR                            
 0     0000b0fa  _SPIC_TX_ISR                            
 0     0001607a  _SPIDAC_setup                           
-0     00016e3e  _SPIDAC_update_all                      
-0     00016e32  _SPIDAC_write_dac_channel               
-0     00016e1c  _SPIDAC_xmit_u16                        
-0     00008df8  _SPI_Driver                             
+0     00016e80  _SPIDAC_update_all                      
+0     00016e74  _SPIDAC_write_dac_channel               
+0     00016e5e  _SPIDAC_xmit_u16                        
+0     00008df0  _SPI_Driver                             
 0     00008040  _STANDBY                                
 0     0000b0f0  _SYS_PLL_SLIP_ISR                       
 1     00007200  _SciaRegs                               
@@ -1578,39 +1578,39 @@ abs   ffffffff  ___c_args__
 abs   ffffffff  ___etext__                              
 abs   ffffffff  ___pinit__                              
 abs   ffffffff  ___text__                               
-0     000093d0  __args_main                             
+0     000093c8  __args_main                             
 1     000125fe  __lock                                  
-0     000093ea  __nop                                   
-0     000093e6  __register_lock                         
-0     000093e2  __register_unlock                       
+0     000093e2  __nop                                   
+0     000093de  __register_lock                         
+0     000093da  __register_unlock                       
 1     00000400  __stack                                 
 1     0000a000  __sys_memory                            
 0     000003ff  __system_post_cinit                     
-0     000093eb  __system_pre_init                       
+0     000093e3  __system_pre_init                       
 1     000127be  __unlock                                
-0     0000919e  _abort                                  
-0     000090ea  _abs_SP_CV                              
-0     00008e76  _abs_SP_CV_2                            
-0     00008cde  _abs_SP_CV_TMU0                         
+0     00009196  _abort                                  
+0     000090e2  _abs_SP_CV                              
+0     00008e6e  _abs_SP_CV_2                            
+0     00008cd6  _abs_SP_CV_TMU0                         
 1     00012028  _adc_cal                                
-0     00009296  _add_SP_CSxCV                           
-0     00009236  _add_SP_CVxCV                           
+0     0000928e  _add_SP_CSxCV                           
+0     0000922e  _add_SP_CVxCV                           
 0     000002cc  _aligned_alloc                          
-0     00008f2a  _c_int00                                
+0     00008f22  _c_int00                                
 0     0000029f  _calloc                                 
 1     0001206a  _cntr1                                  
-0     0000937a  _configureDAC                           
-0     000091ef  _copy_in                                
+0     00009372  _configureDAC                           
+0     000091e7  _copy_in                                
 1     0001295c  _dacAval                                
 1     0001295d  _dacBval                                
 1     0001295e  _dacCval                                
 1     00012110  _dlog_4ch1                              
 1     0001295f  _errno                                  
-0     000091a0  _exit                                   
+0     00009198  _exit                                   
 0     000086ef  _exp                                    
 0     000086ef  _expf                                   
-0     00008ed1  _floor                                  
-0     00008ed1  _floorf                                 
+0     00008ec9  _floor                                  
+0     00008ec9  _floorf                                 
 0     000086b6  _fmax                                   
 0     000086b6  _fmaxf                                  
 0     00008619  _fmaxl                                  
@@ -1621,34 +1621,34 @@ abs   ffffffff  ___text__
 1     00012058  _fp2                                    
 1     0001205a  _fp3                                    
 0     0000014d  _free                                   
-0     0000911c  _iabs_SP_CV                             
+0     00009114  _iabs_SP_CV                             
 0     000003ae  _iabs_SP_CV_2                           
-0     00008c28  _iabs_SP_CV_TMU0                        
+0     00008c20  _iabs_SP_CV_TMU0                        
 0     00008800  _log                                    
 0     00008800  _logf                                   
 1     00012006  _lsw_cnt                                
 1     00012007  _lsw_flag                               
-0     00009046  _mac_SP_CVxCV                           
-0     00009006  _mac_SP_RVxCV                           
-0     00008fc4  _mac_SP_i16RVxCV                        
-0     00016804  _main                                   
+0     0000903e  _mac_SP_CVxCV                           
+0     00008ffe  _mac_SP_RVxCV                           
+0     00008fbc  _mac_SP_i16RVxCV                        
+0     00016818  _main                                   
 0     00000122  _malloc                                 
-0     0000932a  _maxidx_SP_RV_2                         
-0     00009080  _mean_SP_CV_2                           
+0     00009322  _maxidx_SP_RV_2                         
+0     00009078  _mean_SP_CV_2                           
 0     000002cc  _memalign                               
-0     0000930d  _memcpy                                 
+0     00009305  _memcpy                                 
 0     0000b7f8  _memset                                 
 0     0000029b  _minit                                  
 1     00012240  _motor1                                 
-0     00009391  _mpy_SP_CSxCS                           
-0     000092f0  _mpy_SP_CVxCV                           
-0     00009256  _mpy_SP_CVxCVC                          
-0     000090b8  _mpy_SP_RMxRM                           
-0     00008f80  _mpy_SP_RMxRM_2                         
-0     00009363  _mpy_SP_RSxRV_2                         
-0     00009148  _mpy_SP_RSxRVxRV_2                      
-0     00009346  _mpy_SP_RVxCV                           
-0     00009214  _mpy_SP_RVxRV_2                         
+0     00009389  _mpy_SP_CSxCS                           
+0     000092e8  _mpy_SP_CVxCV                           
+0     0000924e  _mpy_SP_CVxCVC                          
+0     000090b0  _mpy_SP_RMxRM                           
+0     00008f78  _mpy_SP_RMxRM_2                         
+0     0000935b  _mpy_SP_RSxRV_2                         
+0     00009140  _mpy_SP_RSxRVxRV_2                      
+0     0000933e  _mpy_SP_RVxCV                           
+0     0000920c  _mpy_SP_RVxRV_2                         
 1     000127a2  _posArray                               
 1     0001206c  _posSlewRate                            
 1     00012017  _ptr1                                   
@@ -1661,9 +1661,9 @@ abs   ffffffff  ___text__
 0     00000217  _realloc                                
 0     0001601c  _refPosGen                              
 1     00012080  _rg_SpeedCmd_Generate_Sin               
-0     000093a8  _rnd_SP_RS                              
-0     000092d2  _sub_SP_CSxCV                           
-0     00009276  _sub_SP_CVxCV                           
+0     000093a0  _rnd_SP_RS                              
+0     000092ca  _sub_SP_CSxCV                           
+0     0000926e  _sub_SP_CVxCV                           
 1     0001203a  _test                                   
 1     00012048  _test1                                  
 1     0001204a  _test2                                  
@@ -1744,59 +1744,59 @@ page  address   name
 0     00008974  _InitDRV8305                            
 0     00008a24  _DRV8305_diagnostics                    
 0     00008a4b  _MotorControlISR                        
-0     00008b3f  _CalAdcINL                              
-0     00008b77  _AdcSetMode                             
-0     00008c28  _iabs_SP_CV_TMU0                        
-0     00008cde  _abs_SP_CV_TMU0                         
-0     00008d71  _DLOG_4CH_F_init                        
-0     00008d98  _DLOG_4CH_F_FUNC                        
-0     00008df8  _SPI_Driver                             
-0     00008e10  _DRV8305_SPI_Write                      
-0     00008e2c  _DRV8305_SPI_Read                       
-0     00008e3c  _DRV8301_SPI_Write                      
-0     00008e58  _DRV8301_SPI_Read                       
-0     00008e76  _abs_SP_CV_2                            
-0     00008ed1  _floor                                  
-0     00008ed1  _floorf                                 
-0     00008f2a  _c_int00                                
-0     00008f80  _mpy_SP_RMxRM_2                         
-0     00008fc4  _mac_SP_i16RVxCV                        
-0     00009006  _mac_SP_RVxCV                           
-0     00009046  _mac_SP_CVxCV                           
-0     00009080  _mean_SP_CV_2                           
-0     000090b8  _mpy_SP_RMxRM                           
-0     000090ea  _abs_SP_CV                              
-0     0000911c  _iabs_SP_CV                             
-0     00009148  _mpy_SP_RSxRVxRV_2                      
-0     00009174  FD$$CMP                                 
-0     0000919e  C$$EXIT                                 
-0     0000919e  _abort                                  
-0     000091a0  _exit                                   
-0     000091c7  _InitPieCtrl                            
-0     000091e6  _EnableInterrupts                       
-0     000091ef  _copy_in                                
-0     00009214  _mpy_SP_RVxRV_2                         
-0     00009236  _add_SP_CVxCV                           
-0     00009256  _mpy_SP_CVxCVC                          
-0     00009276  _sub_SP_CVxCV                           
-0     00009296  _add_SP_CSxCV                           
-0     000092b4  LL$$CMP                                 
-0     000092c6  ULL$$CMP                                
-0     000092d2  _sub_SP_CSxCV                           
-0     000092f0  _mpy_SP_CVxCV                           
-0     0000930d  _memcpy                                 
-0     0000932a  _maxidx_SP_RV_2                         
-0     00009346  _mpy_SP_RVxCV                           
-0     00009363  _mpy_SP_RSxRV_2                         
-0     0000937a  _configureDAC                           
-0     00009391  _mpy_SP_CSxCS                           
-0     000093a8  _rnd_SP_RS                              
-0     000093be  _InitPieVectTable                       
-0     000093d0  __args_main                             
-0     000093e2  __register_unlock                       
-0     000093e6  __register_lock                         
-0     000093ea  __nop                                   
-0     000093eb  __system_pre_init                       
+0     00008b37  _CalAdcINL                              
+0     00008b6f  _AdcSetMode                             
+0     00008c20  _iabs_SP_CV_TMU0                        
+0     00008cd6  _abs_SP_CV_TMU0                         
+0     00008d69  _DLOG_4CH_F_init                        
+0     00008d90  _DLOG_4CH_F_FUNC                        
+0     00008df0  _SPI_Driver                             
+0     00008e08  _DRV8305_SPI_Write                      
+0     00008e24  _DRV8305_SPI_Read                       
+0     00008e34  _DRV8301_SPI_Write                      
+0     00008e50  _DRV8301_SPI_Read                       
+0     00008e6e  _abs_SP_CV_2                            
+0     00008ec9  _floor                                  
+0     00008ec9  _floorf                                 
+0     00008f22  _c_int00                                
+0     00008f78  _mpy_SP_RMxRM_2                         
+0     00008fbc  _mac_SP_i16RVxCV                        
+0     00008ffe  _mac_SP_RVxCV                           
+0     0000903e  _mac_SP_CVxCV                           
+0     00009078  _mean_SP_CV_2                           
+0     000090b0  _mpy_SP_RMxRM                           
+0     000090e2  _abs_SP_CV                              
+0     00009114  _iabs_SP_CV                             
+0     00009140  _mpy_SP_RSxRVxRV_2                      
+0     0000916c  FD$$CMP                                 
+0     00009196  C$$EXIT                                 
+0     00009196  _abort                                  
+0     00009198  _exit                                   
+0     000091bf  _InitPieCtrl                            
+0     000091de  _EnableInterrupts                       
+0     000091e7  _copy_in                                
+0     0000920c  _mpy_SP_RVxRV_2                         
+0     0000922e  _add_SP_CVxCV                           
+0     0000924e  _mpy_SP_CVxCVC                          
+0     0000926e  _sub_SP_CVxCV                           
+0     0000928e  _add_SP_CSxCV                           
+0     000092ac  LL$$CMP                                 
+0     000092be  ULL$$CMP                                
+0     000092ca  _sub_SP_CSxCV                           
+0     000092e8  _mpy_SP_CVxCV                           
+0     00009305  _memcpy                                 
+0     00009322  _maxidx_SP_RV_2                         
+0     0000933e  _mpy_SP_RVxCV                           
+0     0000935b  _mpy_SP_RSxRV_2                         
+0     00009372  _configureDAC                           
+0     00009389  _mpy_SP_CSxCS                           
+0     000093a0  _rnd_SP_RS                              
+0     000093b6  _InitPieVectTable                       
+0     000093c8  __args_main                             
+0     000093da  __register_unlock                       
+0     000093de  __register_lock                         
+0     000093e2  __nop                                   
+0     000093e3  __system_pre_init                       
 0     0000b000  _XINT5_ISR                              
 0     0000b00a  _XINT4_ISR                              
 0     0000b014  _XINT3_ISR                              
@@ -1956,27 +1956,27 @@ page  address   name
 0     00016059  _ramper_speed                           
 0     0001607a  _SPIDAC_setup                           
 0     000160ba  _Kalman_Ini_3X3                         
-0     000162d8  _Kalman_Ini_2X2                         
-0     000164df  _RLS_Ini                                
-0     000166b5  _PwmTripConfig                          
-0     000166f2  _DMC1_Protection                        
-0     00016724  _GPIO_TogglePin                         
-0     00016738  _C3                                     
-0     00016746  _C2                                     
-0     00016750  _B3                                     
-0     00016756  _B2                                     
-0     0001675c  _A3                                     
-0     00016762  _A2                                     
-0     00016768  _C1                                     
-0     00016786  _B1                                     
-0     0001678c  _A1                                     
-0     000167c2  _A0                                     
-0     000167da  _B0                                     
-0     000167ef  _C0                                     
-0     00016804  _main                                   
-0     00016e1c  _SPIDAC_xmit_u16                        
-0     00016e32  _SPIDAC_write_dac_channel               
-0     00016e3e  _SPIDAC_update_all                      
+0     000162df  _Kalman_Ini_2X2                         
+0     000164e6  _RLS_Ini                                
+0     000166c9  _PwmTripConfig                          
+0     00016706  _DMC1_Protection                        
+0     00016738  _GPIO_TogglePin                         
+0     0001674c  _C3                                     
+0     0001675a  _C2                                     
+0     00016764  _B3                                     
+0     0001676a  _B2                                     
+0     00016770  _A3                                     
+0     00016776  _A2                                     
+0     0001677c  _C1                                     
+0     0001679a  _B1                                     
+0     000167a0  _A1                                     
+0     000167d6  _A0                                     
+0     000167ee  _B0                                     
+0     00016803  _C0                                     
+0     00016818  _main                                   
+0     00016e5e  _SPIDAC_xmit_u16                        
+0     00016e74  _SPIDAC_write_dac_channel               
+0     00016e80  _SPIDAC_update_all                      
 0     0001b000  ___cinit__                              
 0     0001b000  cinit                                   
 0     0001b435  _F28x_usDelay                           
