@@ -73,6 +73,7 @@ typedef struct RLS{
     float speed[2];
     float Te_TL[2];
     float tem;
+    char Switch;
     Matrix Fai;
     Matrix Theda;
     Matrix K;
@@ -390,21 +391,28 @@ void RLS_Ini(RLS* r)
     r->Alpha = 1-1/(r->Ka * 2);
     r->Beta = 1-1/(r->Kb * 2);
     r->Gamma = 1.05;
-    r->F_max = 0.99999;
-    r->F_min = 0.9995;
-//    r->F_max = 0.999;
-//    r->F_min = 0.995;
+//    r->F_max = 0.99999;
+//    r->F_min = 0.9995;
+    r->F_max = 0.999;
+    r->F_min = 0.995;
     r->F = 0.9998;
     r->acc = 0;
+
     r->speed[0] = 0;
     r->tem = 0;
     r->Terminal.Friction = BM;
     r->Terminal.Inertia = J_INI;
+    r->Switch = 0;
 
     //Matrix initialization
     float Fai_data[2] = {0};
     Matrix_Generate(&(r->Fai),2,Fai_data);
+#if BUILDLEVEL == LEVEL4
     float Theda_data[2] = {-0.999,3.72};
+#endif
+#if   BUILDLEVEL == LEVEL5
+    float Theda_data[2] = {-1,0.3831};
+#endif
     Matrix_Generate(&(r->Theda),2,Theda_data);
     float P_data[4] = {10000,0,0,10000};
 //    float P_data[4] = {0.000001,-0.00002,-0.00002,0.7};
@@ -429,81 +437,7 @@ void RLS_Ini(RLS* r)
 
 }
 
-inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)      //for Free Shaft Motor
-{
-    //Update Speed in RLS Handler
-    r->speed[1] = r->speed[0];
-    r->speed[0] = speed;
-
-    //Update Te-TL in RLS Handler
-    r->Te_TL[1] = r->Te_TL[0];
-    r->Te_TL[0] = Te_TL;
-
-    if (fabsf(acc) > 30 && start == 1)
-    {
-
-        /******************IVFF*******************/
-        //q=Fai'*P*Fai;
-        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
-        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
-        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
-
-        //e=speed-(Fai')*Theda
-        mpy_SP_RMxRM(r->Tem_1X1, r->Fai, r->Theda, 1, 2, 1);        // Tem_1X1 : (Fai')*Theda
-        r->e = r->speed[0] - r->Tem_1X1[0];
-        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
-        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
-
-        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
-        {
-            r->F = r->F_max;
-            //GPIO_WritePin(GPIO25,TRUE);
-        }
-        else
-        {
-            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
-            //GPIO_WritePin(GPIO25,FALSE);
-        }
-        if(r->F < r->F_min)
-            r->F = r->F_min;
-
-        /******************RLS*******************/
-        r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
-
-        //K=(P*Fai)./(F+Fai'*P*Fai);
-        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);                // Tem_1Xn : Fai'*P
-        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);          // Tem_1X1 : Fai'*P*Fai
-        r->tem = r->F + r->Tem_1X1[0];
-        mpy_SP_RMxRM(r->Tem_nX1_2, r->P, r->Fai, 2, 2, 1);              // Tem_nX1_2 : P*Fai;
-        Matrix_Dot_Product(r->Tem_nX1_2, (1/r->tem), r->K, 2);
-
-        //P=1/F .* (eye(2)-K*Fai')*P;
-        mpy_SP_RMxRM(r->Tem_nXn_1, r->K, r->Fai, 2, 1, 2);              // Tem_nXn_1 : K*Fai'
-        Matrix_Minor(r->I, r->Tem_nXn_1, r->Tem_nXn_2, 4);            // Tem_nXn_2 : (eye(2)-K*Fai')
-        mpy_SP_RMxRM(r->Tem_nXn_1, r->Tem_nXn_2, r->P, 2, 2, 2);      // Tem_nXn_1 : (eye(2)-K*Fai')*P;
-        Matrix_Dot_Product(r->Tem_nXn_1, (1/r->F), r->P, 4);
-
-        //Theda=Theda+K.*(Speed-(fai')*Theda);
-        Matrix_Dot_Product(r->K, r->e, r->Tem_nX1_1, 2);                  // Tem_nX1_1 : K.*(Speed-(fai')*Theda);
-        Matrix_Add(r->Tem_nX1_1, r->Theda, r->Theda, 2);
-
-        r->Terminal.Friction = (1 + r->Theda[0])/r->Theda[1];
-        if(r->Theda[0] < -1e-06)
-        {
-//            r->Terminal.Inertia = TS/r->Theda[1];
-            r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-r->Theda[0]);
-        }
-
-        else
-            r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-0.999999);
-    }
-    else
-    {
-
-    }
-
-}
-//inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)            //for motor+Gearbox or brake
+//inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)      //for Free Shaft Motor
 //{
 //    //Update Speed in RLS Handler
 //    r->speed[1] = r->speed[0];
@@ -513,10 +447,9 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
 //    r->Te_TL[1] = r->Te_TL[0];
 //    r->Te_TL[0] = Te_TL;
 //
-//    r->F = r->F_max;
-//    if (fabsf(acc) > 30 && start == 1 && fabsf(k->e) < r->e_threshold )
+//    if (fabsf(acc) > 30 && start == 1)
 //    {
-//        r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
+//
 //        /******************IVFF*******************/
 //        //q=Fai'*P*Fai;
 //        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
@@ -543,7 +476,7 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
 //            r->F = r->F_min;
 //
 //        /******************RLS*******************/
-//
+//        r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
 //
 //        //K=(P*Fai)./(F+Fai'*P*Fai);
 //        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);                // Tem_1Xn : Fai'*P
@@ -556,8 +489,7 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
 //        mpy_SP_RMxRM(r->Tem_nXn_1, r->K, r->Fai, 2, 1, 2);              // Tem_nXn_1 : K*Fai'
 //        Matrix_Minor(r->I, r->Tem_nXn_1, r->Tem_nXn_2, 4);            // Tem_nXn_2 : (eye(2)-K*Fai')
 //        mpy_SP_RMxRM(r->Tem_nXn_1, r->Tem_nXn_2, r->P, 2, 2, 2);      // Tem_nXn_1 : (eye(2)-K*Fai')*P;
-//        Matrix_Dot_Product(r->Tem_nXn_1, (1/r->F), r->Tem_nXn_2, 4);        // Tem_nXn_2 : 1/F .* (eye(2)-K*Fai')*P;
-//        Matrix_Add(r->Tem_nXn_2, r->Zero, r->P, 4);
+//        Matrix_Dot_Product(r->Tem_nXn_1, (1/r->F), r->P, 4);
 //
 //        //Theda=Theda+K.*(Speed-(fai')*Theda);
 //        Matrix_Dot_Product(r->K, r->e, r->Tem_nX1_1, 2);                  // Tem_nX1_1 : K.*(Speed-(fai')*Theda);
@@ -579,6 +511,87 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
 //    }
 //
 //}
+inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc, char start)            //for motor+Gearbox or brake
+{
+    //Update Speed in RLS Handler
+    r->speed[1] = r->speed[0];
+    r->speed[0] = speed;
+
+    //Update Te-TL in RLS Handler
+    r->Te_TL[1] = r->Te_TL[0];
+    r->Te_TL[0] = Te_TL;
+
+    r->F = r->F_max;
+    if (fabsf(acc) > 30 && start == 1 && fabsf(k->e) < r->e_threshold )
+    {
+        r->Switch = 1;
+        r->Fai[0] = -r->speed[1];  r->Fai[1] = r->Te_TL[1];
+        /******************IVFF*******************/
+        //q=Fai'*P*Fai;
+        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);            // Tem_1Xn : Fai'*P
+        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);       // Tem_1X1 : Fai'*P*Fai
+        r->q_bar = r->a0 * r->q_bar + (1 - r->a0) * r->Tem_1X1[0];          //q_bar=a0*q_bar+(1-a0)*q;
+
+        //e=speed-(Fai')*Theda
+        mpy_SP_RMxRM(r->Tem_1X1, r->Fai, r->Theda, 1, 2, 1);        // Tem_1X1 : (Fai')*Theda
+        r->e = r->speed[0] - r->Tem_1X1[0];
+        r->omega_e = r->Alpha * r->omega_e + (1 - r->Alpha) * r->e * r->e;  //omega_e=alpha*omega_e_1+(1-alpha)*e^2;
+        r->omega_v = r->Beta * r->omega_v + (1 - r->Beta) * r->e * r->e;    //omega_v=beta*omega_v_1+(1-beta)*e^2;
+
+        if(sqrtf(r->omega_e) <= r->Gamma * sqrtf(r->omega_v))
+        {
+            r->F = r->F_max;
+            //GPIO_WritePin(GPIO25,TRUE);
+        }
+        else
+        {
+            r->F = fminf(r->q_bar * r->omega_v/(1e-08) + fabsf(r->omega_e - r->omega_v) , r->F_max);
+            //GPIO_WritePin(GPIO25,FALSE);
+        }
+        if(r->F < r->F_min)
+            r->F = r->F_min;
+
+        /******************RLS*******************/
+
+
+        //K=(P*Fai)./(F+Fai'*P*Fai);
+        mpy_SP_RMxRM(r->Tem_1Xn, r->Fai, r->P, 1, 2, 2);                // Tem_1Xn : Fai'*P
+        mpy_SP_RMxRM(r->Tem_1X1, r->Tem_1Xn, r->Fai, 1, 2, 1);          // Tem_1X1 : Fai'*P*Fai
+        r->tem = r->F + r->Tem_1X1[0];
+        mpy_SP_RMxRM(r->Tem_nX1_2, r->P, r->Fai, 2, 2, 1);              // Tem_nX1_2 : P*Fai;
+        Matrix_Dot_Product(r->Tem_nX1_2, (1/r->tem), r->K, 2);
+
+        //P=1/F .* (eye(2)-K*Fai')*P;
+        mpy_SP_RMxRM(r->Tem_nXn_1, r->K, r->Fai, 2, 1, 2);              // Tem_nXn_1 : K*Fai'
+        Matrix_Minor(r->I, r->Tem_nXn_1, r->Tem_nXn_2, 4);            // Tem_nXn_2 : (eye(2)-K*Fai')
+        mpy_SP_RMxRM(r->Tem_nXn_1, r->Tem_nXn_2, r->P, 2, 2, 2);      // Tem_nXn_1 : (eye(2)-K*Fai')*P;
+        Matrix_Dot_Product(r->Tem_nXn_1, (1/r->F), r->Tem_nXn_2, 4);        // Tem_nXn_2 : 1/F .* (eye(2)-K*Fai')*P;
+        Matrix_Add(r->Tem_nXn_2, r->Zero, r->P, 4);
+
+        //Theda=Theda+K.*(Speed-(fai')*Theda);
+        Matrix_Dot_Product(r->K, r->e, r->Tem_nX1_1, 2);                  // Tem_nX1_1 : K.*(Speed-(fai')*Theda);
+        Matrix_Add(r->Tem_nX1_1, r->Theda, r->Theda, 2);
+
+
+
+    }
+    else
+    {
+        r->Switch = 0;
+    }
+
+    //Update Terminal
+    r->Terminal.Friction = (1 + r->Theda[0])/r->Theda[1];
+    if(r->Theda[0] < -1e-06)
+    {
+//            r->Terminal.Inertia = TS/r->Theda[1];
+        r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-r->Theda[0]);
+    }
+
+    else
+        r->Terminal.Inertia = -TS * r->Terminal.Friction / logf(-0.999999);
+
+}
 
 
 #endif /* KALMANFILTER_RLS_H_ */

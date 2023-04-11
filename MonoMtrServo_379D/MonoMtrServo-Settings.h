@@ -40,8 +40,8 @@ Following is the list of the Build Level choices.
 #define LEVEL1  1      		// Module check out (do not connect the motors)
 #define LEVEL2  2           // Verify ADC, park/clarke, calibrate the offset and speed measurement
 #define LEVEL3  3           // Verify closed current(torque) loop and its PIs
-#define LEVEL4  4           // Verify speed loop and speed PID (encoder)
-#define LEVEL5  5           // Verify position loop (encoder)
+#define LEVEL4  4           // Motor + brake
+#define LEVEL5  5           // Free Shaft motor
 #define LEVEL6  6           // Verify speed estimation and rotor position est. (sensorless)
 #define LEVEL7  7           // Verify closed speed loop (sensorless)
 
@@ -117,11 +117,21 @@ set the motor parameters to the one available
 
 // Define the Mechanical motor parametes
 
+
+#if   BUILDLEVEL == LEVEL4
+#define J       0.00076               //Inertia     (kg*m^2) 0.00076
+#define DIV_J   1315.7894            // 1/J,11494.25287 1315.7894
+#define BM      0.00076                //Friction   (kg*m^2/s)
+#define J_INI   0.000076*2
+#endif
+#if   BUILDLEVEL == LEVEL5
+
 #define J       0.000087               //Inertia     (kg*m^2) 0.00076
 #define DIV_J   11494.25287            // 1/J,11494.25287 1315.7894
 #define BM      0.000087                //Friction   (kg*m^2/s)
 #define J_INI   0.0000087*2
 
+#endif
 
 // Define the electrical motor parametes (Estun Servomotor)
 #define RS 		0.13		    	    // Stator resistance (ohm)

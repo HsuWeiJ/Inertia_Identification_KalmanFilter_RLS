@@ -1,7 +1,7 @@
 ******************************************************************************
              TMS320C2000 Linker PC v20.2.5                     
 ******************************************************************************
->> Linked Mon Apr 10 14:53:09 2023
+>> Linked Tue Apr 11 15:42:54 2023
 
 OUTPUT FILE NAME:   <MonoMtrServo_379D.out>
 ENTRY POINT SYMBOL: "_c_int00"  address: 00008f22
@@ -19,10 +19,10 @@ PAGE 0:
   RAMLS3                00009800   00000800  00000000  00000800  RWIX
   RAMD0                 0000b000   00000800  000007ff  00000001  RWIX
   RAMGS9                00015000   00001000  00000000  00001000  RWIX
-  RAMGS10_GS11_GS12     00016000   00003000  0000246e  00000b92  RWIX
+  RAMGS10_GS11_GS12     00016000   00003000  00002532  00000ace  RWIX
   RAMGS13               00019000   00001000  00000000  00001000  RWIX
   RAMGS14               0001a000   00001000  00000000  00001000  RWIX
-  RAMGS15               0001b000   00001000  00000439  00000bc7  RWIX
+  RAMGS15               0001b000   00001000  0000043d  00000bc3  RWIX
   RESET                 003fffc0   00000002  00000000  00000002  RWIX
 
 PAGE 1:
@@ -153,24 +153,24 @@ codestart
 *          0    00000000    00000002     
                   00000000    00000002     F2837xD_CodeStartBranch.obj (codestart)
 
-.cinit     0    0001b000    00000435     
-                  0001b000    000003ac     MonoMtrServo.obj (.cinit)
-                  0001b3ac    00000015     MonoMtrServo.obj (.cinit:_tt1)
-                  0001b3c1    00000015     MonoMtrServo.obj (.cinit:_tt2)
-                  0001b3d6    0000000e     rts2800_fpu32.lib : exit.c.obj (.cinit)
-                  0001b3e4    0000000c     F2837xD_Dac_setting.obj (.cinit)
-                  0001b3f0    0000000b     F2837xD_Dac_setting.obj (.cinit:_DAC_PTR)
-                  0001b3fb    0000000b     MonoMtrServo.obj (.cinit:_posArray)
-                  0001b406    00000007     MonoMtrServo.obj (.cinit:_Speed_CMD_Data)
-                  0001b40d    00000005     MonoMtrServo.obj (.cinit:_Kalman2X2_TL)
-                  0001b412    00000005     MonoMtrServo.obj (.cinit:_Kalman3X3_TL)
-                  0001b417    00000005     MonoMtrServo.obj (.cinit:_SpeedCmd)
-                  0001b41c    00000005     rts2800_fpu32.lib : _lock.c.obj (.cinit:__lock)
-                  0001b421    00000005                       : _lock.c.obj (.cinit:__unlock)
-                  0001b426    00000005     MonoMtrServo.obj (.cinit:_tt3)
-                  0001b42b    00000004     rts2800_fpu32.lib : errno.c.obj (.cinit)
-                  0001b42f    00000004                       : memory.c.obj (.cinit)
-                  0001b433    00000002     --HOLE-- [fill = 0]
+.cinit     0    0001b000    00000439     
+                  0001b000    000003b0     MonoMtrServo.obj (.cinit)
+                  0001b3b0    00000015     MonoMtrServo.obj (.cinit:_tt1)
+                  0001b3c5    00000015     MonoMtrServo.obj (.cinit:_tt2)
+                  0001b3da    0000000e     rts2800_fpu32.lib : exit.c.obj (.cinit)
+                  0001b3e8    0000000c     F2837xD_Dac_setting.obj (.cinit)
+                  0001b3f4    0000000b     F2837xD_Dac_setting.obj (.cinit:_DAC_PTR)
+                  0001b3ff    0000000b     MonoMtrServo.obj (.cinit:_posArray)
+                  0001b40a    00000007     MonoMtrServo.obj (.cinit:_Speed_CMD_Data)
+                  0001b411    00000005     MonoMtrServo.obj (.cinit:_Kalman2X2_TL)
+                  0001b416    00000005     MonoMtrServo.obj (.cinit:_Kalman3X3_TL)
+                  0001b41b    00000005     MonoMtrServo.obj (.cinit:_SpeedCmd)
+                  0001b420    00000005     rts2800_fpu32.lib : _lock.c.obj (.cinit:__lock)
+                  0001b425    00000005                       : _lock.c.obj (.cinit:__unlock)
+                  0001b42a    00000005     MonoMtrServo.obj (.cinit:_tt3)
+                  0001b42f    00000004     rts2800_fpu32.lib : errno.c.obj (.cinit)
+                  0001b433    00000004                       : memory.c.obj (.cinit)
+                  0001b437    00000002     --HOLE-- [fill = 0]
 
 .pinit     0    00000122    00000000     UNINITIALIZED
 
@@ -278,8 +278,8 @@ Cla1RegsFile
                   00012980    00000190     MonoMtrServo.obj (.ebss:_DBUFF_4CH4)
 
 .TI.ramfunc 
-*          0    0001b435    00000004     
-                  0001b435    00000004     F2837xD_usDelay.obj (.TI.ramfunc)
+*          0    0001b439    00000004     
+                  0001b439    00000004     F2837xD_usDelay.obj (.TI.ramfunc)
 
 GETBUFFER 
 *          0    0003f800    00000000     DSECT
@@ -745,15 +745,15 @@ CpuSysRegsFile
                   0000b770    00000088     rts2800_fpu32.lib : fs_div28.asm.obj (.text)
                   0000b7f8    00000007                       : memset.c.obj (.text)
 
-.text.5    0    00016000    0000246e     
-                  00016000    0000246e     MonoMtrServo.obj (.text)
+.text.5    0    00016000    00002532     
+                  00016000    00002532     MonoMtrServo.obj (.text)
 
 MODULE SUMMARY
 
        Module                           code    initialized data   uninitialized data
        ------                           ----    ----------------   ------------------
     .\
-       MonoMtrServo.obj                 9562    1304               2774              
+       MonoMtrServo.obj                 9758    1308               2774              
        F2837xD_GlobalVariableDefs.obj   0       0                  8759              
        F2837xD_DefaultISR.obj           1413    0                  0                 
        F2837xD_SysCtrl.obj              886     0                  0                 
@@ -768,7 +768,7 @@ MODULE SUMMARY
        F2837xD_usDelay.obj              4       0                  0                 
        F2837xD_CodeStartBranch.obj      2       0                  0                 
     +--+--------------------------------+-------+------------------+--------------------+
-       Total:                           13546   1775               11544             
+       Total:                           13742   1779               11544             
                                                                                      
     .\utility Src Files\
        DLOG_4CH_F.obj                   135     0                  0                 
@@ -829,7 +829,7 @@ MODULE SUMMARY
        Heap:                            0       0                  2048              
        Stack:                           0       0                  896               
     +--+--------------------------------+-------+------------------+--------------------+
-       Grand Total:                     17195   1853               14503             
+       Grand Total:                     17391   1857               14503             
 
 
 GLOBAL DATA SYMBOLS: SORTED BY DATA PAGE
@@ -986,77 +986,78 @@ address     data page           name
 0001200e     480 (00012000)     _Hybrid_flag
 0001200f     480 (00012000)     _RLS_cnt
 00012010     480 (00012000)     _RLS_prescaler
-00012011     480 (00012000)     _Adaptive_On
-00012012     480 (00012000)     _EnableFlag
-00012013     480 (00012000)     _BackTicker
-00012014     480 (00012000)     _LedCnt
-00012015     480 (00012000)     _OffsetCalCounter
-00012016     480 (00012000)     _ptrMax
-00012017     480 (00012000)     _ptr1
-00012018     480 (00012000)     _DRV_RESET
-00012019     480 (00012000)     _PwmDacCh1
-0001201a     480 (00012000)     _PwmDacCh2
-0001201b     480 (00012000)     _PwmDacCh3
-0001201c     480 (00012000)     _PwmDacCh4
-0001201e     480 (00012000)     _TmpD
-00012020     480 (00012000)     _Alpha_State_Ptr
-00012022     480 (00012000)     _A_Task_Ptr
-00012024     480 (00012000)     _B_Task_Ptr
-00012026     480 (00012000)     _C_Task_Ptr
-00012028     480 (00012000)     _adc_cal
-0001202a     480 (00012000)     _Vq_Decoupling
-0001202c     480 (00012000)     _Vd_Decoupling
-0001202e     480 (00012000)     _Speed_CMD_Cnt
-00012030     480 (00012000)     _Trapezoidal_Width
-00012032     480 (00012000)     _Speed_CMD
-00012034     480 (00012000)     _SpeedFBK_Cnt
-00012036     480 (00012000)     _Speed_Kp_Gain
-00012038     480 (00012000)     _Speed_Ki_Gain
-0001203a     480 (00012000)     _test
-0001203c     480 (00012000)     _Speed_Est_BW
-0001203e     480 (00012000)     _Acc_Est_BW
+00012011     480 (00012000)     _Inertia_Reset
+00012012     480 (00012000)     _Adaptive_On
+00012013     480 (00012000)     _EnableFlag
+00012014     480 (00012000)     _BackTicker
+00012015     480 (00012000)     _LedCnt
+00012016     480 (00012000)     _OffsetCalCounter
+00012017     480 (00012000)     _ptrMax
+00012018     480 (00012000)     _ptr1
+00012019     480 (00012000)     _DRV_RESET
+0001201a     480 (00012000)     _PwmDacCh1
+0001201b     480 (00012000)     _PwmDacCh2
+0001201c     480 (00012000)     _PwmDacCh3
+0001201d     480 (00012000)     _PwmDacCh4
+00012020     480 (00012000)     _TmpD
+00012022     480 (00012000)     _Alpha_State_Ptr
+00012024     480 (00012000)     _A_Task_Ptr
+00012026     480 (00012000)     _B_Task_Ptr
+00012028     480 (00012000)     _C_Task_Ptr
+0001202a     480 (00012000)     _adc_cal
+0001202c     480 (00012000)     _Vq_Decoupling
+0001202e     480 (00012000)     _Vd_Decoupling
+00012030     480 (00012000)     _Speed_CMD_Cnt
+00012032     480 (00012000)     _Trapezoidal_Width
+00012034     480 (00012000)     _Speed_CMD
+00012036     480 (00012000)     _SpeedFBK_Cnt
+00012038     480 (00012000)     _Speed_Kp_Gain
+0001203a     480 (00012000)     _Speed_Ki_Gain
+0001203c     480 (00012000)     _test
+0001203e     480 (00012000)     _Speed_Est_BW
 
-00012040     481 (00012040)     _SpeedCmd0_1
-00012042     481 (00012040)     _RLS_Gain
-00012044     481 (00012040)     _RLS_To_Kalman_J
-00012046     481 (00012040)     _Speed_err_threshold
-00012048     481 (00012040)     _test1
-0001204a     481 (00012040)     _test2
-0001204c     481 (00012040)     _test3
-0001204e     481 (00012040)     _Te
-00012050     481 (00012040)     _Te_TL_Fbk
-00012052     481 (00012040)     _Te_TL_Cmd
-00012054     481 (00012040)     _Acc_Threshold
-00012056     481 (00012040)     _fp1
-00012058     481 (00012040)     _fp2
-0001205a     481 (00012040)     _fp3
-0001205c     481 (00012040)     _SpeedCmd_Sin_Frequency_pu
-0001205e     481 (00012040)     _SpeedCmd_Sin_Magnitude_pu
-00012060     481 (00012040)     _IsrTicker
-00012062     481 (00012040)     _K1
-00012064     481 (00012040)     _K2
-00012066     481 (00012040)     _IdRef_start
-00012068     481 (00012040)     _IdRef_run
-0001206a     481 (00012040)     _cntr1
-0001206c     481 (00012040)     _posSlewRate
-0001206e     481 (00012040)     _DlogCh1
-00012070     481 (00012040)     _DlogCh2
-00012072     481 (00012040)     _DlogCh3
-00012074     481 (00012040)     _DlogCh4
-00012076     481 (00012040)     _pwmdac1
+00012040     481 (00012040)     _Acc_Est_BW
+00012042     481 (00012040)     _SpeedCmd0_1
+00012044     481 (00012040)     _RLS_Gain
+00012046     481 (00012040)     _RLS_To_Kalman_J
+00012048     481 (00012040)     _Speed_err_threshold
+0001204a     481 (00012040)     _test1
+0001204c     481 (00012040)     _test2
+0001204e     481 (00012040)     _test3
+00012050     481 (00012040)     _Te
+00012052     481 (00012040)     _Te_TL_Fbk
+00012054     481 (00012040)     _Te_TL_Cmd
+00012056     481 (00012040)     _Acc_Threshold
+00012058     481 (00012040)     _fp1
+0001205a     481 (00012040)     _fp2
+0001205c     481 (00012040)     _fp3
+0001205e     481 (00012040)     _SpeedCmd_Sin_Frequency_pu
+00012060     481 (00012040)     _SpeedCmd_Sin_Magnitude_pu
+00012062     481 (00012040)     _IsrTicker
+00012064     481 (00012040)     _K1
+00012066     481 (00012040)     _K2
+00012068     481 (00012040)     _IdRef_start
+0001206a     481 (00012040)     _IdRef_run
+0001206c     481 (00012040)     _cntr1
+0001206e     481 (00012040)     _posSlewRate
+00012070     481 (00012040)     _DlogCh1
+00012072     481 (00012040)     _DlogCh2
+00012074     481 (00012040)     _DlogCh3
+00012076     481 (00012040)     _DlogCh4
 
-00012080     482 (00012080)     _rg_SpeedCmd_Generate_Sin
-0001208c     482 (00012080)     _Estimated_Acc
-0001209c     482 (00012080)     _RLS_Inertia
-000120ac     482 (00012080)     _Iq_FBK
+00012080     482 (00012080)     _pwmdac1
+0001208a     482 (00012080)     _rg_SpeedCmd_Generate_Sin
+00012096     482 (00012080)     _Estimated_Acc
+000120a6     482 (00012080)     _RLS_Inertia
 
-000120c0     483 (000120c0)     _Id_FBK
-000120d0     483 (000120c0)     _Kalman_e
-000120e0     483 (000120c0)     _Iq_test_Kt
-000120f0     483 (000120c0)     _rc_SpeedCmd_SinFrequency_Variation_Rate
+000120c0     483 (000120c0)     _Iq_FBK
+000120d0     483 (000120c0)     _Id_FBK
+000120e0     483 (000120c0)     _Kalman_e
+000120f0     483 (000120c0)     _Iq_test_Kt
 
-00012100     484 (00012100)     _rc_SpeedCmd_Trapezoidal
-00012110     484 (00012100)     _dlog_4ch1
+00012100     484 (00012100)     _rc_SpeedCmd_SinFrequency_Variation_Rate
+00012110     484 (00012100)     _rc_SpeedCmd_Trapezoidal
+00012120     484 (00012100)     _dlog_4ch1
 
 00012140     485 (00012140)     _Kalman3X3_Handler
 
@@ -1155,10 +1156,10 @@ abs   ffffffff  .text
 0     0000b770  FS$$DIV                                 
 0     000092ac  LL$$CMP                                 
 0     000092be  ULL$$CMP                                
-0     000167d6  _A0                                     
-0     000167a0  _A1                                     
-0     00016776  _A2                                     
-0     00016770  _A3                                     
+0     000167d9  _A0                                     
+0     000167a3  _A1                                     
+0     00016779  _A2                                     
+0     00016773  _A3                                     
 0     0000b57b  _ADCA1_ISR                              
 0     0000b571  _ADCA2_ISR                              
 0     0000b567  _ADCA3_ISR                              
@@ -1180,11 +1181,11 @@ abs   ffffffff  .text
 0     0000b4c7  _ADCD4_ISR                              
 0     0000b4bd  _ADCD_EVT_ISR                           
 0     0000b4b3  _AUX_PLL_SLIP_ISR                       
-1     00012022  _A_Task_Ptr                             
-1     0001203e  _Acc_Est_BW                             
-1     00012054  _Acc_Threshold                          
+1     00012024  _A_Task_Ptr                             
+1     00012040  _Acc_Est_BW                             
+1     00012056  _Acc_Threshold                          
 1     0005f4c0  _AccessProtectionRegs                   
-1     00012011  _Adaptive_On                            
+1     00012012  _Adaptive_On                            
 0     00008b6f  _AdcSetMode                             
 1     00007400  _AdcaRegs                               
 1     00000b00  _AdcaResultRegs                         
@@ -1194,22 +1195,22 @@ abs   ffffffff  .text
 1     00000b40  _AdccResultRegs                         
 1     00007580  _AdcdRegs                               
 1     00000b60  _AdcdResultRegs                         
-1     00012020  _Alpha_State_Ptr                        
+1     00012022  _Alpha_State_Ptr                        
 1     0005d180  _AnalogSubsysRegs                       
 1     00012003  _Angle_Switch                           
 0     00008209  _AuxAuxClkSel                           
 0     00008224  _AuxIntOsc2Sel                          
 0     00008213  _AuxXtalOscSel                          
-0     000167ee  _B0                                     
-0     0001679a  _B1                                     
-0     0001676a  _B2                                     
-0     00016764  _B3                                     
-1     00012024  _B_Task_Ptr                             
-1     00012013  _BackTicker                             
-0     00016803  _C0                                     
-0     0001677c  _C1                                     
-0     0001675a  _C2                                     
-0     0001674c  _C3                                     
+0     000167f1  _B0                                     
+0     0001679d  _B1                                     
+0     0001676d  _B2                                     
+0     00016767  _B3                                     
+1     00012026  _B_Task_Ptr                             
+1     00012014  _BackTicker                             
+0     00016806  _C0                                     
+0     0001677f  _C1                                     
+0     0001675d  _C2                                     
+0     0001674f  _C3                                     
 0     0000b4a9  _CANA0_ISR                              
 0     0000b49f  _CANA1_ISR                              
 0     0000b495  _CANB0_ISR                              
@@ -1224,7 +1225,7 @@ abs   ffffffff  .text
 0     0000b43b  _CLA1_8_ISR                             
 0     0000b431  _CLA_OVERFLOW_ISR                       
 0     0000b427  _CLA_UNDERFLOW_ISR                      
-1     00012026  _C_Task_Ptr                             
+1     00012028  _C_Task_Ptr                             
 0     00008b37  _CalAdcINL                              
 1     00048000  _CanaRegs                               
 1     0004a000  _CanbRegs                               
@@ -1264,13 +1265,13 @@ abs   ffffffff  .text
 0     0000b3f5  _DMA_CH4_ISR                            
 0     0000b3eb  _DMA_CH5_ISR                            
 0     0000b3e1  _DMA_CH6_ISR                            
-0     00016706  _DMC1_Protection                        
+0     00016709  _DMC1_Protection                        
 0     00008e50  _DRV8301_SPI_Read                       
 0     00008e34  _DRV8301_SPI_Write                      
 0     00008e24  _DRV8305_SPI_Read                       
 0     00008e08  _DRV8305_SPI_Write                      
 0     00008a24  _DRV8305_diagnostics                    
-1     00012018  _DRV_RESET                              
+1     00012019  _DRV_RESET                              
 1     00005c00  _DacaRegs                               
 1     00005c10  _DacbRegs                               
 1     00005c20  _DaccRegs                               
@@ -1282,10 +1283,10 @@ abs   ffffffff  .text
 1     0005d000  _DevCfgRegs                             
 0     00008114  _DisableDog                             
 0     000082ff  _DisablePeripheralClocks                
-1     0001206e  _DlogCh1                                
-1     00012070  _DlogCh2                                
-1     00012072  _DlogCh3                                
-1     00012074  _DlogCh4                                
+1     00012070  _DlogCh1                                
+1     00012072  _DlogCh2                                
+1     00012074  _DlogCh3                                
+1     00012076  _DlogCh4                                
 1     00007980  _DmaClaSrcSelRegs                       
 1     00001000  _DmaRegs                                
 0     0000b3d7  _ECAP1_ISR                              
@@ -1352,10 +1353,10 @@ abs   ffffffff  .text
 1     00047800  _Emif2Regs                              
 1     00000d01  _EmuBMode                               
 1     00000d00  _EmuKey                                 
-1     00012012  _EnableFlag                             
+1     00012013  _EnableFlag                             
 0     000091de  _EnableInterrupts                       
-1     0001208c  _Estimated_Acc                          
-0     0001b435  _F28x_usDelay                           
+1     00012096  _Estimated_Acc                          
+0     0001b439  _F28x_usDelay                           
 0     0000b26c  _FLASH_CORRECTABLE_ERROR_ISR            
 0     0000b262  _FPU_OVERFLOW_ISR                       
 0     0000b258  _FPU_UNDERFLOW_ISR                      
@@ -1374,7 +1375,7 @@ abs   ffffffff  .text
 0     000083d9  _GPIO_SetupXINT3Gpio                    
 0     000083d2  _GPIO_SetupXINT4Gpio                    
 0     000083cb  _GPIO_SetupXINT5Gpio                    
-0     00016738  _GPIO_TogglePin                         
+0     0001673b  _GPIO_TogglePin                         
 0     000083b1  _GPIO_WritePin                          
 1     00007c00  _GpioCtrlRegs                           
 1     00007f00  _GpioDataRegs                           
@@ -1393,9 +1394,10 @@ abs   ffffffff  .text
 0     0000b212  _IPC1_ISR                               
 0     0000b208  _IPC2_ISR                               
 0     0000b1fe  _IPC3_ISR                               
-1     00012068  _IdRef_run                              
-1     00012066  _IdRef_start                            
-1     000120c0  _Id_FBK                                 
+1     0001206a  _IdRef_run                              
+1     00012068  _IdRef_start                            
+1     000120d0  _Id_FBK                                 
+1     00012011  _Inertia_Reset                          
 0     00008231  _InitAuxPll                             
 0     00008974  _InitDRV8305                            
 0     0000892b  _InitDRV8305Regs                        
@@ -1416,19 +1418,19 @@ abs   ffffffff  .text
 1     00012005  _Initial_Cnt                            
 1     00007900  _InputXbarRegs                          
 1     00050000  _IpcRegs                                
-1     000120ac  _Iq_FBK                                 
-1     000120e0  _Iq_test_Kt                             
-1     00012060  _IsrTicker                              
-1     00012062  _K1                                     
-1     00012064  _K2                                     
+1     000120c0  _Iq_FBK                                 
+1     000120f0  _Iq_test_Kt                             
+1     00012062  _IsrTicker                              
+1     00012064  _K1                                     
+1     00012066  _K2                                     
 1     00012180  _Kalman2X2_Handler                      
 1     0001243c  _Kalman2X2_TL                           
 1     00012140  _Kalman3X3_Handler                      
 1     000125fa  _Kalman3X3_TL                           
 0     000162df  _Kalman_Ini_2X2                         
 0     000160ba  _Kalman_Ini_3X3                         
-1     000120d0  _Kalman_e                               
-1     00012014  _LedCnt                                 
+1     000120e0  _Kalman_e                               
+1     00012015  _LedCnt                                 
 0     0000b1f4  _MCBSPA_RX_ISR                          
 0     0000b1ea  _MCBSPA_TX_ISR                          
 0     0000b1e0  _MCBSPB_RX_ISR                          
@@ -1441,7 +1443,7 @@ abs   ffffffff  .text
 0     0000b1cc  _NMI_ISR                                
 0     0000b1c2  _NOTUSED_ISR                            
 1     00007060  _NmiIntruptRegs                         
-1     00012015  _OffsetCalCounter                       
+1     00012016  _OffsetCalCounter                       
 1     00007a80  _OutputXbarRegs                         
 0     0000b1b8  _PIE_RESERVED_ISR                       
 0     0000b5bf  _PWM_1ch_UpDwnCnt_CNF                   
@@ -1449,20 +1451,20 @@ abs   ffffffff  .text
 1     00000ce0  _PieCtrlRegs                            
 1     00000d00  _PieVectTable                           
 1     0000a800  _PieVectTableInit                       
-1     00012019  _PwmDacCh1                              
-1     0001201a  _PwmDacCh2                              
-1     0001201b  _PwmDacCh3                              
-1     0001201c  _PwmDacCh4                              
-0     000166c9  _PwmTripConfig                          
+1     0001201a  _PwmDacCh1                              
+1     0001201b  _PwmDacCh2                              
+1     0001201c  _PwmDacCh3                              
+1     0001201d  _PwmDacCh4                              
+0     000166cc  _PwmTripConfig                          
 0     0000b1ae  _RAM_ACCESS_VIOLATION_ISR               
 0     0000b1a4  _RAM_CORRECTABLE_ERROR_ISR              
 1     0001200c  _RLS_Flag                               
-1     00012042  _RLS_Gain                               
+1     00012044  _RLS_Gain                               
 1     000121c0  _RLS_Handler                            
-1     0001209c  _RLS_Inertia                            
+1     000120a6  _RLS_Inertia                            
 0     000164e6  _RLS_Ini                                
 1     0001200d  _RLS_Start_Flag                         
-1     00012044  _RLS_To_Kalman_J                        
+1     00012046  _RLS_To_Kalman_J                        
 1     0001200f  _RLS_cnt                                
 1     00012010  _RLS_prescaler                          
 0     0000b19a  _RTOS_ISR                               
@@ -1486,9 +1488,9 @@ abs   ffffffff  .text
 0     0000b104  _SPIC_RX_ISR                            
 0     0000b0fa  _SPIC_TX_ISR                            
 0     0001607a  _SPIDAC_setup                           
-0     00016e80  _SPIDAC_update_all                      
-0     00016e74  _SPIDAC_write_dac_channel               
-0     00016e5e  _SPIDAC_xmit_u16                        
+0     00016e83  _SPIDAC_update_all                      
+0     00016e77  _SPIDAC_write_dac_channel               
+0     00016e61  _SPIDAC_xmit_u16                        
 0     00008df0  _SPI_Driver                             
 0     00008040  _STANDBY                                
 0     0000b0f0  _SYS_PLL_SLIP_ISR                       
@@ -1502,19 +1504,19 @@ abs   ffffffff  .text
 1     00012000  _SerialCommsTimer                       
 0     00008020  _ServiceDog                             
 1     000127b2  _SpeedCmd                               
-1     00012040  _SpeedCmd0_1                            
-1     0001205c  _SpeedCmd_Sin_Frequency_pu              
-1     0001205e  _SpeedCmd_Sin_Magnitude_pu              
-1     00012034  _SpeedFBK_Cnt                           
-1     00012032  _Speed_CMD                              
-1     0001202e  _Speed_CMD_Cnt                          
+1     00012042  _SpeedCmd0_1                            
+1     0001205e  _SpeedCmd_Sin_Frequency_pu              
+1     00012060  _SpeedCmd_Sin_Magnitude_pu              
+1     00012036  _SpeedFBK_Cnt                           
+1     00012034  _Speed_CMD                              
+1     00012030  _Speed_CMD_Cnt                          
 1     000127b6  _Speed_CMD_Data                         
 1     00012004  _Speed_CMD_Index                        
 1     00012001  _Speed_CMD_Switch                       
-1     0001203c  _Speed_Est_BW                           
-1     00012038  _Speed_Ki_Gain                          
-1     00012036  _Speed_Kp_Gain                          
-1     00012046  _Speed_err_threshold                    
+1     0001203e  _Speed_Est_BW                           
+1     0001203a  _Speed_Ki_Gain                          
+1     00012038  _Speed_Kp_Gain                          
+1     00012048  _Speed_err_threshold                    
 1     00006100  _SpiaRegs                               
 1     00006110  _SpibRegs                               
 1     00006120  _SpicRegs                               
@@ -1525,11 +1527,11 @@ abs   ffffffff  .text
 0     0000b0e6  _TIMER0_ISR                             
 0     0000b0dc  _TIMER1_ISR                             
 0     0000b0d2  _TIMER2_ISR                             
-1     0001204e  _Te                                     
-1     00012052  _Te_TL_Cmd                              
-1     00012050  _Te_TL_Fbk                              
-1     0001201e  _TmpD                                   
-1     00012030  _Trapezoidal_Width                      
+1     00012050  _Te                                     
+1     00012054  _Te_TL_Cmd                              
+1     00012052  _Te_TL_Fbk                              
+1     00012020  _TmpD                                   
+1     00012032  _Trapezoidal_Width                      
 0     0000b0c8  _UPPA_ISR                               
 0     0000b0be  _USBA_ISR                               
 0     0000b0b4  _USER10_ISR                             
@@ -1549,8 +1551,8 @@ abs   ffffffff  .text
 1     000127ba  _VTimer0                                
 1     00012950  _VTimer1                                
 1     00012954  _VTimer2                                
-1     0001202c  _Vd_Decoupling                          
-1     0001202a  _Vq_Decoupling                          
+1     0001202e  _Vd_Decoupling                          
+1     0001202c  _Vq_Decoupling                          
 0     0000b032  _WAKE_ISR                               
 1     00007000  _WdRegs                                 
 0     0000b028  _XINT1_ISR                              
@@ -1592,19 +1594,19 @@ abs   ffffffff  ___text__
 0     000090e2  _abs_SP_CV                              
 0     00008e6e  _abs_SP_CV_2                            
 0     00008cd6  _abs_SP_CV_TMU0                         
-1     00012028  _adc_cal                                
+1     0001202a  _adc_cal                                
 0     0000928e  _add_SP_CSxCV                           
 0     0000922e  _add_SP_CVxCV                           
 0     000002cc  _aligned_alloc                          
 0     00008f22  _c_int00                                
 0     0000029f  _calloc                                 
-1     0001206a  _cntr1                                  
+1     0001206c  _cntr1                                  
 0     00009372  _configureDAC                           
 0     000091e7  _copy_in                                
 1     0001295c  _dacAval                                
 1     0001295d  _dacBval                                
 1     0001295e  _dacCval                                
-1     00012110  _dlog_4ch1                              
+1     00012120  _dlog_4ch1                              
 1     0001295f  _errno                                  
 0     00009198  _exit                                   
 0     000086ef  _exp                                    
@@ -1617,9 +1619,9 @@ abs   ffffffff  ___text__
 0     000085e0  _fmin                                   
 0     000085e0  _fminf                                  
 0     00008543  _fminl                                  
-1     00012056  _fp1                                    
-1     00012058  _fp2                                    
-1     0001205a  _fp3                                    
+1     00012058  _fp1                                    
+1     0001205a  _fp2                                    
+1     0001205c  _fp3                                    
 0     0000014d  _free                                   
 0     00009114  _iabs_SP_CV                             
 0     000003ae  _iabs_SP_CV_2                           
@@ -1631,7 +1633,7 @@ abs   ffffffff  ___text__
 0     0000903e  _mac_SP_CVxCV                           
 0     00008ffe  _mac_SP_RVxCV                           
 0     00008fbc  _mac_SP_i16RVxCV                        
-0     00016818  _main                                   
+0     0001681b  _main                                   
 0     00000122  _malloc                                 
 0     00009322  _maxidx_SP_RV_2                         
 0     00009078  _mean_SP_CV_2                           
@@ -1650,24 +1652,24 @@ abs   ffffffff  ___text__
 0     0000933e  _mpy_SP_RVxCV                           
 0     0000920c  _mpy_SP_RVxRV_2                         
 1     000127a2  _posArray                               
-1     0001206c  _posSlewRate                            
-1     00012017  _ptr1                                   
-1     00012016  _ptrMax                                 
-1     00012076  _pwmdac1                                
+1     0001206e  _posSlewRate                            
+1     00012018  _ptr1                                   
+1     00012017  _ptrMax                                 
+1     00012080  _pwmdac1                                
 0     00016000  _ramper                                 
 0     00016059  _ramper_speed                           
-1     000120f0  _rc_SpeedCmd_SinFrequency_Variation_Rate
-1     00012100  _rc_SpeedCmd_Trapezoidal                
+1     00012100  _rc_SpeedCmd_SinFrequency_Variation_Rate
+1     00012110  _rc_SpeedCmd_Trapezoidal                
 0     00000217  _realloc                                
 0     0001601c  _refPosGen                              
-1     00012080  _rg_SpeedCmd_Generate_Sin               
+1     0001208a  _rg_SpeedCmd_Generate_Sin               
 0     000093a0  _rnd_SP_RS                              
 0     000092ca  _sub_SP_CSxCV                           
 0     0000926e  _sub_SP_CVxCV                           
-1     0001203a  _test                                   
-1     00012048  _test1                                  
-1     0001204a  _test2                                  
-1     0001204c  _test3                                  
+1     0001203c  _test                                   
+1     0001204a  _test1                                  
+1     0001204c  _test2                                  
+1     0001204e  _test3                                  
 1     000125d0  _tt1                                    
 1     000125e2  _tt2                                    
 1     00012790  _tt3                                    
@@ -1958,28 +1960,28 @@ page  address   name
 0     000160ba  _Kalman_Ini_3X3                         
 0     000162df  _Kalman_Ini_2X2                         
 0     000164e6  _RLS_Ini                                
-0     000166c9  _PwmTripConfig                          
-0     00016706  _DMC1_Protection                        
-0     00016738  _GPIO_TogglePin                         
-0     0001674c  _C3                                     
-0     0001675a  _C2                                     
-0     00016764  _B3                                     
-0     0001676a  _B2                                     
-0     00016770  _A3                                     
-0     00016776  _A2                                     
-0     0001677c  _C1                                     
-0     0001679a  _B1                                     
-0     000167a0  _A1                                     
-0     000167d6  _A0                                     
-0     000167ee  _B0                                     
-0     00016803  _C0                                     
-0     00016818  _main                                   
-0     00016e5e  _SPIDAC_xmit_u16                        
-0     00016e74  _SPIDAC_write_dac_channel               
-0     00016e80  _SPIDAC_update_all                      
+0     000166cc  _PwmTripConfig                          
+0     00016709  _DMC1_Protection                        
+0     0001673b  _GPIO_TogglePin                         
+0     0001674f  _C3                                     
+0     0001675d  _C2                                     
+0     00016767  _B3                                     
+0     0001676d  _B2                                     
+0     00016773  _A3                                     
+0     00016779  _A2                                     
+0     0001677f  _C1                                     
+0     0001679d  _B1                                     
+0     000167a3  _A1                                     
+0     000167d9  _A0                                     
+0     000167f1  _B0                                     
+0     00016806  _C0                                     
+0     0001681b  _main                                   
+0     00016e61  _SPIDAC_xmit_u16                        
+0     00016e77  _SPIDAC_write_dac_channel               
+0     00016e83  _SPIDAC_update_all                      
 0     0001b000  ___cinit__                              
 0     0001b000  cinit                                   
-0     0001b435  _F28x_usDelay                           
+0     0001b439  _F28x_usDelay                           
 1     00000400  __stack                                 
 1     00000780  __STACK_END                             
 1     00000b00  _AdcaResultRegs                         
@@ -2075,73 +2077,74 @@ page  address   name
 1     0001200e  _Hybrid_flag                            
 1     0001200f  _RLS_cnt                                
 1     00012010  _RLS_prescaler                          
-1     00012011  _Adaptive_On                            
-1     00012012  _EnableFlag                             
-1     00012013  _BackTicker                             
-1     00012014  _LedCnt                                 
-1     00012015  _OffsetCalCounter                       
-1     00012016  _ptrMax                                 
-1     00012017  _ptr1                                   
-1     00012018  _DRV_RESET                              
-1     00012019  _PwmDacCh1                              
-1     0001201a  _PwmDacCh2                              
-1     0001201b  _PwmDacCh3                              
-1     0001201c  _PwmDacCh4                              
-1     0001201e  _TmpD                                   
-1     00012020  _Alpha_State_Ptr                        
-1     00012022  _A_Task_Ptr                             
-1     00012024  _B_Task_Ptr                             
-1     00012026  _C_Task_Ptr                             
-1     00012028  _adc_cal                                
-1     0001202a  _Vq_Decoupling                          
-1     0001202c  _Vd_Decoupling                          
-1     0001202e  _Speed_CMD_Cnt                          
-1     00012030  _Trapezoidal_Width                      
-1     00012032  _Speed_CMD                              
-1     00012034  _SpeedFBK_Cnt                           
-1     00012036  _Speed_Kp_Gain                          
-1     00012038  _Speed_Ki_Gain                          
-1     0001203a  _test                                   
-1     0001203c  _Speed_Est_BW                           
-1     0001203e  _Acc_Est_BW                             
-1     00012040  _SpeedCmd0_1                            
-1     00012042  _RLS_Gain                               
-1     00012044  _RLS_To_Kalman_J                        
-1     00012046  _Speed_err_threshold                    
-1     00012048  _test1                                  
-1     0001204a  _test2                                  
-1     0001204c  _test3                                  
-1     0001204e  _Te                                     
-1     00012050  _Te_TL_Fbk                              
-1     00012052  _Te_TL_Cmd                              
-1     00012054  _Acc_Threshold                          
-1     00012056  _fp1                                    
-1     00012058  _fp2                                    
-1     0001205a  _fp3                                    
-1     0001205c  _SpeedCmd_Sin_Frequency_pu              
-1     0001205e  _SpeedCmd_Sin_Magnitude_pu              
-1     00012060  _IsrTicker                              
-1     00012062  _K1                                     
-1     00012064  _K2                                     
-1     00012066  _IdRef_start                            
-1     00012068  _IdRef_run                              
-1     0001206a  _cntr1                                  
-1     0001206c  _posSlewRate                            
-1     0001206e  _DlogCh1                                
-1     00012070  _DlogCh2                                
-1     00012072  _DlogCh3                                
-1     00012074  _DlogCh4                                
-1     00012076  _pwmdac1                                
-1     00012080  _rg_SpeedCmd_Generate_Sin               
-1     0001208c  _Estimated_Acc                          
-1     0001209c  _RLS_Inertia                            
-1     000120ac  _Iq_FBK                                 
-1     000120c0  _Id_FBK                                 
-1     000120d0  _Kalman_e                               
-1     000120e0  _Iq_test_Kt                             
-1     000120f0  _rc_SpeedCmd_SinFrequency_Variation_Rate
-1     00012100  _rc_SpeedCmd_Trapezoidal                
-1     00012110  _dlog_4ch1                              
+1     00012011  _Inertia_Reset                          
+1     00012012  _Adaptive_On                            
+1     00012013  _EnableFlag                             
+1     00012014  _BackTicker                             
+1     00012015  _LedCnt                                 
+1     00012016  _OffsetCalCounter                       
+1     00012017  _ptrMax                                 
+1     00012018  _ptr1                                   
+1     00012019  _DRV_RESET                              
+1     0001201a  _PwmDacCh1                              
+1     0001201b  _PwmDacCh2                              
+1     0001201c  _PwmDacCh3                              
+1     0001201d  _PwmDacCh4                              
+1     00012020  _TmpD                                   
+1     00012022  _Alpha_State_Ptr                        
+1     00012024  _A_Task_Ptr                             
+1     00012026  _B_Task_Ptr                             
+1     00012028  _C_Task_Ptr                             
+1     0001202a  _adc_cal                                
+1     0001202c  _Vq_Decoupling                          
+1     0001202e  _Vd_Decoupling                          
+1     00012030  _Speed_CMD_Cnt                          
+1     00012032  _Trapezoidal_Width                      
+1     00012034  _Speed_CMD                              
+1     00012036  _SpeedFBK_Cnt                           
+1     00012038  _Speed_Kp_Gain                          
+1     0001203a  _Speed_Ki_Gain                          
+1     0001203c  _test                                   
+1     0001203e  _Speed_Est_BW                           
+1     00012040  _Acc_Est_BW                             
+1     00012042  _SpeedCmd0_1                            
+1     00012044  _RLS_Gain                               
+1     00012046  _RLS_To_Kalman_J                        
+1     00012048  _Speed_err_threshold                    
+1     0001204a  _test1                                  
+1     0001204c  _test2                                  
+1     0001204e  _test3                                  
+1     00012050  _Te                                     
+1     00012052  _Te_TL_Fbk                              
+1     00012054  _Te_TL_Cmd                              
+1     00012056  _Acc_Threshold                          
+1     00012058  _fp1                                    
+1     0001205a  _fp2                                    
+1     0001205c  _fp3                                    
+1     0001205e  _SpeedCmd_Sin_Frequency_pu              
+1     00012060  _SpeedCmd_Sin_Magnitude_pu              
+1     00012062  _IsrTicker                              
+1     00012064  _K1                                     
+1     00012066  _K2                                     
+1     00012068  _IdRef_start                            
+1     0001206a  _IdRef_run                              
+1     0001206c  _cntr1                                  
+1     0001206e  _posSlewRate                            
+1     00012070  _DlogCh1                                
+1     00012072  _DlogCh2                                
+1     00012074  _DlogCh3                                
+1     00012076  _DlogCh4                                
+1     00012080  _pwmdac1                                
+1     0001208a  _rg_SpeedCmd_Generate_Sin               
+1     00012096  _Estimated_Acc                          
+1     000120a6  _RLS_Inertia                            
+1     000120c0  _Iq_FBK                                 
+1     000120d0  _Id_FBK                                 
+1     000120e0  _Kalman_e                               
+1     000120f0  _Iq_test_Kt                             
+1     00012100  _rc_SpeedCmd_SinFrequency_Variation_Rate
+1     00012110  _rc_SpeedCmd_Trapezoidal                
+1     00012120  _dlog_4ch1                              
 1     00012140  _Kalman3X3_Handler                      
 1     00012180  _Kalman2X2_Handler                      
 1     000121c0  _RLS_Handler                            
@@ -2210,4 +2213,4 @@ abs   ffffffff  binit
 abs   ffffffff  etext                                   
 abs   ffffffff  pinit                                   
 
-[527 symbols]
+[528 symbols]
