@@ -69,6 +69,7 @@ typedef struct U_Kalman{
     float P_yy;
     float KalmanToRls_TL;
     float J_past;
+    float B_past;
     Matrix A;
     Matrix B;
     Matrix X[7];
@@ -335,12 +336,13 @@ inline void Kalman2X2_Calculate(Kalman* k, float speed, float u, float RLS_J)
     k->Terminal.TL = k->X_Posteriori[1];
     k->Terminal.error = k->e;
 }
-
+#if   BUILDLEVEL == LEVEL6
 void Kalman_Ini_U(U_Kalman* k)
 {
-    /*
+
     int i;
     //float initialization
+    k->y = 0;
     k->R = 1;
     k->L = 3;
     k->alpha = 0.9;
@@ -353,15 +355,18 @@ void Kalman_Ini_U(U_Kalman* k)
     k->w0_m = k->lamda / (k->L + k->lamda);
     k->w0_c = k->w0_m + 1 - k->alpha * k->alpha + k->beta;
     k->wi_mc = 1 / (2 * (k->L + k->lamda));
+    k->P_yy = 0;
+    k->KalmanToRls_TL = 0;
+    k->J_past = J;
 
     //Matrix initialization
     float Zero_data[9] = {0};
     Matrix_Generate(&(k->Zero),9,Zero_data);
     float A_data[9] = {1,0,0,TS,(1-BM/J*TS),0,0,(-TS/J),1};
     Matrix_Generate(&(k->A),9,A_data);
-    float B_data[3] = {0,TS/J,0};
+    float B_data[3] = {0,TS/J,0};;
     Matrix_Generate(&(k->B),3,B_data);
-    float X_data[3] = {1,1,1};
+    float X_data[3] = {0};
     float Xi_data[3] = {0};
     Matrix_Generate(&(k->X[0]),3,X_data);
     for(i=1;i<=6;i++)
@@ -370,18 +375,20 @@ void Kalman_Ini_U(U_Kalman* k)
     }
     float X_Priori_data[3] = {0};
     Matrix_Generate(&(k->X_Priori),3,X_Priori_data);
-    float X_Posteriori_data[3] = {0};
+    float X_Posteriori_data[3] = {1,1,1};
     Matrix_Generate(&(k->X_Posteriori),3,X_Posteriori_data);
+    float Sigma_data[9] = {0};
+    Matrix_Generate(&(k->Sigma),9,Sigma_data);
     float P_data[9] = {10000,0,0,0,10000,0,0,0,10000};
+//    float P_Posteriori_data[9] = {4,12,-16,12,37,-43,-16,-43,98};
+    float P_Posteriori_data[9] = {1,0,0,0,1,0,0,0,1};
     Matrix_Generate(&(k->P_Priori),9,P_data);
-    Matrix_Generate(&(k->P_Posteriori),9,Zero_data);
+    Matrix_Generate(&(k->P_Posteriori),9,P_Posteriori_data);
     Matrix_Generate(&(k->P_xy),3,X_Priori_data);
     float K_data[3] = {0};
     Matrix_Generate(&(k->K),3,K_data);
     float I_data[9] = {1,0,0,0,1,0,0,0,1};
     Matrix_Generate(&(k->I),9,I_data);
-    float Sigma_data[9] = {0};
-    Matrix_Generate(&(k->Sigma),9,Sigma_data);
     float Q_data[9] = {0.001,0,0,0,0.001,0,0,0,0.01};
     Matrix_Generate(&(k->Q),9,Q_data);
     float Y_data[7] = {0};
@@ -397,19 +404,21 @@ void Kalman_Ini_U(U_Kalman* k)
     float Tem_1X1_data[1] = {0};
     Matrix_Generate(&(k->Tem_1X1),1,Tem_1X1_data);
 
-    */
+
 }
 
-inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
+inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J, float RLS_B)
 {
-    /*
+
     //Step1. Variable initialization.
     //Update Inertia in A
     if(fabs(k->e) <= k->e_threshold)
     {
         k->J_past = RLS_J;
+        k->B_past = RLS_B;
     }
-    k->A[4] = (1-BM/k->J_past*TS);
+    //k->A[4] = (1-BM/k->J_past*TS);
+    k->A[4] = (1-k->B_past/k->J_past*TS);
     k->A[7] = (-TS/k->J_past);
 
     // Step2. Calculate the sigma point.
@@ -419,7 +428,7 @@ inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
     k->X[0][0] = k->X_Posteriori[0]; k->X[0][1] = k->X_Posteriori[1]; k->X[0][2] = k->X_Posteriori[2];
     Matrix_Add(k->P_Posteriori, k->Zero, k->Tem_nXn_1, 9);                  // Tem_nXn_1 : P
     cholesky(k->Tem_nXn_1, 3);
-    Matrix_Transpose(k->Tem_nXn_1, k->Tem_nXn_2, 3);             // Tem_nXn_n : chol(P)
+    Matrix_Transpose(k->Tem_nXn_1, k->Tem_nXn_2, 3);             // Tem_nXn_2 : chol(P)
     Matrix_Dot_Product(k->Tem_nXn_2, k->sqrt_L_Lamda, k->Sigma, 9);
     k->Sigma[3]=0;k->Sigma[6]=0;k->Sigma[7]=0;
     Matrix_Add(k->X[0], k->Sigma+FIRST_COLUMN, k->X[1], 3);
@@ -455,7 +464,7 @@ inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
     }
 
     //P_Priori=sigma(0~2L){W_i^c.*(Xi - X_Priori)*(Xi - X_Priori)'}+Q
-    for(i=0; i<8; i++)
+    for(i=0; i<9; i++)
         k->P_Priori[i] = 0;
     for(i=0; i<7; i++)
     {
@@ -508,6 +517,229 @@ inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
     k->P_yy = k->P_yy + k->R;
     Matrix_Dot_Product(k->P_xy, 1/k->P_yy, k->K, 3);
 
+
+    //X_Posteriori = X_Priori + K*(Theda - y)
+    k->e = theda - k->y;
+    if(k->e < -PI )
+        k->e += TWO_PI;
+    else if(k->e > PI)
+        k->e -= TWO_PI;
+    Matrix_Dot_Product(k->K, k->e, k->Tem_nX1_2, 3);                      // Tem_nX1_2 : K*(Theda - y)
+    Matrix_Add(k->Tem_nX1_2, k->X_Priori, k->X_Posteriori, 3);
+
+    if(k->X_Posteriori[0] < 0.0)
+        k->X_Posteriori[0] += TWO_PI;
+    else if(k->X_Posteriori[0] > TWO_PI)
+        k->X_Posteriori[0] -= TWO_PI;
+
+    //P_Posteriori = P_Priori - K*P_yy*K'
+    Matrix_Dot_Product(k->K, k->P_yy, k->Tem_nX1_1, 3);                   // Tem_nX1_1 : K*P_yy
+    mpy_SP_RMxRM(k->Tem_nXn_1, k->Tem_nX1_1, k->K, 3, 1, 3);              // Tem_nXn_1 : K*P_yy*K'
+    Matrix_Minor(k->P_Priori, k->Tem_nXn_1, k->P_Posteriori, 9);
+
+    //Update Q Matrix
+    if(fabs(k->e) > k->e_threshold)
+    {
+        k->Q[0] = 0.01;
+        k->Q[4] = 0.01;
+        k->Q[8] = 0.01;
+    }
+    else
+    {
+        k->Q[0] = 0.001;
+        k->Q[4] = 0.001;
+        k->Q[8] = 0.001;
+    }
+    //Update Terminal
+    k->Terminal.theda = k->X_Posteriori[0];
+    k->Terminal.speed = k->X_Posteriori[1];
+    k->Terminal.TL = k->X_Posteriori[2];
+    k->Terminal.error = k->e;
+
+
+}
+#endif
+
+#if   BUILDLEVEL == LEVEL7
+void Kalman_Ini_U(U_Kalman* k)
+{
+
+    int i;
+    //float initialization
+    k->y = 0;
+    k->R = 1;
+    k->L = 3;
+    k->alpha = 0.9;
+    k->beta = 2;
+    k->kappa = 0;
+    k->lamda = k->alpha * k->alpha * (k->L + k->kappa) - k->L;
+    k->sqrt_L_Lamda = sqrtf(k->L + k->lamda);
+    k->e_threshold = 1e-04;
+    k->e = 0;
+    k->w0_m = k->lamda / (k->L + k->lamda);
+    k->w0_c = k->w0_m + 1 - k->alpha * k->alpha + k->beta;
+    k->wi_mc = 1 / (2 * (k->L + k->lamda));
+    k->P_yy = 0;
+    k->KalmanToRls_TL = 0;
+    k->J_past = J;
+
+    //Matrix initialization
+    float Zero_data[9] = {0};
+    Matrix_Generate(&(k->Zero),9,Zero_data);
+    float A_data[9] = {1,0,0,TS,(1-BM/J*TS),0,0,(-TS/J),1};
+    Matrix_Generate(&(k->A),9,A_data);
+    float B_data[3] = {0,TS/J,0};;
+    Matrix_Generate(&(k->B),3,B_data);
+    float X_data[3] = {0};
+    float Xi_data[3] = {0};
+    Matrix_Generate(&(k->X[0]),3,X_data);
+    for(i=1;i<=6;i++)
+    {
+        Matrix_Generate(&(k->X[i]),3,Xi_data);
+    }
+    float X_Priori_data[3] = {0};
+    Matrix_Generate(&(k->X_Priori),3,X_Priori_data);
+    float X_Posteriori_data[3] = {1,1,1};
+    Matrix_Generate(&(k->X_Posteriori),3,X_Posteriori_data);
+    float Sigma_data[9] = {0};
+    Matrix_Generate(&(k->Sigma),9,Sigma_data);
+    float P_data[9] = {10000,0,0,0,10000,0,0,0,10000};
+//    float P_Posteriori_data[9] = {4,12,-16,12,37,-43,-16,-43,98};
+    float P_Posteriori_data[9] = {1,0,0,0,1,0,0,0,1};
+    Matrix_Generate(&(k->P_Priori),9,P_data);
+    Matrix_Generate(&(k->P_Posteriori),9,P_Posteriori_data);
+    Matrix_Generate(&(k->P_xy),3,X_Priori_data);
+    float K_data[3] = {0};
+    Matrix_Generate(&(k->K),3,K_data);
+    float I_data[9] = {1,0,0,0,1,0,0,0,1};
+    Matrix_Generate(&(k->I),9,I_data);
+    float Q_data[9] = {0.001,0,0,0,0.001,0,0,0,0.01};
+    Matrix_Generate(&(k->Q),9,Q_data);
+    float Y_data[7] = {0};
+    Matrix_Generate(&(k->Y),7,Y_data);
+    float Tem_nXn_data[9] = {0};
+    Matrix_Generate(&(k->Tem_nXn_1),9,Tem_nXn_data);
+    Matrix_Generate(&(k->Tem_nXn_2),9,Tem_nXn_data);
+    float Tem_1Xn_data[3] = {0};
+    Matrix_Generate(&(k->Tem_1Xn),3,Tem_1Xn_data);
+    float Tem_nX1_data[3] = {0};
+    Matrix_Generate(&(k->Tem_nX1_1),3,Tem_nX1_data);
+    Matrix_Generate(&(k->Tem_nX1_2),3,Tem_nX1_data);
+    float Tem_1X1_data[1] = {0};
+    Matrix_Generate(&(k->Tem_1X1),1,Tem_1X1_data);
+
+
+}
+
+inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
+{
+
+    //Step1. Variable initialization.
+    //Update Inertia in A
+    if(fabs(k->e) <= k->e_threshold)
+    {
+        k->J_past = RLS_J;
+    }
+//    k->A[4] = (1-BM/k->J_past*TS);
+//    k->A[7] = (-TS/k->J_past);
+
+    // Step2. Calculate the sigma point.
+    // The dimension of x is L , and the dimension of sigma point is 2L+1
+
+    //x(1:3) = x_hat;
+    k->X[0][0] = k->X_Posteriori[0]; k->X[0][1] = k->X_Posteriori[1]; k->X[0][2] = k->X_Posteriori[2];
+    Matrix_Add(k->P_Posteriori, k->Zero, k->Tem_nXn_1, 9);                  // Tem_nXn_1 : P
+    cholesky(k->Tem_nXn_1, 3);
+    Matrix_Transpose(k->Tem_nXn_1, k->Tem_nXn_2, 3);             // Tem_nXn_2 : chol(P)
+    Matrix_Dot_Product(k->Tem_nXn_2, k->sqrt_L_Lamda, k->Sigma, 9);
+    k->Sigma[3]=0;k->Sigma[6]=0;k->Sigma[7]=0;
+    Matrix_Add(k->X[0], k->Sigma+FIRST_COLUMN, k->X[1], 3);
+    Matrix_Add(k->X[0], k->Sigma+SECOND_COLUMN, k->X[2], 3);
+    Matrix_Add(k->X[0], k->Sigma+THIRD_COLUMN, k->X[3], 3);
+    Matrix_Minor(k->X[0], k->Sigma+FIRST_COLUMN, k->X[4], 3);
+    Matrix_Minor(k->X[0], k->Sigma+SECOND_COLUMN, k->X[5], 3);
+    Matrix_Minor(k->X[0], k->Sigma+THIRD_COLUMN, k->X[6], 3);
+
+
+    //Step3. State prediction.
+    static int i;
+    //X_Priori=A*X+B.*u;
+//    mpy_SP_RMxRM(k->X, k->I, k->X, 3, 3, 7);   // Tem_nX1_1 : A*X
+
+    //X=A*X+B.*u;
+    for(i=0; i<7; i++)
+    {
+        mpy_SP_RMxRM(k->Tem_nX1_1, k->A, k->X[i], 3, 3, 1);           // Tem_nX1_1 : A*X
+        Matrix_Dot_Product(k->B, u, k->Tem_nX1_2, 3);                 // Tem_nX1_2 : B.*u
+        Matrix_Add(k->Tem_nX1_1, k->Tem_nX1_2, k->X[i] , 3);
+    }
+
+    //X_Priori=sigma(0~2L){W_i^m.*X}
+    k->X_Priori[0]=0;k->X_Priori[1]=0;k->X_Priori[2]=0;
+    for(i=0; i<7; i++)
+    {
+        if(!i)
+            Matrix_Dot_Product(k->X[i], k->w0_m, k->Tem_nX1_1, 3);       // Tem_nX1_1 : w0_m.*X
+        else
+            Matrix_Dot_Product(k->X[i], k->wi_mc, k->Tem_nX1_1, 3);       // Tem_nX1_1 : wi_m.*X
+        Matrix_Add(k->X_Priori, k->Tem_nX1_1, k->X_Priori, 3);
+    }
+
+    //P_Priori=sigma(0~2L){W_i^c.*(Xi - X_Priori)*(Xi - X_Priori)'}+Q
+    for(i=0; i<9; i++)
+        k->P_Priori[i] = 0;
+    for(i=0; i<7; i++)
+    {
+        Matrix_Minor(k->X[i], k->X_Priori, k->Tem_nX1_1, 3);               // Tem_nX1_1 : Xi - X_Priori
+        mpy_SP_RMxRM(k->Tem_nXn_1, k->Tem_nX1_1, k->Tem_nX1_1, 3, 1, 3);   // Tem_nXn_1 : (Xi - X_Priori)*(Xi - X_Priori)'
+        if(!i)
+            Matrix_Dot_Product(k->Tem_nXn_1, k->w0_c, k->Tem_nXn_2, 9);          // Tem_nXn_2 : w0_m.*(Xi - X_Priori)*(Xi - X_Priori)'
+        else
+            Matrix_Dot_Product(k->Tem_nXn_1, k->wi_mc, k->Tem_nXn_2, 9);       // Tem_nXn_2 : wi_m.*(Xi - X_Priori)*(Xi - X_Priori)'
+        Matrix_Add(k->P_Priori, k->Tem_nXn_2, k->P_Priori, 9);
+    }
+    Matrix_Add(k->P_Priori, k->Q, k->P_Priori, 9);
+
+    //y = sigma(0~2L){W_i^m.*Y}
+    for(i=0; i<7; i++)
+    {
+        k->Y[i] = k->X[i][0];
+    }
+    k->y = 0;
+    for(i=0; i<7; i++)
+    {
+        if(!i)
+            k->y = k->y + k->w0_m * k->Y[i];
+        else
+            k->y = k->y + k->wi_mc * k->Y[i];
+    }
+
+    // Step4. Measurement update.
+    // The measured value is corrected by the measured value, and the covariance matrix of the system state is updated.
+
+    k->P_yy = 0;
+    k->P_xy[0] = 0; k->P_xy[1] = 0; k->P_xy[2] = 0;
+    for(i=0; i<7; i++)
+    {
+        //P_xy = sigma(0~2L){W_i^c.*((Xi - X_Priori)(Y[i]-y))}
+        Matrix_Minor(k->X[i], k->X_Priori, k->Tem_nX1_1, 3);               // Tem_nX1_1 : Xi - X_Priori
+        Matrix_Dot_Product(k->Tem_nX1_1, k->Y[i]-k->y, k->Tem_nX1_1, 3);   // Tem_nX1_1 : (Xi - X_Priori)(Y[i]-y);
+        if(!i)
+            Matrix_Dot_Product(k->Tem_nX1_1, k->w0_c, k->Tem_nX1_1, 3);   // Tem_nX1_1 : w0_c.*(Xi - X_Priori)(Y[i]-y);
+        else
+            Matrix_Dot_Product(k->Tem_nX1_1, k->wi_mc, k->Tem_nX1_1, 3);   // Tem_nX1_1 : wi_mc.*(Xi - X_Priori)(Y[i]-y);
+        Matrix_Add(k->Tem_nX1_1, k->P_xy, k->P_xy, 3);
+
+        //P_yy = sigma(0~2L){W_i^c.*((Y[i]-y)(Y[i]-y))}
+        if(!i)
+            k->P_yy = k->P_yy + k->w0_c * (k->Y[i]-k->y) * (k->Y[i]-k->y);
+        else
+            k->P_yy = k->P_yy + k->wi_mc * (k->Y[i]-k->y) * (k->Y[i]-k->y);
+    }
+    k->P_yy = k->P_yy + k->R;
+    Matrix_Dot_Product(k->P_xy, 1/k->P_yy, k->K, 3);
+
+
     //X_Posteriori = X_Priori + K*(Theda - y)
     k->e = theda - k->y;
     if(k->e < -PI )
@@ -546,9 +778,9 @@ inline void Kalman_Calculate_U(U_Kalman* k ,float theda , float u, float RLS_J)
     k->Terminal.TL = k->X_Posteriori[2];
     k->Terminal.error = k->e;
 
-    */
-}
 
+}
+#endif
 void Kalman_Ini_3X3(Kalman* k)
 {
     //float initialization
@@ -686,7 +918,7 @@ void RLS_Ini(RLS* r)
 //    r->F_max = 0.99999;
 //    r->F_min = 0.9995;
     r->F_max = 0.999;
-    r->F_min = 0.995;
+    r->F_min = 0.99;
     r->F = 0.9998;
     r->acc = 0;
 
@@ -699,7 +931,7 @@ void RLS_Ini(RLS* r)
     //Matrix initialization
     float Fai_data[2] = {0};
     Matrix_Generate(&(r->Fai),2,Fai_data);
-#if BUILDLEVEL == LEVEL4 || LEVEL6
+#if BUILDLEVEL == LEVEL4 || BUILDLEVEL == LEVEL6 || BUILDLEVEL == LEVEL7
     float Theda_data[2] = {-0.999,3.72};
 #endif
 #if   BUILDLEVEL == LEVEL5
@@ -888,7 +1120,7 @@ inline void RLS_Calculate(RLS* r, Kalman* k, float speed, float Te_TL, float acc
 }
 #endif
 
-#if   BUILDLEVEL == LEVEL6
+#if   BUILDLEVEL == LEVEL6 ||  BUILDLEVEL == LEVEL7
 inline void RLS_Calculate(RLS* r, U_Kalman* k, float speed, float Te_TL, float acc, char start)            //for motor+Gearbox or brake
 {
     //Update Speed in RLS Handler
@@ -951,7 +1183,6 @@ inline void RLS_Calculate(RLS* r, U_Kalman* k, float speed, float Te_TL, float a
         Matrix_Add(r->Tem_nX1_1, r->Theda, r->Theda, 2);
 
 
-
     }
     else
     {
@@ -972,4 +1203,5 @@ inline void RLS_Calculate(RLS* r, U_Kalman* k, float speed, float Te_TL, float a
 }
 
 #endif
+
 #endif /* KALMANFILTER_RLS_H_ */

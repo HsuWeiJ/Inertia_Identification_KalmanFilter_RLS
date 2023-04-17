@@ -43,18 +43,19 @@ Following is the list of the Build Level choices.
 #define LEVEL4  4           // Motor + brake and KF+RLS
 #define LEVEL5  5           // Free Shaft motor
 #define LEVEL6  6           // Motor + brake and UKF+RLS
-#define LEVEL7  7           // Verify closed speed loop (sensorless)
+#define LEVEL7  7           // Test
 
 
 /*------------------------------------------------------------------------------
 This line sets the BUILDLEVEL to one of the available choices.
 ------------------------------------------------------------------------------*/
-#define   BUILDLEVEL LEVEL4
+#define   BUILDLEVEL LEVEL6
 
 #ifndef BUILDLEVEL
 #error  Critical: BUILDLEVEL must be defined !!
 #endif  // BUILDLEVEL
 //------------------------------------------------------------------------------
+
 
 
 #ifndef TRUE
@@ -133,6 +134,12 @@ set the motor parameters to the one available
 
 #endif
 #if   BUILDLEVEL == LEVEL6
+#define J       0.00076               //Inertia     (kg*m^2) 0.00076
+#define DIV_J   1315.7894            // 1/J,11494.25287 1315.7894
+#define BM      0.00076                //Friction   (kg*m^2/s)
+#define J_INI   0.000076*2
+#endif
+#if   BUILDLEVEL == LEVEL7
 #define J       0.00076               //Inertia     (kg*m^2) 0.00076
 #define DIV_J   1315.7894            // 1/J,11494.25287 1315.7894
 #define BM      0.00076                //Friction   (kg*m^2/s)
